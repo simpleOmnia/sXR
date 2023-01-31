@@ -1,0 +1,1 @@
+﻿The 'Scripts' folder contains files that lead to scripted events in Unity. This includes things that happen on Update(), Start(), Awake(), etc. 
