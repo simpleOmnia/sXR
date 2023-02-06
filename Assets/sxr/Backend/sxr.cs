@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using sxr_internal;
@@ -144,7 +145,7 @@ public static class sxr {
     public static void DisplayImage(string imageName, UI_Position position){DisplayImage(imageName, position, true);}
     public static void DisplayImage(string imageName){DisplayImage(imageName, UI_Position.FullScreen1);}
     public static void DisplayImage(Texture2D image, UI_Position position)
-    {UI_Handler.Instance.DisplayImage(image, position, true);}
+    {UI_Handler.Instance.DisplayImage(image.name, position, true);}
     
     public static void HideImageUI(UI_Position position){UI_Handler.Instance.DisableComponentUI(position);}
     public static void HideImagesUI(){UI_Handler.Instance.DisableAllComponentsUI();}

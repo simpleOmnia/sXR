@@ -36,20 +36,22 @@ namespace sxr_internal {
 
         public bool RecordingGaze() { return recordEyeTracker; }
 
-        public void LaunchEyeCalibration()
+        public bool LaunchEyeCalibration()
         {
             if (SRanipal_Eye.LaunchEyeCalibration()) return true; 
             else if (SRanipal_Eye_v2.LaunchEyeCalibration()) return true;
             Debug.Log("Failed to complete eye calibration");
             return false; 
         }
-        
+        public string GetFullGazeInfo(){
+            return (GetScreenFixationPoint() +","+ GazeFixation() +","+ LeftEyePosition() +","+ RightEyePosition() +","+
+                    LeftEyeRotation() +","+ RightEyeRotation() +","+ LeftEyePupilSize() +","+ RightEyePupilSize() + ","+
+                    LeftEyeOpenAmount() +","+ RightEyeOpenAmount()).Replace("(","").Replace(")","");
+        }
+
         public void Update() {
             if (sxrSettings.Instance.RecordThisFrame() & recordEyeTracker)
-                ExperimentHandler.Instance.WriteToTaggedFile("eyetracker",
-                    (GetScreenFixationPoint() +","+ GazeFixation() +","+ LeftEyePosition() +","+ RightEyePosition() +","+
-                     LeftEyeRotation() +","+ RightEyeRotation() +","+ LeftEyePupilSize() +","+ RightEyePupilSize() + ","+
-                     LeftEyeOpenAmount() +","+ RightEyeOpenAmount()).Replace("(","").Replace(")","")); }
+                ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", GetFullGazeInfo()); }
 
         void UpdateGaze() {
             if (lastUpdate != sxrSettings.Instance.GetCurrentFrame()) {
@@ -73,7 +75,7 @@ namespace sxr_internal {
 
                 if (SRanipal_Eye.GetVerboseData(out verboseData)) { }
                 else if (SRanipal_Eye_v2.GetVerboseData(out verboseData)) { }
-                else { Debug.LogWarning("Failed to find SRanipal Framework (verboseData), do you have the SDK installed?"); }
+                else { /*Debug.LogWarning("Failed to find SRanipal Framework (verboseData), do you have the SDK installed?");*/ }
             
 
                 sxr.DebugLog(gazeOriginCombinedLocal.ToString());
@@ -179,6 +181,12 @@ namespace sxr_internal {
         public void PauseRecording() { recordEyeTracker = false; }
 
         public bool RecordingGaze() { return recordEyeTracker; }
+        public string GetFullGazeInfo(){
+            return (GetScreenFixationPoint() +","+ GazeFixation() +","+ LeftEyePosition() +","+ RightEyePosition() +","+
+                    LeftEyeRotation() +","+ RightEyeRotation() +","+ LeftEyePupilSize() +","+ RightEyePupilSize() + ","+
+                    LeftEyeOpenAmount() +","+ RightEyeOpenAmount()).Replace("(","").Replace(")","");
+        }
+        
         public void Update() {
             if (sxrSettings.Instance.RecordThisFrame() & recordEyeTracker)
                 ExperimentHandler.Instance.WriteToTaggedFile("eyetracker",
