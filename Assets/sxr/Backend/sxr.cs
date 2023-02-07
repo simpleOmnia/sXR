@@ -380,7 +380,8 @@ public static class sxr {
     /// Used with StartRecordingCameraPos. Used to pause recording between trials or during rest periods
     /// </summary>
     public static void PauseRecordingCameraPos() {CameraTracker.Instance.PauseRecording();}
-
+    public static void StartRecordingJoystick(){JoystickHandler.Instance.RecordJoystick(true);}
+    public static void StopRecordingJoystick(){JoystickHandler.Instance.RecordJoystick(false);}
     /// <summary>
     /// Start recording the eyetracker information every time sxrSettings.recordFrame==currentFrame. Updates automatically
     /// based on sxrSettings.recordFrequency or can be manually called by setting sxrSettings.recordFrame=[frame to record]
@@ -415,6 +416,7 @@ public static class sxr {
     /// <returns></returns>
     public static GameObject GetObject(string name) { return SceneObjectsHandler.Instance.GetObjectByName(name); }
 
+    
     /// <summary>
     /// Moves object to the specified x/y/z distance over [time] seconds
     /// </summary>
@@ -440,6 +442,9 @@ public static class sxr {
     public static void MoveObjectTo(string name, float dest_x, float dest_y, float dest_z)
         { MoveObjectTo(name, dest_x, dest_y, dest_z, 0); }
 
+    public static void MoveObjectTo(GameObject gameObject, Vector3 vec, float time)
+    { MoveObjectTo(gameObject.name, vec.x, vec.y, vec.z, time); }
+
     /// <summary>
     /// Moves the specified object to the destination location at the specified speed
     /// </summary>
@@ -459,6 +464,8 @@ public static class sxr {
         { MoveObjectAtSpeedTo(GetObject(objName), dest_x, dest_y, dest_z, speed, cancelPrevious); }
     public static void MoveObjectAtSpeedTo(string objName, float dest_x, float dest_y, float dest_z, float speed)
         {MoveObjectAtSpeedTo(objName, dest_x, dest_y, dest_z, speed, false);}
+    public static void MoveObjectAtSpeedTo(GameObject gameObject, Vector3 vec, float speed)
+    {MoveObjectAtSpeedTo(gameObject, vec.x, vec.y, vec.z, speed, false);}
 
     /// <summary>
     /// Moves object by the specified x/y/z distance over [time] milliseconds
@@ -524,7 +531,9 @@ public static class sxr {
         gameObj.transform.rotation = Quaternion.Euler(rt.x, rotation, rt.z); // rotate to tangent at position
         gameObj.transform.position += speed * Time.deltaTime * gameObj.transform.forward ; // move forward 
     }
-    
+
+    public static bool ObjectMoving(GameObject gameObj)
+    { return SceneObjectsHandler.Instance.CheckForObjectInMotion(gameObj);}
     
     /// <summary>
     /// Spawns a primitive game object at the specified location. Default location is 0,0,0
