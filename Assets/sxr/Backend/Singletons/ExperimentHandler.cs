@@ -74,10 +74,12 @@ namespace sxr_internal {
                 Application.dataPath + Path.DirectorySeparatorChar + "Experiments" + Path.DirectorySeparatorChar + 
                 experimentName + Path.DirectorySeparatorChar : sxrSettings.Instance.subjectDataDirectory;
 
-            subjectFile = sxrSettings.Instance.subjectDataDirectory +  DateTime.Today.Date.Month + "_" + DateTime.Today.Date.Day +  
+            subjectFile = sxrSettings.Instance.subjectDataDirectory +  DateTime.Today.Date.Year + "_" 
+                          + DateTime.Today.Date.Month + "_" + DateTime.Today.Date.Day +  
                           "_" + subjectNumber;
             backupFile = sxrSettings.Instance.backupDataDirectory != ""
-                ? sxrSettings.Instance.backupDataDirectory + DateTime.Today.Date.Month + "_"  + DateTime.Today.Date.Day + "_" 
+                ? sxrSettings.Instance.backupDataDirectory +  DateTime.Today.Date.Year + "_" 
+                  + DateTime.Today.Date.Month + "_"  + DateTime.Today.Date.Day + "_" 
                   + subjectNumber
                 : ""; }
 

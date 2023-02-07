@@ -13,11 +13,11 @@ namespace sxr_internal {
                 leftController = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
                 rightController = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
                 if (!rightController.isValid && !leftController.isValid) {
-                    sxr.DebugLog("Failed to find Left/Right hand, searching for other GameController");
+                    sxr.DebugLog("Failed to find Left/Right hand, searching for other GameController", 5000);
                     rightController = InputDevices.GetDeviceAtXRNode(XRNode.GameController); }
 
                 if (!rightController.isValid && !leftController.isValid )
-                    sxr.DebugLog("Failed to find VR controller"); 
+                    sxr.DebugLog("Failed to find VR controller", 5000); 
 
                 InputDevice[] controllers = {rightController, leftController}; 
                 foreach (var controller in controllers) 

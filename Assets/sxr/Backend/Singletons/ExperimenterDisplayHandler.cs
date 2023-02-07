@@ -45,7 +45,7 @@ namespace sxr_internal {
             } }
 
         public void ChangeTextbox(int whichBox, string text) {
-            if (whichBox > 0 && whichBox < 5) {
+            if (whichBox > 0 && whichBox < 6) {
                 var boxes = new[] {displayText1, displayText2, displayText3, displayText4, displayText5};
                 boxes[whichBox - 1].text = text; }
             else

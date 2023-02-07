@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using sxr_internal;
+using Unity.VisualScripting;
 using UnityEngine.UIElements;
 
 /// <summary>
@@ -187,7 +188,7 @@ public static class sxr {
     /// directions  
     /// </summary>
     /// <returns>JoystickDirection (Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight, None</returns>
-    public static JoyStickDirection GetJoystickDirection() { return GetJoystickDirection();}
+    public static JoyStickDirection GetJoystickDirection() { return JoystickHandler.Instance.GetDirection();}
 
     public enum ControllerButton{
         LH_Trigger, LH_SideButton, LH_TrackPadRight, 
@@ -223,13 +224,13 @@ public static class sxr {
         
         if (controller.buttonPressed[(int) whichButton]) {
             if (Time.time - controller.buttonTimers[(int) whichButton] > frequency) {
-                sxr.DebugLog("Controller Button: " + whichButton + " pressed after delay of: " + frequency);
+                DebugLog("Controller Button: " + whichButton + " pressed after delay of: " + frequency, 5000);
                 controller.buttonTimers[(int) whichButton] = Time.time; 
                 return true; }
 
-            sxr.DebugLog("Controller Button: " + whichButton + "pressed before delay of: " + frequency); }
+            DebugLog("Controller Button: " + whichButton + "pressed before delay of: " + frequency, 5000); }
         else 
-            sxr.DebugLog("Controller Button: " + whichButton + " not pressed");
+            DebugLog("Controller Button: " + whichButton + " not pressed", 5000);
         return false; }
     public static bool CheckController(ControllerButton whichButton) {
         return CheckController(whichButton, 0f); }
@@ -365,6 +366,23 @@ public static class sxr {
     /// <param name="text"></param>
     public static void ChangeExperimenterTextbox(int whichBox, string text)
     {ExperimenterDisplayHandler.Instance.ChangeTextbox(whichBox, text);}
+
+    /// <summary>
+    /// Specifies if user wants to use default experimenter textboxes 0-3 
+    /// </summary>
+    /// <param name="useDefaults"></param>
+    public static void DefaultExperimenterTextboxes(bool useDefaults)
+    { ExperimenterDisplayHandler.Instance.defaultDisplayTexts = useDefaults; }
+
+    public static void ExperimenterTextboxesEnabled(bool enabled)
+    {
+        DefaultExperimenterTextboxes(false);
+        ChangeExperimenterTextbox(1, "");
+        ChangeExperimenterTextbox(2, "");
+        ChangeExperimenterTextbox(3, "");
+        ChangeExperimenterTextbox(4, "");
+        ChangeExperimenterTextbox(5, "");
+    }
     
 // ****   DATA RECORDING COMMANDS   ****
     /// <summary>
@@ -381,7 +399,7 @@ public static class sxr {
     /// </summary>
     public static void PauseRecordingCameraPos() {CameraTracker.Instance.PauseRecording();}
     public static void StartRecordingJoystick(){JoystickHandler.Instance.RecordJoystick(true);}
-    public static void StopRecordingJoystick(){JoystickHandler.Instance.RecordJoystick(false);}
+    public static void PauseRecordingJoystick(){JoystickHandler.Instance.RecordJoystick(false);}
     /// <summary>
     /// Start recording the eyetracker information every time sxrSettings.recordFrame==currentFrame. Updates automatically
     /// based on sxrSettings.recordFrequency or can be manually called by setting sxrSettings.recordFrame=[frame to record]
@@ -401,12 +419,17 @@ public static class sxr {
     /// </summary>
     /// <param name="name"></param>
     /// <param name="active"></param>
-    public static void StartTrackingObject(string name)
-    { } // TODO Add tracker to tracked objects } public static void TrackObject(string name){TrackObject(name, true);}
+    public static void StartTrackingObject(GameObject gameObj)
+    {
+        if (gameObj.TryGetComponent(out ObjectTracker objTracker)) objTracker.trackerActive = true;
+        else gameObj.transform.AddComponent<ObjectTracker>(); 
+    } 
+    
     /// <summary>
     /// Used with StartTrackingObject. Used to pause recording between trials or during rest periods
     /// </summary>
-    public static void PauseTrackingObject() {}
+    public static void PauseTrackingObject(GameObject gameObj)
+    {if (gameObj.TryGetComponent(out ObjectTracker objTracker)) objTracker.trackerActive = false;}
    
 // ****   OBJECT MANIPULATION   ****
     /// <summary>
