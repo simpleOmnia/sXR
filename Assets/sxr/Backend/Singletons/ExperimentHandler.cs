@@ -36,10 +36,9 @@ namespace sxr_internal {
 
 
         public void StartTimer(float duration) {
-            if(trialTimer==null) trialTimer = new Timer("TRIAL_TIMER", duration);
-            else {
+            if(trialTimer!=null) 
                 Debug.LogWarning("Experiment timer restarted with 'StartTimer' but already initialized. Overwriting previous timer");
-                trialTimer.Restart(); } }
+            trialTimer = new Timer("TRIAL_TIMER", duration);  }
 
         public bool CheckTimer() { return trialTimer.GetTimePassed() > trialTimer.GetDuration();}
         public void RestartTimer(){trialTimer.Restart();}
