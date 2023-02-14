@@ -1,3 +1,6 @@
+using System.IO;
+using UnityEngine;
+
 namespace sxr_internal {
     /// <summary>
     /// Contains sxr settings that are saved and loaded
@@ -24,5 +27,6 @@ namespace sxr_internal {
         public string dataPath;
         
         public string backupPath; 
+
     }
 }

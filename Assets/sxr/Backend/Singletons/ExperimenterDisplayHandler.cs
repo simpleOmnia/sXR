@@ -24,7 +24,9 @@ namespace sxr_internal {
             if (!Int32.TryParse(blockNum.text, out eh.block))
                 Debug.Log("Failed to block phase number, using block = 0");
             if (!Int32.TryParse(trialNum.text, out eh.trial))
-                Debug.Log("Failed to parse trial number, using trial = 0");
+                Debug.Log("Fai" +
+                          "" +
+                          "led to parse trial number, using trial = 0");
             ExperimentHandler.Instance.StartExperiment(
                 Application.dataPath.Split("/")[Application.dataPath.Split("/").Length-2], 
                 eh.subjectNumber);

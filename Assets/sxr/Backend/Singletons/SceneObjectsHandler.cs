@@ -12,7 +12,8 @@ namespace sxr_internal {
     public class SceneObjectsHandler : MonoBehaviour {
         
         private GameObject[] allObjects;
-        private List<ObjectMotion> motionObjects = new List<ObjectMotion>(); 
+        private List<ObjectMotion> motionObjects = new List<ObjectMotion>();
+        private List<ObjectResize> resizeObjects = new List<ObjectResize>(); 
 
         /// <summary>
         /// Returns first game object in hierarchy matching the specified name
@@ -37,17 +38,27 @@ namespace sxr_internal {
         
         public void DebugListAllObjects(){ foreach(var obj in allObjects) Debug.Log(obj.name);}
 
-        public void AddMotionObject(ObjectMotion objectMotion, bool cancelPrevious)
-        {
+        public void AddMotionObject(ObjectMotion objectMotion, bool cancelPrevious) {
             if (!CheckForObjectInMotion(objectMotion.GetGameObject()) || cancelPrevious) 
                 motionObjects.Add(objectMotion);
             else
-                Debug.Log("Object already in motion, set cancelPrevious=true in move function to override.");
-        }
+                Debug.Log("Object already in motion, set cancelPrevious=true in move function to override."); }
 
         public bool CheckForObjectInMotion(GameObject gameObject) {
             foreach(var objMot in motionObjects)
                 if (gameObject == objMot.GetGameObject())
+                    return true;
+            return false; }
+        
+        public void AddMotionResize(ObjectResize objectResize, bool cancelPrevious) {
+            if (!CheckForObjectInResize(objectResize.GetGameObject()) || cancelPrevious) 
+                resizeObjects.Add(objectResize);
+            else
+                Debug.Log("Object already in resize, set cancelPrevious=true in move function to override."); }
+
+        public bool CheckForObjectInResize(GameObject gameObject) {
+            foreach(var objResize in resizeObjects)
+                if (gameObject == objResize.GetGameObject())
                     return true;
             return false; }
         
@@ -56,7 +67,14 @@ namespace sxr_internal {
             foreach (var obj in motionObjects)
                 if (obj.UpdatePositionDisposeAtTargetLocation()) toRemove.Add(obj);
             foreach (var obj in toRemove)
-                motionObjects.Remove(obj); }
+                motionObjects.Remove(obj);
+
+            List<ObjectResize> toRemoveResizes = new List<ObjectResize>(); 
+            foreach (var obj in resizeObjects)
+                if (obj.UpdateSizeDisposeAtTargetSize()) toRemoveResizes.Add(obj);
+            foreach (var obj in toRemoveResizes)
+                resizeObjects.Remove(obj);
+        }
         
         void Start() { allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();}
         

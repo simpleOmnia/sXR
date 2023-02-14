@@ -360,6 +360,13 @@ public static class sxr {
     {ExperimentHandler.Instance.WriteHeaderToTaggedFile(tag, text);}
 
     /// <summary>
+    /// Used to override automatic naming scheme
+    /// </summary>
+    /// <param name="experimentName"></param>
+    public static void SetExperimentName(string experimentName)
+    { ExperimentHandler.Instance.SetExperimentName(experimentName); }
+
+    /// <summary>
     /// Changes the specified textbox on the experimenter's screen (is not displayed to VR)
     /// </summary>
     /// <param name="whichBox"></param>
@@ -531,11 +538,36 @@ public static class sxr {
         float speed) 
         { MoveObjectAtSpeed(gameObject, delta_x, delta_y, delta_z, speed, false); }
     public static void MoveObjectAtSpeed(string objName, float delta_x, float delta_y, float delta_z,
-        float speed, bool cancelPrevious) 
+        float speed, bool cancelPrevious
+        
+        
+        ) 
         { MoveObjectAtSpeed(GetObject(objName), delta_x, delta_y, delta_z, speed, cancelPrevious); }
     public static void MoveObjectAtSpeed(string objName, float delta_x, float delta_y, float delta_z,
         float speed)
         { MoveObjectAtSpeed(GetObject(objName), delta_x, delta_y, delta_z, speed, false); }
+
+    
+    //TODO Add string based and non-vector inputs
+    /// <summary>
+    /// Resizes object over the input time (seconds)
+    /// </summary>
+    /// <param name="gameObj"></param>
+    /// <param name="newSize"></param>
+    /// <param name="timeTaken"></param>
+    public static void ResizeObject(GameObject gameObj, Vector3 newSize, float timeTaken) {
+        if (timeTaken == 0)
+            gameObj.transform.localScale = newSize; 
+        else
+            SceneObjectsHandler.Instance.AddMotionResize(new ObjectResize(gameObj, newSize, timeTaken), true); }
+
+    /// <summary>
+    /// Checks if the object is being resized
+    /// </summary>
+    /// <param name="gameObject"></param>
+    /// <returns></returns>
+    public static bool ObjectResizing(GameObject gameObject)
+    { return SceneObjectsHandler.Instance.CheckForObjectInResize(gameObject);}
     
     /// <summary>
     /// Follows the specified parabola in world space coordinates.  Matches the tangent of curve at current x-value

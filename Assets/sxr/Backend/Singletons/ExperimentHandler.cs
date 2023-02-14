@@ -69,7 +69,10 @@ namespace sxr_internal {
         /// <summary>
          /// Parses file names from specified directory/subject number
          /// </summary>
-        private void ParseFileNames() {
+        private void ParseFileNames()
+        {
+            if (experimentName == "")
+                experimentName = Application.dataPath.Split("/")[Application.dataPath.Split("/").Length - 2];
             sxrSettings.Instance.subjectDataDirectory = sxrSettings.Instance.subjectDataDirectory == "" ? 
                 Application.dataPath + Path.DirectorySeparatorChar + "Experiments" + Path.DirectorySeparatorChar + 
                 experimentName + Path.DirectorySeparatorChar : sxrSettings.Instance.subjectDataDirectory;
@@ -84,11 +87,14 @@ namespace sxr_internal {
                 : ""; }
 
         public void WriteHeaderToTaggedFile(string tag, string headerInfo) {
+            if (subjectFile == "") { ParseFileNames();}
+            
             headerInfo = "SubjectNumber,Time,Phase,BlockNumber,TrialNumber,Step,TrialTime," + headerInfo;
             fh.AppendLine(subjectFile + "_" + tag + ".csv", headerInfo);
             if (backupFile != "") fh.AppendLine(backupFile + "_" + tag + ".csv", headerInfo); }
         
         public void WriteToTaggedFile(string tag, string toWrite) {
+            if (subjectFile == "") { ParseFileNames();}
             toWrite = subjectNumber + "," + Time.time + "," + phase + "," + block + "," + trial + "," 
                       + stepInTrial + "," + trialTimer.GetTimePassed() + "," + toWrite;
             fh.AppendLine(subjectFile + "_" + tag + ".csv", toWrite);
