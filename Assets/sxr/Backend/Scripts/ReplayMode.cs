@@ -86,8 +86,8 @@ namespace sxr_internal
                                         (replayTimer - timeStampArray[currentTimeStamp + 1]);
                 sxrSettings.Instance.vrCamera.transform.position =
                     Vector3.Lerp(positionArray[currentTimeStamp], positionArray[currentTimeStamp + 1], nextTimePercent);
-                sxrSettings.Instance.vrCamera.transform.rotation.eulerAngles = 
-                    Vector3.Lerp(rotationArray[currentTimeStamp], rotationArray[currentTimeStamp + 1], nextTimePercent);
+                 sxrSettings.Instance.vrCamera.transform.rotation= Quaternion.Euler(
+                    Vector3.Lerp(rotationArray[currentTimeStamp], rotationArray[currentTimeStamp + 1], nextTimePercent));
                 
 
                 replayTimer += Time.deltaTime;
