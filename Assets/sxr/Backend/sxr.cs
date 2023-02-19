@@ -693,6 +693,16 @@ public static class sxr {
     /// </summary>
     /// <param name="soundName"></param>
     public static void PlaySound(string soundName){SoundHandler.Instance.CustomSound(soundName);}
+
+    /// <summary>
+    /// Plays a random sound from the specified folder. Requires a specified number of sounds
+    /// before repeating the same sound in the folder.
+    /// </summary>
+    /// <param name="folderName"> Name of Resources/[folderName] to search for sounds</param>
+    /// <param name="numberBetweenRepeats">Number of sounds before repeating the same sound</param>
+    /// <returns></returns>
+    public static bool PlayRandomSoundInFolder(string folderName, int numberBetweenRepeats)
+    { return SoundHandler.Instance.PlayRandomSoundInFolder(folderName, numberBetweenRepeats); }
     
     /// <summary>
     /// Applies the list of specified full-screen shaders. Can take shader indexes (int) or shader names (string)
