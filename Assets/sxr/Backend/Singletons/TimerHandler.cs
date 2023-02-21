@@ -15,12 +15,22 @@ namespace sxr_internal {
         /// </summary>
         /// <param name="timerName"></param>
         /// <param name="duration"></param>
-        public void AddTimer(string timerName, float duration) {
+        public Timer AddTimer(string timerName, float duration) {
             if(!TimerExists(timerName)) 
                 allTimers.Add(new Timer(timerName, duration));
             else
-                Debug.LogWarning("Timer with name \"" + timerName +"\" already exists"); }
+                Debug.LogWarning("Timer with name \"" + timerName +"\" already exists");
+            return GetTimer(timerName); 
+        }
 
+        public void PauseTimer(string timerName)
+        {
+            if(TimerExists(timerName))
+                GetTimer(timerName).PauseTimer();
+            else
+                Debug.LogWarning("Attempting to pause timer that does not exist ('"+timerName+"'");
+        }
+        
         public Timer GetTimer(string timerName) {
             foreach (var timer in allTimers)
                 if (timer.GetName() == timerName)
@@ -28,6 +38,19 @@ namespace sxr_internal {
             Debug.LogWarning("Could not find timer: " + timerName);
             return null; }
 
+        public Timer StartTimer(string timerName, float duration=99999)
+        {
+            if (!TimerExists(timerName)) AddTimer(timerName, duration);
+            else
+            {
+                Debug.Log("Timer with name '" + timerName + "' already exists." +
+                          " Will unpause a paused timer or restart an unpaused timer.");
+                GetTimer(timerName).StartTimer(); 
+            }
+
+            return GetTimer(timerName); 
+        }
+        
         /// <summary>
         /// Checks if a timer with provided name is already initiated
         /// </summary>

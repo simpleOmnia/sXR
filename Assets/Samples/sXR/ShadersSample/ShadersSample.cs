@@ -8,7 +8,7 @@ public class ShadersSample : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (sxrSettings.Instance.GetCurrentFrame() == 0) sxr.StartExperiment("ShadersSample", 0); 
+        if (sxrSettings.Instance.GetCurrentFrame() == 0) sxr.StartExperiment("ShadersSample", "0"); 
         sxr.StartRecordingCameraPos(true); 
         sxr.StartRecordingEyeTrackerInfo();
         sxr.DisplayText(sxr.GetGazeScreenPos().x + "," + sxr.GetGazeScreenPos().y);

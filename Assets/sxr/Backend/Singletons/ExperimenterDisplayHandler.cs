@@ -16,9 +16,10 @@ namespace sxr_internal {
         /// Sets the experiment to specified subject/phase/block/trial
         /// Automatically parses experiment name from the project name
         /// </summary>
-        public void StartButton() {
-            if (!Int32.TryParse(subjNum.text, out eh.subjectNumber))
-                Debug.Log("Failed to parse subject number, using subject = 0");
+        public void StartButton()
+        {
+            eh.subjectID = subjNum.text == "" ? "0" : subjNum.text;
+            Debug.Log("Using subject: ");
             if (!Int32.TryParse(phaseNum.text, out eh.phase))
                 Debug.Log("Failed to parse phase number, using phase = 0");
             if (!Int32.TryParse(blockNum.text, out eh.block))
@@ -29,7 +30,7 @@ namespace sxr_internal {
                           "led to parse trial number, using trial = 0");
             ExperimentHandler.Instance.StartExperiment(
                 Application.dataPath.Split("/")[Application.dataPath.Split("/").Length-2], 
-                eh.subjectNumber);
+                eh.subjectID);
 
             sxr.GetObject("StartScreen").SetActive(false); }
 

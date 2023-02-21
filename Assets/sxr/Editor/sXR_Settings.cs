@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
@@ -33,7 +34,7 @@ public class sXR_Settings : EditorWindow
     void SaveToJson() {
         string settings = JsonUtility.ToJson(loadableSettings);
         new FileHandler().OverwriteFile(savedSettingsPath, settings); }
-
+    
     void OnGUI()
     {
         if (initialLoad)
@@ -70,7 +71,7 @@ public class sXR_Settings : EditorWindow
         
         GUILayout.Space(5);
         GUILayout.Label(new GUIContent("Backup data path: ", "Sets automatically if left empty, can be used to manually specify output path"));
-        loadableSettings.dataPath = GUILayout.TextField(loadableSettings.dataPath);
+        loadableSettings.backupPath = GUILayout.TextField(loadableSettings.backupPath);
         
         GUILayout.Space(10);
         loadableSettings.use_autosaver = GUILayout.Toggle(loadableSettings.use_autosaver,
@@ -157,6 +158,7 @@ public class sXR_Settings : EditorWindow
         } 
     }
 
+    void OnEnable() { initialLoad = true; }
     void OnDisable() {new ObjectPreview().Cleanup(); }
 
 }

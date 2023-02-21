@@ -241,7 +241,7 @@ public static class sxr {
     /// </summary>
     /// <param name="experimentName"></param>
     /// <param name="subjectNumber"></param>
-    public static void StartExperiment(string experimentName, int subjectNumber) {ExperimentHandler.Instance.StartExperiment(experimentName, subjectNumber); }
+    public static void StartExperiment(string experimentName, string subjectID) {ExperimentHandler.Instance.StartExperiment(experimentName, subjectID); }
 
     /// <summary>
     /// Returns the current "phase" in the experiment. (Phase > Block > Trial > Step)
@@ -307,9 +307,16 @@ public static class sxr {
     /// <param name="timerName"></param>
     /// <param name="duration"></param>
     public static void StartTimer(string timerName, float duration)
-    {TimerHandler.Instance.AddTimer(timerName, duration);}
-    public static void StartTimer(float duration)
-    { ExperimentHandler.Instance.StartTimer(duration);}
+    {TimerHandler.Instance.StartTimer(timerName, duration:duration);}
+    public static void StartTimer(string timerName)
+    { TimerHandler.Instance.StartTimer(timerName); }
+    public static void StartTimer(float duration )
+    { ExperimentHandler.Instance.StartTimer(duration:duration);}
+    public static void StartTimer(){ExperimentHandler.Instance.StartTimer();}
+
+    public static void PauseTimer(string timerName)
+    { TimerHandler.Instance.PauseTimer(timerName);}
+    public static void PauseTimer(){ ExperimentHandler.Instance.PauseTimer();}
     
     /// <summary>
     /// Checks if the named timer has reached the specified duration.
