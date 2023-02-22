@@ -37,6 +37,7 @@ namespace sxr_internal {
 
         public void StartTimer(float duration = 99999) {
             trialTimer = TimerHandler.Instance.StartTimer("TRIAL_TIMER", duration);  }
+        private void Start() { StartTimer(); }
 
         public void PauseTimer()
         { trialTimer.PauseTimer(); }
@@ -82,9 +83,10 @@ namespace sxr_internal {
                           + DateTime.Today.Date.Month + "_" + DateTime.Today.Date.Day +  
                           "_" +  DateTime.Now.Hour + DateTime.Now.Minute + "_" + subjectID;
             backupFile = sxrSettings.Instance.backupDataDirectory != ""
-                ? sxrSettings.Instance.backupDataDirectory +  DateTime.Today.Date.Year + "_" 
+                ? sxrSettings.Instance.backupDataDirectory + Path.DirectorySeparatorChar +  DateTime.Today.Date.Year + "_" 
                   + DateTime.Today.Date.Month + "_"  + DateTime.Today.Date.Day + "_" + DateTime.Now.Hour 
-                  + DateTime.Now.Minute + subjectID : ""; }
+                  + DateTime.Now.Minute + "_" +subjectID : ""; 
+            StartTimer(); }
 
         public void WriteHeaderToTaggedFile(string tag, string headerInfo) {
             if (subjectFile == "") { ParseFileNames();}
