@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace sxr_internal {
     public class ExperimentHandler : MonoBehaviour {
-        public int subjectNumber;
+        public string subjectID;
         public int phase;
         public int block;
         public int trial;
@@ -35,13 +35,15 @@ namespace sxr_internal {
             return false; }
 
 
-        public void StartTimer(float duration) {
-            if(trialTimer==null) trialTimer = new Timer("TRIAL_TIMER", duration);
-            else {
-                Debug.LogWarning("Experiment timer restarted with 'StartTimer' but already initialized. Overwriting previous timer");
-                trialTimer.Restart(); } }
+        public void StartTimer(float duration = 99999) {
+            trialTimer = TimerHandler.Instance.StartTimer("TRIAL_TIMER", duration);  }
+        private void Start() { StartTimer(); }
+
+        public void PauseTimer()
+        { trialTimer.PauseTimer(); }
 
         public bool CheckTimer() { return trialTimer.GetTimePassed() > trialTimer.GetDuration();}
+       
         public void RestartTimer(){trialTimer.Restart();}
 
         public float GetTimeRemaining() { return trialTimer != null ? trialTimer.GetTimeRemaining() : 0;}
@@ -59,9 +61,9 @@ namespace sxr_internal {
         /// </summary>
         /// <param name="experimentName"></param>
         /// <param name="subjectNumber"></param>
-        public void StartExperiment(string experimentName, int subjectNumber) {
+        public void StartExperiment(string experimentName, string subjectID) {
             this.experimentName = experimentName;
-            this.subjectNumber = subjectNumber; 
+            this.subjectID = subjectID; 
             ParseFileNames();
             phase = phase == 0 ? 1 : phase;
         }
@@ -69,29 +71,41 @@ namespace sxr_internal {
         /// <summary>
          /// Parses file names from specified directory/subject number
          /// </summary>
-        private void ParseFileNames() {
+        private void ParseFileNames()
+        {
+            if (experimentName == "")
+                experimentName = Application.dataPath.Split("/")[Application.dataPath.Split("/").Length - 2];
             sxrSettings.Instance.subjectDataDirectory = sxrSettings.Instance.subjectDataDirectory == "" ? 
                 Application.dataPath + Path.DirectorySeparatorChar + "Experiments" + Path.DirectorySeparatorChar + 
                 experimentName + Path.DirectorySeparatorChar : sxrSettings.Instance.subjectDataDirectory;
 
-            subjectFile = sxrSettings.Instance.subjectDataDirectory +  DateTime.Today.Date.Month + "_" + DateTime.Today.Date.Day +  
-                          "_" + subjectNumber;
+            subjectFile = sxrSettings.Instance.subjectDataDirectory +  DateTime.Today.Date.Year + "_" 
+                          + DateTime.Today.Date.Month + "_" + DateTime.Today.Date.Day +  
+                          "_" +  DateTime.Now.Hour + DateTime.Now.Minute + "_" + subjectID;
             backupFile = sxrSettings.Instance.backupDataDirectory != ""
-                ? sxrSettings.Instance.backupDataDirectory + DateTime.Today.Date.Month + "_"  + DateTime.Today.Date.Day + "_" 
-                  + subjectNumber
-                : ""; }
+                ? sxrSettings.Instance.backupDataDirectory + Path.DirectorySeparatorChar +  DateTime.Today.Date.Year + "_" 
+                  + DateTime.Today.Date.Month + "_"  + DateTime.Today.Date.Day + "_" + DateTime.Now.Hour 
+                  + DateTime.Now.Minute + "_" +subjectID : ""; 
+            StartTimer(); }
 
         public void WriteHeaderToTaggedFile(string tag, string headerInfo) {
-            headerInfo = "SubjectNumber,Time,Phase,BlockNumber,TrialNumber,Step,TrialTime," + headerInfo;
+            if (subjectFile == "") { ParseFileNames();}
+            
+            headerInfo = "SubjectNumber,Date,LocalTime,UnityTime,Phase,BlockNumber,TrialNumber,Step,TrialTime," + headerInfo;
             fh.AppendLine(subjectFile + "_" + tag + ".csv", headerInfo);
             if (backupFile != "") fh.AppendLine(backupFile + "_" + tag + ".csv", headerInfo); }
         
         public void WriteToTaggedFile(string tag, string toWrite) {
-            toWrite = subjectNumber + "," + Time.time + "," + phase + "," + block + "," + trial + "," 
-                      + stepInTrial + "," + trialTimer.GetTimePassed() + "," + toWrite;
+            if (subjectFile == "") { ParseFileNames();}
+            toWrite = subjectID + "," + DateTime.Today.Month +"_"+ DateTime.Today.Day + "," + DateTime.Now.Hour + "_" +
+                      DateTime.Now.Minute +"_"+ DateTime.Now.Second +","+ Time.time + "," + phase + "," + block + "," + 
+                      trial + "," + stepInTrial + "," + trialTimer.GetTimePassed() + "," + toWrite;
             fh.AppendLine(subjectFile + "_" + tag + ".csv", toWrite);
             if (backupFile != "") fh.AppendLine(backupFile + "_" + tag + ".csv", toWrite); }
 
+        public string timeStepToWriteInfo() {
+            return subjectID + "," + Time.time + "," + phase + "," + block + "," + trial + ","
+                   + stepInTrial + "," + trialTimer.GetTimePassed() + ","; }
         
         // Singleton initiated on Awake()
         public static ExperimentHandler Instance;

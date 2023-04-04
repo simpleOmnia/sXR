@@ -8,7 +8,19 @@ namespace sxr_internal {
     ///     JoyStickDirection GetDirection()
     ///     void DisplayDirectionUI()
     /// </summary>
-    public class JoystickHandler : MonoBehaviour {
+    public class JoystickHandler : MonoBehaviour
+    {
+        private bool headerPrinted; 
+        public void RecordJoystick(bool record)
+        {
+            if(record & !headerPrinted){
+                sxr.WriteHeaderToTaggedFile("", "joystickHor,joysticVert");
+                headerPrinted = true; }
+            if(record && sxrSettings.Instance.RecordThisFrame())
+                sxr.WriteToTaggedFile("", Input.GetAxis("Horizontal") + "," + Input.GetAxis("Vertical"));
+                
+        }
+        
         /// <summary>
         /// Returns the direction the joystick is being pressed 
         /// </summary>

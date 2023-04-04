@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 
 namespace sxr_internal {
@@ -25,6 +27,59 @@ namespace sxr_internal {
     {
         [SerializeField] private AudioSource soundPlayer;
         [SerializeField] private AudioClip beep, ding, buzz, stop=null;
+
+        private List<List<string>> listOfFolderLists = new List<List<string>>();
+
+        /// <summary>
+        /// Plays a random sound from the specified folder. Requires a specified number of sounds
+        /// before repeating the same sound in the folder.
+        /// </summary>
+        /// <param name="folderName"> Name of Resources/[folderName] to search for sounds</param>
+        /// <param name="numberBetweenRepeats">Number of sounds before repeating the same sound</param>
+        /// <returns></returns>
+        public bool PlayRandomSoundInFolder(string folderName, int numberBetweenRepeats)
+        {
+            AudioClip[] allSounds = Resources.LoadAll<AudioClip>("Sounds" + folderName);
+
+            if (allSounds.Length < 1) {
+                Debug.Log("Could not find Resources folder with name: Sounds/" + folderName);
+                allSounds = Resources.LoadAll<AudioClip>(folderName);
+                if(allSounds.Length < 1){
+                    Debug.Log("Could not find folder with name: "+folderName);
+                    return false; }}
+
+            // Pick a sound:
+            var sound = allSounds[Random.Range(1, allSounds.Length)];
+            
+            // Check if the sound's folder has previously called sounds: 
+            for (int i=0; i<listOfFolderLists.Count; i++) {
+                // If a list starts with folderName, the folder has been used previously
+                if (listOfFolderLists[i][0] == folderName) {
+                    if (listOfFolderLists[i].Count < numberBetweenRepeats) {
+                        Debug.LogError("Not enough sounds to have " + numberBetweenRepeats 
+                                            + " sounds between repeats for folder: \"" + folderName +"\"");
+                        return false; }
+
+                    
+                    
+                    // Keep checking until new sound is found: 
+                    while (listOfFolderLists[i].Contains(sound.name))
+                        sound = allSounds[Random.Range(1, allSounds.Length)]; 
+                        
+                    sxr.PlaySound((folderName=="" ? "" : folderName + Path.DirectorySeparatorChar) + sound.name); 
+                    listOfFolderLists[i].Add(sound.name);
+
+
+                    if (listOfFolderLists[i].Count > numberBetweenRepeats+1)
+                        listOfFolderLists[i].RemoveAt(1);
+                    
+                    return true; } }
+
+            // Folder name has not been used previously
+            sxr.PlaySound((folderName=="" ? "" : folderName + Path.DirectorySeparatorChar) + sound.name); 
+            listOfFolderLists.Add(new List<string>{folderName, sound.name});
+            return true; 
+        }
 
         /// <summary>
         /// Plays one of the sounds provided by sXR
@@ -77,17 +132,21 @@ namespace sxr_internal {
         /// </summary>
         /// <param name="soundName"></param>
         public void CustomSound(string soundName) {
-            AudioClip customClip = Resources.Load<AudioClip>("Sounds" + Path.DirectorySeparatorChar + soundName);
-            if (!customClip) {
-                sxr.DebugLog("Failed to find sound clip " + soundName + " in a resources folder");
-                foreach (var customSound in sxrSettings.Instance.audioClips)
+
+            AudioClip customClip = Resources.Load<AudioClip>("Sounds/" + soundName);
+            Debug.Log(customClip);
+            if (customClip == null) {
+                Debug.Log("Failed to find sound clip " + soundName + " in a fuckin resources folder");
+                foreach (var customSound in sxrSettings.Instance.audioClips){
                     if (customSound.name == soundName) {
                         customClip = customSound;
                         soundPlayer.PlayOneShot(customClip);
-                        return; }
+                        return; }}
 
-                sxr.DebugLog("Failed to find clip in sxrSettings audioClips, cannot play sound"); }
-
+                Debug.Log("Failed to find clip in sxrSettings audioClips, cannot play sound");
+                
+                AudioClip[] customclips = Resources.LoadAll<AudioClip>("Sounds/" + soundName);
+            }
             soundPlayer.PlayOneShot(customClip); }
 
         void Start() {

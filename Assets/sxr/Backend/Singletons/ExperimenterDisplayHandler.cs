@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using TMPro;
 using UnityEngine;
 
@@ -9,27 +10,51 @@ namespace sxr_internal {
         public bool defaultDisplayTexts = true;
 
         private ExperimentHandler eh;
-        public TMP_InputField subjNum, phaseNum, blockNum, trialNum;
+        public TMP_InputField subjID, phaseNum, blockNum, trialNum;
         public TextMeshProUGUI displayText1, displayText2, displayText3, displayText4, displayText5;
+
+        private bool autoplayReplays; 
 
         /// <summary>
         /// Sets the experiment to specified subject/phase/block/trial
         /// Automatically parses experiment name from the project name
         /// </summary>
-        public void StartButton() {
-            if (!Int32.TryParse(subjNum.text, out eh.subjectNumber))
-                Debug.Log("Failed to parse subject number, using subject = 0");
+        public void StartButton()
+        {
+            eh.subjectID = subjID.text == "" ? "0" : subjID.text;
+            Debug.Log("Using subject: ");
             if (!Int32.TryParse(phaseNum.text, out eh.phase))
                 Debug.Log("Failed to parse phase number, using phase = 0");
             if (!Int32.TryParse(blockNum.text, out eh.block))
                 Debug.Log("Failed to block phase number, using block = 0");
             if (!Int32.TryParse(trialNum.text, out eh.trial))
-                Debug.Log("Failed to parse trial number, using trial = 0");
+                Debug.Log("Fai" +
+                          "" +
+                          "led to parse trial number, using trial = 0");
             ExperimentHandler.Instance.StartExperiment(
                 Application.dataPath.Split("/")[Application.dataPath.Split("/").Length-2], 
-                eh.subjectNumber);
+                eh.subjectID);
 
             sxr.GetObject("StartScreen").SetActive(false); }
+
+        public void ReplayButton()
+        {
+            StartButton();
+            var replayMode = sxr.GetObject("vrCamera").AddComponent<ReplayMode>();
+            string[] files = Directory.GetFiles(sxrSettings.Instance.subjectDataDirectory);
+            Debug.Log("FILES in "+sxrSettings.Instance.subjectDataDirectory);
+            foreach (var f in files)
+                if ((subjID.text=="" || f.Split("_")[4] == subjID.text) && f.Contains("camera_tracker") && !f.Contains(".meta"))
+                {
+                    Debug.Log(f); 
+                    replayMode.StartReplay(f, phase: eh.phase, block: eh.block, trial: eh.trial,
+                        autoContinue: subjID.text == ""); 
+                    break; 
+                }
+            
+            
+
+        }
 
         private void Update() {
             if (defaultDisplayTexts && ExperimentHandler.Instance.phase > 0) {
@@ -45,14 +70,14 @@ namespace sxr_internal {
             } }
 
         public void ChangeTextbox(int whichBox, string text) {
-            if (whichBox > 0 && whichBox < 5) {
+            if (whichBox > 0 && whichBox < 6) {
                 var boxes = new[] {displayText1, displayText2, displayText3, displayText4, displayText5};
                 boxes[whichBox - 1].text = text; }
             else
                 Debug.LogWarning("Textbox objects on experimenter screen are numbered 1-5"); }
         
         private void Start() {
-            if (subjNum == null) subjNum = sxr.GetObject("SubjectNumber").GetComponentInChildren<TMP_InputField>();
+            if (subjID == null) subjID = sxr.GetObject("SubjectNumber").GetComponentInChildren<TMP_InputField>();
             if (phaseNum == null) phaseNum = sxr.GetObject("Phase").GetComponentInChildren<TMP_InputField>();
             if (blockNum == null) blockNum = sxr.GetObject("Block").GetComponentInChildren<TMP_InputField>();
             if (trialNum == null) trialNum = sxr.GetObject("Trial").GetComponentInChildren<TMP_InputField>();

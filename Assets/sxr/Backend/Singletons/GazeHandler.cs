@@ -1,5 +1,6 @@
 ﻿//TODO Add gaze collider to record objects in focus
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -17,6 +18,8 @@ namespace sxr_internal {
         VerboseData verboseData = new VerboseData();
         Camera vrCamera; 
 
+        private string toWrite; 
+
         private bool recordEyeTracker; 
         private bool headerPrinted;
 
@@ -32,24 +35,32 @@ namespace sxr_internal {
             if (!headerPrinted) WriteEyeTrackerHeader();
             recordEyeTracker = true; }
 
-        public void PauseRecording() { recordEyeTracker = false; }
+        public void PauseRecording()
+        {
+            recordEyeTracker = false;
+            ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite);
+            toWrite = ""; 
+        }
 
         public bool RecordingGaze() { return recordEyeTracker; }
 
-        public void LaunchEyeCalibration()
+        public bool LaunchEyeCalibration()
         {
             if (SRanipal_Eye.LaunchEyeCalibration()) return true; 
             else if (SRanipal_Eye_v2.LaunchEyeCalibration()) return true;
             Debug.Log("Failed to complete eye calibration");
             return false; 
         }
-        
+
+        public string GetFullGazeInfo(){
+            return (GetScreenFixationPoint() +","+ GazeFixation() +","+ LeftEyePosition() +","+ RightEyePosition() +","+
+                    LeftEyeRotation() +","+ RightEyeRotation() +","+ LeftEyePupilSize() +","+ RightEyePupilSize() + ","+
+                    LeftEyeOpenAmount() +","+ RightEyeOpenAmount()).Replace("(","").Replace(")","");
+        }
+
         public void Update() {
             if (sxrSettings.Instance.RecordThisFrame() & recordEyeTracker)
-                ExperimentHandler.Instance.WriteToTaggedFile("eyetracker",
-                    (GetScreenFixationPoint() +","+ GazeFixation() +","+ LeftEyePosition() +","+ RightEyePosition() +","+
-                     LeftEyeRotation() +","+ RightEyeRotation() +","+ LeftEyePupilSize() +","+ RightEyePupilSize() + ","+
-                     LeftEyeOpenAmount() +","+ RightEyeOpenAmount()).Replace("(","").Replace(")","")); }
+                toWrite += GetFullGazeInfo() + "\n"; }
 
         void UpdateGaze() {
             if (lastUpdate != sxrSettings.Instance.GetCurrentFrame()) {
@@ -73,7 +84,7 @@ namespace sxr_internal {
 
                 if (SRanipal_Eye.GetVerboseData(out verboseData)) { }
                 else if (SRanipal_Eye_v2.GetVerboseData(out verboseData)) { }
-                else { Debug.LogWarning("Failed to find SRanipal Framework (verboseData), do you have the SDK installed?"); }
+                else { /*Debug.LogWarning("Failed to find SRanipal Framework (verboseData), do you have the SDK installed?");*/ }
             
 
                 sxr.DebugLog(gazeOriginCombinedLocal.ToString());
@@ -144,6 +155,9 @@ namespace sxr_internal {
             UpdateGaze();
             return verboseData.right.pupil_diameter_mm; }
 
+        private void OnApplicationQuit(){
+            if(toWrite != "")
+                ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite);}
 
         void Start() { 
             vrCamera = sxrSettings.Instance.vrCamera; 
@@ -160,6 +174,7 @@ namespace sxr_internal {
         private Eyes eyesData;
         private Camera vrCamera;
 
+        private string toWrite = ""; 
         private int lastUpdate;
         private bool recordEyeTracker; 
         private bool headerPrinted;
@@ -176,16 +191,23 @@ namespace sxr_internal {
             if (!headerPrinted) WriteEyeTrackerHeader();
             recordEyeTracker = true; }
 
-        public void PauseRecording() { recordEyeTracker = false; }
+        public void PauseRecording() {
+            recordEyeTracker = false;
+            ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite);
+            toWrite = ""; }
 
         public bool RecordingGaze() { return recordEyeTracker; }
+
+        public string GetFullGazeInfo(){
+            return (GetScreenFixationPoint() +","+ GazeFixation() +","+ LeftEyePosition() +","+ RightEyePosition() +","+
+                    LeftEyeRotation() +","+ RightEyeRotation() +","+ LeftEyePupilSize() +","+ RightEyePupilSize() + ","+
+                    LeftEyeOpenAmount() +","+ RightEyeOpenAmount()).Replace("(","").Replace(")","");
+        }
+
         public void Update() {
             if (sxrSettings.Instance.RecordThisFrame() & recordEyeTracker)
-                ExperimentHandler.Instance.WriteToTaggedFile("eyetracker",
-                    (GetScreenFixationPoint() +","+ GazeFixation() +","+ LeftEyePosition() +","+ RightEyePosition() +","+
-                     LeftEyeRotation() +","+ RightEyeRotation() +","+ LeftEyePupilSize() +","+ RightEyePupilSize() + ","+
-                     LeftEyeOpenAmount() +","+ RightEyeOpenAmount()).Replace("(","").Replace(")","")); }
-
+                toWrite += GetFullGazeInfo() + "\n"; }
+       
         /// <summary>
         /// Updates eyeData once per frame for use in all methods that can use eyeData.
         /// If eyeData cannot be used, can return primitive gaze pos/rot 
@@ -345,6 +367,10 @@ namespace sxr_internal {
             sxr.DebugLog("Pupil size not yet available through OpenXR implementation, if your headset " +
                          "supports pupil size, post a feature request on the Github or email sxr.unity@gmail.com");
             return 0; }
+
+        private void OnApplicationQuit(){
+            if(toWrite != "")
+                ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite);}
 
         private void Start() { vrCamera = sxrSettings.Instance.vrCamera; }
 

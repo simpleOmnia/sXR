@@ -30,11 +30,14 @@ namespace sxr_internal {
         /// so SceneObjectHandler can clear ObjectMotion from memory
         /// </summary>
         /// <returns>True once allotted time has passed</returns>
-        public bool UpdatePositionDisposeAtTargetLocation() {
+        public bool UpdatePositionDisposeAtTargetLocation()
+        {
+            Vector3 diff = (objectDestination - initialPosition) * Time.deltaTime/timeTaken;
+
             if (Time.time >= arrivalTime) {
                 gameObj.transform.position = objectDestination;
                 return true; }
-            gameObj.transform.position = (objectDestination - initialPosition) * Time.deltaTime / timeTaken;
+            gameObj.transform.position = gameObj.transform.position + diff;
             return false ; }
     }
 }

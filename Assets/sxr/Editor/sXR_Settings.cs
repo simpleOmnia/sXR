@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
@@ -5,16 +6,19 @@ using UnityEditor.Build;
 
 using sxr_internal;
 
-public class sXR_Settings : EditorWindow
+public class sXR_Settings : EditorWindow 
 {
-    private readonly string savedSettingsPath = Application.dataPath + Path.DirectorySeparatorChar +
+    
+    private string savedSettingsPath = Application.dataPath + Path.DirectorySeparatorChar +
                                       "sxr" + Path.DirectorySeparatorChar + "Editor" +
                                       Path.DirectorySeparatorChar + "sxrSettings.json";
     private RectOffset rctOffButton, rctOffTextField, rctOffToggle, rctOffSlider;
 
     private GUIStyle myStyle;
     
-    private LoadableSettings loadableSettings = new LoadableSettings(); 
+    private LoadableSettings loadableSettings = new LoadableSettings();
+
+    private bool initialLoad = true;
 
     [MenuItem("sXR/Editor Settings")]
     static void Init() {
@@ -22,14 +26,23 @@ public class sXR_Settings : EditorWindow
         window.Show(); }
 
     
-    void LoadFromJson(){ if(File.Exists(savedSettingsPath)) loadableSettings = JsonUtility.FromJson<LoadableSettings>(savedSettingsPath); }
+    void LoadFromJson(){
+        if (File.Exists(savedSettingsPath)) 
+            loadableSettings = JsonUtility.FromJson<LoadableSettings>(File.ReadAllText(savedSettingsPath)); 
+    }
 
     void SaveToJson() {
         string settings = JsonUtility.ToJson(loadableSettings);
         new FileHandler().OverwriteFile(savedSettingsPath, settings); }
-
+    
     void OnGUI()
     {
+        if (initialLoad)
+        {
+            initialLoad = false; 
+            LoadFromJson();
+            Debug.Log("Loaded settings from JSON"); 
+        }
         rctOffButton = GUI.skin.button.margin;
         rctOffButton.left = 25;
         rctOffButton.right = 25;
@@ -58,7 +71,7 @@ public class sXR_Settings : EditorWindow
         
         GUILayout.Space(5);
         GUILayout.Label(new GUIContent("Backup data path: ", "Sets automatically if left empty, can be used to manually specify output path"));
-        loadableSettings.dataPath = GUILayout.TextField(loadableSettings.dataPath);
+        loadableSettings.backupPath = GUILayout.TextField(loadableSettings.backupPath);
         
         GUILayout.Space(10);
         loadableSettings.use_autosaver = GUILayout.Toggle(loadableSettings.use_autosaver,
@@ -139,12 +152,13 @@ public class sXR_Settings : EditorWindow
             if (loadableSettings.use_URP) 
                 EditorUtils.AddDefineIfNecessary("SXR_USE_URP", NamedBuildTarget.Standalone);
             else 
-                EditorUtils.RemoveDefineIfNecessary("SXR_USE_URP",NamedBuildTarget.Standalone); 
+                EditorUtils.RemoveDefineIfNecessary("SXR_USE_URP",NamedBuildTarget.Standalone);
 
-            
             SaveToJson(); 
         } 
     }
 
+    void OnEnable() { initialLoad = true; }
     void OnDisable() {new ObjectPreview().Cleanup(); }
+
 }

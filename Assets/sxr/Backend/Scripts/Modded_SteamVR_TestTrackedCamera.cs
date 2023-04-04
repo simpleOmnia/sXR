@@ -1,9 +1,9 @@
 //======= Copyright (c) Valve Corporation, All rights reserved. ===============
 using UnityEngine;
-using Valve.VR;
+
 #if SXR_USE_STEAMVR
 using Valve.VR.Extras;
-
+using Valve.VR;
 public class Modded_SteamVR_TestTrackedCamera : MonoBehaviour
 {
     public float xOffset=.1f;

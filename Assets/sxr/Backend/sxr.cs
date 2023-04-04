@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using sxr_internal;
+using Unity.VisualScripting;
 using UnityEngine.UIElements;
 
 /// <summary>
@@ -144,7 +146,7 @@ public static class sxr {
     public static void DisplayImage(string imageName, UI_Position position){DisplayImage(imageName, position, true);}
     public static void DisplayImage(string imageName){DisplayImage(imageName, UI_Position.FullScreen1);}
     public static void DisplayImage(Texture2D image, UI_Position position)
-    {UI_Handler.Instance.DisplayImage(image, position, true);}
+    {UI_Handler.Instance.DisplayImage(image.name, position, true);}
     
     public static void HideImageUI(UI_Position position){UI_Handler.Instance.DisableComponentUI(position);}
     public static void HideImagesUI(){UI_Handler.Instance.DisableAllComponentsUI();}
@@ -186,7 +188,7 @@ public static class sxr {
     /// directions  
     /// </summary>
     /// <returns>JoystickDirection (Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight, None</returns>
-    public static JoyStickDirection GetJoystickDirection() { return GetJoystickDirection();}
+    public static JoyStickDirection GetJoystickDirection() { return JoystickHandler.Instance.GetDirection();}
 
     public enum ControllerButton{
         LH_Trigger, LH_SideButton, LH_TrackPadRight, 
@@ -222,13 +224,13 @@ public static class sxr {
         
         if (controller.buttonPressed[(int) whichButton]) {
             if (Time.time - controller.buttonTimers[(int) whichButton] > frequency) {
-                sxr.DebugLog("Controller Button: " + whichButton + " pressed after delay of: " + frequency);
+                DebugLog("Controller Button: " + whichButton + " pressed after delay of: " + frequency, 5000);
                 controller.buttonTimers[(int) whichButton] = Time.time; 
                 return true; }
 
-            sxr.DebugLog("Controller Button: " + whichButton + "pressed before delay of: " + frequency); }
+            DebugLog("Controller Button: " + whichButton + "pressed before delay of: " + frequency, 5000); }
         else 
-            sxr.DebugLog("Controller Button: " + whichButton + " not pressed");
+            DebugLog("Controller Button: " + whichButton + " not pressed", 5000);
         return false; }
     public static bool CheckController(ControllerButton whichButton) {
         return CheckController(whichButton, 0f); }
@@ -239,7 +241,7 @@ public static class sxr {
     /// </summary>
     /// <param name="experimentName"></param>
     /// <param name="subjectNumber"></param>
-    public static void StartExperiment(string experimentName, int subjectNumber) {ExperimentHandler.Instance.StartExperiment(experimentName, subjectNumber); }
+    public static void StartExperiment(string experimentName, string subjectID) {ExperimentHandler.Instance.StartExperiment(experimentName, subjectID); }
 
     /// <summary>
     /// Returns the current "phase" in the experiment. (Phase > Block > Trial > Step)
@@ -305,9 +307,16 @@ public static class sxr {
     /// <param name="timerName"></param>
     /// <param name="duration"></param>
     public static void StartTimer(string timerName, float duration)
-    {TimerHandler.Instance.AddTimer(timerName, duration);}
-    public static void StartTimer(float duration)
-    { ExperimentHandler.Instance.StartTimer(duration);}
+    {TimerHandler.Instance.StartTimer(timerName, duration:duration);}
+    public static void StartTimer(string timerName)
+    { TimerHandler.Instance.StartTimer(timerName); }
+    public static void StartTimer(float duration )
+    { ExperimentHandler.Instance.StartTimer(duration:duration);}
+    public static void StartTimer(){ExperimentHandler.Instance.StartTimer();}
+
+    public static void PauseTimer(string timerName)
+    { TimerHandler.Instance.PauseTimer(timerName);}
+    public static void PauseTimer(){ ExperimentHandler.Instance.PauseTimer();}
     
     /// <summary>
     /// Checks if the named timer has reached the specified duration.
@@ -358,12 +367,36 @@ public static class sxr {
     {ExperimentHandler.Instance.WriteHeaderToTaggedFile(tag, text);}
 
     /// <summary>
+    /// Used to override automatic naming scheme
+    /// </summary>
+    /// <param name="experimentName"></param>
+    public static void SetExperimentName(string experimentName)
+    { ExperimentHandler.Instance.SetExperimentName(experimentName); }
+
+    /// <summary>
     /// Changes the specified textbox on the experimenter's screen (is not displayed to VR)
     /// </summary>
     /// <param name="whichBox"></param>
     /// <param name="text"></param>
     public static void ChangeExperimenterTextbox(int whichBox, string text)
     {ExperimenterDisplayHandler.Instance.ChangeTextbox(whichBox, text);}
+
+    /// <summary>
+    /// Specifies if user wants to use default experimenter textboxes 0-3 
+    /// </summary>
+    /// <param name="useDefaults"></param>
+    public static void DefaultExperimenterTextboxes(bool useDefaults)
+    { ExperimenterDisplayHandler.Instance.defaultDisplayTexts = useDefaults; }
+
+    public static void ExperimenterTextboxesEnabled(bool enabled)
+    {
+        DefaultExperimenterTextboxes(false);
+        ChangeExperimenterTextbox(1, "");
+        ChangeExperimenterTextbox(2, "");
+        ChangeExperimenterTextbox(3, "");
+        ChangeExperimenterTextbox(4, "");
+        ChangeExperimenterTextbox(5, "");
+    }
     
 // ****   DATA RECORDING COMMANDS   ****
     /// <summary>
@@ -379,7 +412,8 @@ public static class sxr {
     /// Used with StartRecordingCameraPos. Used to pause recording between trials or during rest periods
     /// </summary>
     public static void PauseRecordingCameraPos() {CameraTracker.Instance.PauseRecording();}
-
+    public static void StartRecordingJoystick(){JoystickHandler.Instance.RecordJoystick(true);}
+    public static void PauseRecordingJoystick(){JoystickHandler.Instance.RecordJoystick(false);}
     /// <summary>
     /// Start recording the eyetracker information every time sxrSettings.recordFrame==currentFrame. Updates automatically
     /// based on sxrSettings.recordFrequency or can be manually called by setting sxrSettings.recordFrame=[frame to record]
@@ -399,12 +433,17 @@ public static class sxr {
     /// </summary>
     /// <param name="name"></param>
     /// <param name="active"></param>
-    public static void StartTrackingObject(string name)
-    { } // TODO Add tracker to tracked objects } public static void TrackObject(string name){TrackObject(name, true);}
+    public static void StartTrackingObject(GameObject gameObj)
+    {
+        if (gameObj.TryGetComponent(out ObjectTracker objTracker)) objTracker.trackerActive = true;
+        else gameObj.transform.AddComponent<ObjectTracker>(); 
+    } 
+    
     /// <summary>
     /// Used with StartTrackingObject. Used to pause recording between trials or during rest periods
     /// </summary>
-    public static void PauseTrackingObject() {}
+    public static void PauseTrackingObject(GameObject gameObj)
+    {if (gameObj.TryGetComponent(out ObjectTracker objTracker)) objTracker.trackerActive = false;}
    
 // ****   OBJECT MANIPULATION   ****
     /// <summary>
@@ -414,6 +453,7 @@ public static class sxr {
     /// <returns></returns>
     public static GameObject GetObject(string name) { return SceneObjectsHandler.Instance.GetObjectByName(name); }
 
+    
     /// <summary>
     /// Moves object to the specified x/y/z distance over [time] seconds
     /// </summary>
@@ -439,6 +479,9 @@ public static class sxr {
     public static void MoveObjectTo(string name, float dest_x, float dest_y, float dest_z)
         { MoveObjectTo(name, dest_x, dest_y, dest_z, 0); }
 
+    public static void MoveObjectTo(GameObject gameObject, Vector3 vec, float time)
+    { MoveObjectTo(gameObject.name, vec.x, vec.y, vec.z, time); }
+
     /// <summary>
     /// Moves the specified object to the destination location at the specified speed
     /// </summary>
@@ -458,6 +501,8 @@ public static class sxr {
         { MoveObjectAtSpeedTo(GetObject(objName), dest_x, dest_y, dest_z, speed, cancelPrevious); }
     public static void MoveObjectAtSpeedTo(string objName, float dest_x, float dest_y, float dest_z, float speed)
         {MoveObjectAtSpeedTo(objName, dest_x, dest_y, dest_z, speed, false);}
+    public static void MoveObjectAtSpeedTo(GameObject gameObject, Vector3 vec, float speed)
+    {MoveObjectAtSpeedTo(gameObject, vec.x, vec.y, vec.z, speed, false);}
 
     /// <summary>
     /// Moves object by the specified x/y/z distance over [time] milliseconds
@@ -500,11 +545,36 @@ public static class sxr {
         float speed) 
         { MoveObjectAtSpeed(gameObject, delta_x, delta_y, delta_z, speed, false); }
     public static void MoveObjectAtSpeed(string objName, float delta_x, float delta_y, float delta_z,
-        float speed, bool cancelPrevious) 
+        float speed, bool cancelPrevious
+        
+        
+        ) 
         { MoveObjectAtSpeed(GetObject(objName), delta_x, delta_y, delta_z, speed, cancelPrevious); }
     public static void MoveObjectAtSpeed(string objName, float delta_x, float delta_y, float delta_z,
         float speed)
         { MoveObjectAtSpeed(GetObject(objName), delta_x, delta_y, delta_z, speed, false); }
+
+    
+    //TODO Add string based and non-vector inputs
+    /// <summary>
+    /// Resizes object over the input time (seconds)
+    /// </summary>
+    /// <param name="gameObj"></param>
+    /// <param name="newSize"></param>
+    /// <param name="timeTaken"></param>
+    public static void ResizeObject(GameObject gameObj, Vector3 newSize, float timeTaken) {
+        if (timeTaken == 0)
+            gameObj.transform.localScale = newSize; 
+        else
+            SceneObjectsHandler.Instance.AddMotionResize(new ObjectResize(gameObj, newSize, timeTaken), true); }
+
+    /// <summary>
+    /// Checks if the object is being resized
+    /// </summary>
+    /// <param name="gameObject"></param>
+    /// <returns></returns>
+    public static bool ObjectResizing(GameObject gameObject)
+    { return SceneObjectsHandler.Instance.CheckForObjectInResize(gameObject);}
     
     /// <summary>
     /// Follows the specified parabola in world space coordinates.  Matches the tangent of curve at current x-value
@@ -523,7 +593,9 @@ public static class sxr {
         gameObj.transform.rotation = Quaternion.Euler(rt.x, rotation, rt.z); // rotate to tangent at position
         gameObj.transform.position += speed * Time.deltaTime * gameObj.transform.forward ; // move forward 
     }
-    
+
+    public static bool ObjectMoving(GameObject gameObj)
+    { return SceneObjectsHandler.Instance.CheckForObjectInMotion(gameObj);}
     
     /// <summary>
     /// Spawns a primitive game object at the specified location. Default location is 0,0,0
@@ -562,11 +634,29 @@ public static class sxr {
     /// </summary>
     /// <param name="obj"></param>
     /// <param name="visible"></param>
-    public static void ObjectVisibility(GameObject obj, bool visible) 
-    { obj.GetComponent<MeshRenderer>().enabled = visible; }
+    public static void ObjectVisibility(GameObject obj, bool visible) {
+        if (obj.TryGetComponent(out MeshRenderer mesh)) mesh.enabled = visible;
+        if (obj.TryGetComponent(out SkinnedMeshRenderer mesh2)) mesh2.enabled = visible;
+        foreach (Transform child in obj.transform)
+        {
+            Debug.Log(child.gameObject.name); 
+            ObjectVisibility(child.gameObject, visible); 
+        }}
 
     public static void ObjectVisibility(string objName, bool visible) 
     { ObjectVisibility(sxr.GetObject(objName), visible); }
+
+    /// <summary>
+    /// Returns whether or not the object is currently visible by checking for an active meshrenderer
+    /// </summary>
+    /// <param name="gameObj"></param>
+    /// <returns></returns>
+    public static bool IsObjectVisible(GameObject gameObj)
+    {
+        if (gameObj.GetComponent<MeshRenderer>() != null) return gameObj.GetComponent<MeshRenderer>().enabled;
+        if (gameObj.GetComponent<SkinnedMeshRenderer>() != null) return gameObj.GetComponent<MeshRenderer>().enabled;
+        return false; 
+    }
     
     /// <summary>
     /// Allows the object to be grabbed by touching the
@@ -628,6 +718,16 @@ public static class sxr {
     /// </summary>
     /// <param name="soundName"></param>
     public static void PlaySound(string soundName){SoundHandler.Instance.CustomSound(soundName);}
+
+    /// <summary>
+    /// Plays a random sound from the specified folder. Requires a specified number of sounds
+    /// before repeating the same sound in the folder.
+    /// </summary>
+    /// <param name="folderName"> Name of Resources/[folderName] to search for sounds</param>
+    /// <param name="numberBetweenRepeats">Number of sounds before repeating the same sound</param>
+    /// <returns></returns>
+    public static bool PlayRandomSoundInFolder(string folderName, int numberBetweenRepeats)
+    { return SoundHandler.Instance.PlayRandomSoundInFolder(folderName, numberBetweenRepeats); }
     
     /// <summary>
     /// Applies the list of specified full-screen shaders. Can take shader indexes (int) or shader names (string)
