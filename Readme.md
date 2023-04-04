@@ -146,7 +146,7 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 
 # Coming Very Soon...
-Camera passthrough for augmented reality (on supported headsets)
+~~Camera passthrough for augmented reality (on supported headsets)~~ Augmented Reality sample scene available, requires SteamVR for now
 
 Computer vision prefab - Import trained ONXX models to do realtime image segmentation in VR/AR
 
@@ -166,4 +166,5 @@ Hand-tracking without controllers (for supported devices- Vive Pro Eye, Quest 2,
 N/a
 
 # Version History
+31 January 2023 - Version 0.0.1 Additional features and more strict version control implementation - recreated repository
 6 January 2023 - Version 0.0.0: Initial release 
