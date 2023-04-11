@@ -18,7 +18,7 @@ namespace sxr_internal {
         VerboseData verboseData = new VerboseData();
         Camera vrCamera; 
 
-        private string toWrite; 
+        private string toWrite = ""; 
 
         private bool recordEyeTracker; 
         private bool headerPrinted;
@@ -38,7 +38,7 @@ namespace sxr_internal {
         public void PauseRecording()
         {
             recordEyeTracker = false;
-            ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite);
+            if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite, includeTimeStepInfo:false);
             toWrite = ""; 
         }
 
@@ -156,8 +156,8 @@ namespace sxr_internal {
             return verboseData.right.pupil_diameter_mm; }
 
         private void OnApplicationQuit(){
-            if(toWrite != "")
-                ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite);}
+            if(headerPrinted && toWrite != "")
+                ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite, includeTimeStepInfo:false);}
 
         void Start() { 
             vrCamera = sxrSettings.Instance.vrCamera; 
@@ -193,7 +193,7 @@ namespace sxr_internal {
 
         public void PauseRecording() {
             recordEyeTracker = false;
-            ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite);
+            if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite, includeTimeStepInfo:false);
             toWrite = ""; }
 
         public bool RecordingGaze() { return recordEyeTracker; }
@@ -369,8 +369,8 @@ namespace sxr_internal {
             return 0; }
 
         private void OnApplicationQuit(){
-            if(toWrite != "")
-                ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite);}
+            if(headerPrinted && toWrite != "")
+                ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite, includeTimeStepInfo:false);}
 
         private void Start() { vrCamera = sxrSettings.Instance.vrCamera; }
 

@@ -7,7 +7,7 @@ namespace sxr_internal {
 
         private Camera vrCamera;
         private bool headerPrinted;
-        private string toWrite; 
+        private string toWrite = ""; 
 
         public void WriteCameraTrackerHeader(bool recordingGaze) {
             ExperimentHandler.Instance.WriteHeaderToTaggedFile("camera_tracker", recordingGaze ?
@@ -24,7 +24,7 @@ namespace sxr_internal {
         public void PauseRecording() {
             recordGaze = false;
             recordCamera = false;
-            ExperimentHandler.Instance.WriteToTaggedFile("camera_tracker", toWrite);
+            if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile("camera_tracker", toWrite, includeTimeStepInfo:false);
             toWrite = ""; 
         }
 
@@ -33,34 +33,26 @@ namespace sxr_internal {
         private void Start()
         {  vrCamera = sxrSettings.Instance.vrCamera; }
 
-        private void Update()
-        {
+        private void Update() {
             var trans = vrCamera.transform;
             var pos = trans.position;
-            var rot = trans.rotation; 
+            var rot = trans.rotation;
             if (sxrSettings.Instance.RecordThisFrame() & recordCamera) {
-                if (recordGaze)
-                    toWrite+= ExperimentHandler.Instance.timeStepToWriteInfo() +
-                              (pos.x + "," +
-                               pos.y + "," + 
-                               pos.z + "," +
-                               rot.eulerAngles.x + "," +
-                               rot.eulerAngles.y + "," + 
-                               rot.eulerAngles.z + "," +
-                               GazeHandler.Instance.GetScreenFixationPoint()).Replace("(","").Replace(")","").Replace(" ","")+"\n";
-                
-                else
-                    toWrite += ExperimentHandler.Instance.timeStepToWriteInfo() +
+                toWrite += ExperimentHandler.Instance.timeStepToWriteInfo() +
+                           (
                                pos.x + "," +
-                               pos.y + "," + 
+                               pos.y + "," +
                                pos.z + "," +
                                rot.eulerAngles.x + "," +
-                               rot.eulerAngles.y + "," + 
-                               rot.eulerAngles.z + "\n"; } }
+                               rot.eulerAngles.y + "," +
+                               rot.eulerAngles.z + "," +
+                               (recordGaze ? GazeHandler.Instance.GetScreenFixationPoint() : "")
+                           ).Replace("(", "").Replace(")", "").Replace(" ", "") + "\n";
+            } }
 
         private void OnApplicationQuit(){
-            if(toWrite != "")
-                ExperimentHandler.Instance.WriteToTaggedFile("camera_tracker", toWrite);}
+            if(headerPrinted && toWrite != "")
+                ExperimentHandler.Instance.WriteToTaggedFile("camera_tracker", toWrite, includeTimeStepInfo:false);}
         
         // Singleton initiated on Awake()
         public static CameraTracker Instance; 

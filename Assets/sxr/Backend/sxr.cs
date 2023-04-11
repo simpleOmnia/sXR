@@ -311,7 +311,7 @@ public static class sxr {
     public static void StartTimer(string timerName)
     { TimerHandler.Instance.StartTimer(timerName); }
     public static void StartTimer(float duration )
-    { ExperimentHandler.Instance.StartTimer(duration:duration);}
+    { ExperimentHandler.Instance.StartTimer(duration:duration); }
     public static void StartTimer(){ExperimentHandler.Instance.StartTimer();}
 
     public static void PauseTimer(string timerName)

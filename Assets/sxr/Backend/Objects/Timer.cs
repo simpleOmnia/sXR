@@ -4,7 +4,7 @@ namespace sxr_internal {
     public class Timer {
         private float startTime;
         private readonly string timerName;
-        private readonly float duration;
+        private float duration;
         private float pausedTime; 
 
         public Timer(string timerName, float duration) {
@@ -13,8 +13,9 @@ namespace sxr_internal {
             this.duration = duration; }
 
         public void Restart() { startTime = Time.time; }
-        public void StartTimer()
+        public void StartTimer(float duration)
         {
+            this.duration = duration; 
             if (pausedTime == 0) { Restart(); }
             else
             {
@@ -22,6 +23,8 @@ namespace sxr_internal {
                 pausedTime = 0; 
             }
         }
+        public void StartTimer(){StartTimer(this.duration);}
+        
         public void PauseTimer(){ pausedTime = Time.time; }
         public string GetName() { return timerName; }
         public float GetTimePassed() { return Time.time - startTime; }

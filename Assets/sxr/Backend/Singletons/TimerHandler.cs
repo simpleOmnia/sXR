@@ -45,7 +45,7 @@ namespace sxr_internal {
             {
                 Debug.Log("Timer with name '" + timerName + "' already exists." +
                           " Will unpause a paused timer or restart an unpaused timer.");
-                GetTimer(timerName).StartTimer(); 
+                GetTimer(timerName).StartTimer(duration); 
             }
 
             return GetTimer(timerName); 

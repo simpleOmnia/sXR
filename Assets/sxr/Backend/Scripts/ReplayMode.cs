@@ -2,12 +2,15 @@
 using System.Diagnostics;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.InputSystem.Layouts;
 using Debug = UnityEngine.Debug;
 
 namespace sxr_internal
 {
     public class ReplayMode : MonoBehaviour
     {
+        public int downscaleFactor = 5; // if downscale was used, must change this value
+        
         //TODO 'Action Recorder + Replay', record controller buttons and what frames
         private bool replayMode;
         private DataFrame replayData; 
@@ -22,12 +25,12 @@ namespace sxr_internal
         private bool usingGaze;
         private bool autoContinue; 
 
-        private int currentPhase;
-        private int currentBlock;
-        private int currentTrial;
+        public int currentPhase;
+        public int currentBlock;
+        public int currentTrial;
 
-        private int currentTimeStamp;
-        private float replayTimer;
+        public int currentTimeStamp;
+        public float replayTimer;
 
         public void SetAutoContinue(bool autoContinue)
         { this.autoContinue = autoContinue;}
@@ -40,15 +43,20 @@ namespace sxr_internal
         /// <param name="phase"></param>
         /// <param name="block"></param>
         /// <param name="trial"></param>
-        public void StartReplay(string replayFile, int phase=0, int block=0, int trial=0, bool autoContinue=false) {
+        public void StartReplay(string replayFile, int phase=0, int block=0, int trial=0, bool autoContinue=false)
+        {
+            sxrSettings.Instance.vrCamera.gameObject.GetComponent<AutomaticDesktopVsVR>().enabled = false; 
+            sxrSettings.Instance.vrCamera.gameObject.GetComponent<SimpleFirstPersonMovement>().enabled = false; 
+            Debug.Log("Start Replay for "+replayFile);
             replayMode = true;
             replayData = new DataFrame().LoadFromCSV(replayFile);
-            
-            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture; 
-            timeStampArray = Array.ConvertAll(replayData.GetColumnByName("Time"),float.Parse);
-            int[] phaseArray = Array.ConvertAll(replayData.GetColumnByName("Phase"), Int32.Parse);
-            int[] blockArray = Array.ConvertAll(replayData.GetColumnByName("BlockNumber"), Int32.Parse);
-            int[] trialArray = Array.ConvertAll(replayData.GetColumnByName("TrialNumber"), Int32.Parse);
+            //replayData.PrintDataFrame();
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+
+            timeStampArray = Array.ConvertAll(replayData.GetColumnByName("TrialTime"), float.Parse);
+            phaseArray = Array.ConvertAll(replayData.GetColumnByName("Phase"), Int32.Parse);
+            blockArray = Array.ConvertAll(replayData.GetColumnByName("BlockNumber"), Int32.Parse);
+            trialArray = Array.ConvertAll(replayData.GetColumnByName("TrialNumber"), Int32.Parse);
 
             float[] xPosArray = Array.ConvertAll(replayData.GetColumnByName("xPos"),float.Parse);
             float[] yPosArray = Array.ConvertAll(replayData.GetColumnByName("yPos"),float.Parse);
@@ -71,14 +79,14 @@ namespace sxr_internal
                 rotationArray[i] = new Vector3(xRotArray[i], yRotArray[i], zRotArray[i]); 
                 if (usingGaze)
                     gazeArray[i] = new Vector2(gazeArrayX[i], gazeArrayY[i]); }
-            
             Debug.Log(phaseArray.Length);
+            Debug.Log(blockArray.Length);
             currentPhase = phase==0 ? phaseArray[0] : phase;
             currentBlock = block==0 ? blockArray[0] : block;
             currentTrial = trial==0 ? trialArray[0] : trial;
             this.autoContinue = autoContinue;
             string printStuff = "";
-            foreach (var thing in positionArray)
+            foreach (var thing in rotationArray)
                 printStuff += "[ " + thing.ToString() + " ]";
             Debug.Log(printStuff); 
         }
@@ -86,23 +94,79 @@ namespace sxr_internal
         
         private void Update()
         {
-            // currentTimeStamp += replayTimer >= timeStampArray[currentTimeStamp + 1] ? 1 : 0;
-            // if (replayMode && currentPhase == phaseArray[currentTimeStamp] 
-            //                && currentBlock == blockArray[currentTimeStamp]
-            //                && currentTrial == trialArray[currentTimeStamp])
-            // {
-            //     float nextTimePercent = (replayTimer - timeStampArray[currentTimeStamp]) /
-            //                             (replayTimer - timeStampArray[currentTimeStamp + 1]);
-            //     sxrSettings.Instance.vrCamera.transform.position =
-            //         Vector3.Lerp(positionArray[currentTimeStamp], positionArray[currentTimeStamp + 1], nextTimePercent);
-            //      sxrSettings.Instance.vrCamera.transform.rotation= Quaternion.Euler(
-            //         Vector3.Lerp(rotationArray[currentTimeStamp], rotationArray[currentTimeStamp + 1], nextTimePercent));
-            //     
-            //
-            //     replayTimer += Time.deltaTime;
-            // }
-            // else 
-                // replayMode = sxr.GetTrigger() || autoContinue;
+            if(Input.GetKeyDown(KeyCode.P)) {
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                    currentPhase--;
+                else currentPhase++;
+                replayTimer = 0; }
+            
+            if(Input.GetKeyDown(KeyCode.B)) {
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                    currentBlock--;
+                else currentBlock++;
+                replayTimer = 0; }
+            
+            if(Input.GetKeyDown(KeyCode.T)) {
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                    currentTrial--;
+                else currentTrial++;
+                replayTimer = 0; }
+            
+            currentTimeStamp += replayTimer >= timeStampArray[currentTimeStamp + 1] ? 1 : 0;
+            if (currentPhase == phaseArray[currentTimeStamp]
+                && currentBlock == blockArray[currentTimeStamp]
+                && currentTrial == trialArray[currentTimeStamp])
+            {
+                if (replayMode)
+                {
+                    float nextTimePercent = (replayTimer - timeStampArray[currentTimeStamp]) /
+                                            (replayTimer - timeStampArray[currentTimeStamp + 1]);
+
+                    sxrSettings.Instance.vrCamera.transform.position =
+                        Vector3.Lerp(positionArray[currentTimeStamp], positionArray[currentTimeStamp + 1],
+                            nextTimePercent);
+                    sxrSettings.Instance.vrCamera.transform.rotation = Quaternion.Euler(
+                        Vector3.Lerp(rotationArray[currentTimeStamp], rotationArray[currentTimeStamp + 1],
+                            nextTimePercent));
+
+                    var currGaze =
+                        Vector3.Lerp(new Vector3(gazeArray[currentTimeStamp].x, gazeArray[currentTimeStamp].y, 0),
+                            new Vector3(gazeArray[currentTimeStamp + 1].x, gazeArray[currentTimeStamp + 1].y, 0),
+                            nextTimePercent);
+                    currGaze.x *= Screen.width/downscaleFactor;
+                    currGaze.y *= Screen.height/downscaleFactor;
+
+                    Ray ray = sxrSettings.Instance.vrCamera.ScreenPointToRay(currGaze);
+                    Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow); 
+
+                    replayTimer += Time.deltaTime;
+                }
+                else
+                    replayMode = sxr.GetTrigger() || autoContinue;
+            }
+            else LoadNextMatch(); 
         }
+
+        private Vector3Int lastLoad = Vector3Int.zero;
+        private void LoadNextMatch() {
+            if (lastLoad.x != currentPhase || lastLoad.y != currentBlock || lastLoad.z != currentTrial) {
+                lastLoad = new Vector3Int(currentPhase, currentBlock, currentTrial);
+                int startFrame = currentTimeStamp;
+                while (true) {
+                    
+                    if (phaseArray[currentTimeStamp] == currentPhase && blockArray[currentTimeStamp] == currentBlock &&
+                        trialArray[currentTimeStamp] == currentTrial)
+                        return; 
+                    
+                    currentTimeStamp++; 
+                    if (currentTimeStamp == phaseArray.Length)
+                        currentTimeStamp = 0; 
+                    
+                    if (currentTimeStamp == startFrame) {
+                        Debug.Log("Could not find any matching results for: "+currentPhase +", "+currentBlock+", "+currentTrial);
+                        return;}
+                } } }
+        
     }
 }
+

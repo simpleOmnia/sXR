@@ -4,19 +4,19 @@ using UnityEngine;
 public class ObjectTracker : MonoBehaviour
 {
     public bool trackerActive=true;
-    private bool headerWritten; 
-    private string toWrite;
+    private bool headerPrinted; 
+    private string toWrite = "";
 
 
 
     public void StartTracker() {
-        if (!headerWritten) {
+        if (!headerPrinted) {
             sxr.WriteHeaderToTaggedFile(gameObject.name+"_tracker", "PosX,PosY,PosZ,RotX,RotY,RotZ");
-            headerWritten = true; }
+            headerPrinted = true; }
         trackerActive = true; }
 
     public void StopTracker() {
-        ExperimentHandler.Instance.WriteToTaggedFile(gameObject.name+"_tracker", toWrite);
+        if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile(gameObject.name+"_tracker", toWrite, includeTimeStepInfo:false);
         toWrite = ""; }
  
     void Update() {
@@ -32,7 +32,7 @@ public class ObjectTracker : MonoBehaviour
                         rot.eulerAngles.z + "\n"; } }
     
     private void OnApplicationQuit(){
-        if(toWrite != "")
-            ExperimentHandler.Instance.WriteToTaggedFile(gameObject.name+"_tracker", toWrite);}
+        if(headerPrinted && toWrite != "")
+            ExperimentHandler.Instance.WriteToTaggedFile(gameObject.name+"_tracker", toWrite, includeTimeStepInfo:false);}
 
 }

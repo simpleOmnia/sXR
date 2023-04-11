@@ -36,7 +36,7 @@ namespace sxr_internal {
 
 
         public void StartTimer(float duration = 99999) {
-            trialTimer = TimerHandler.Instance.StartTimer("TRIAL_TIMER", duration);  }
+            trialTimer = TimerHandler.Instance.StartTimer("TRIAL_TIMER", duration:duration);  }
         private void Start() { StartTimer(); }
 
         public void PauseTimer()
@@ -91,21 +91,22 @@ namespace sxr_internal {
         public void WriteHeaderToTaggedFile(string tag, string headerInfo) {
             if (subjectFile == "") { ParseFileNames();}
             
-            headerInfo = "SubjectNumber,Date,LocalTime,UnityTime,Phase,BlockNumber,TrialNumber,Step,TrialTime," + headerInfo;
+            headerInfo = "SubjectID,Date,LocalTime,UnityTime,Phase,BlockNumber,TrialNumber,Step,TrialTime," + headerInfo;
             fh.AppendLine(subjectFile + "_" + tag + ".csv", headerInfo);
             if (backupFile != "") fh.AppendLine(backupFile + "_" + tag + ".csv", headerInfo); }
         
-        public void WriteToTaggedFile(string tag, string toWrite) {
+        public void WriteToTaggedFile(string tag, string toWrite, bool includeTimeStepInfo=true) {
             if (subjectFile == "") { ParseFileNames();}
-            toWrite = subjectID + "," + DateTime.Today.Month +"_"+ DateTime.Today.Day + "," + DateTime.Now.Hour + "_" +
-                      DateTime.Now.Minute +"_"+ DateTime.Now.Second +","+ Time.time + "," + phase + "," + block + "," + 
-                      trial + "," + stepInTrial + "," + trialTimer.GetTimePassed() + "," + toWrite;
+            toWrite = includeTimeStepInfo ? timeStepToWriteInfo() : "" + toWrite;
             fh.AppendLine(subjectFile + "_" + tag + ".csv", toWrite);
             if (backupFile != "") fh.AppendLine(backupFile + "_" + tag + ".csv", toWrite); }
 
-        public string timeStepToWriteInfo() {
-            return subjectID + "," + Time.time + "," + phase + "," + block + "," + trial + ","
-                   + stepInTrial + "," + trialTimer.GetTimePassed() + ","; }
+        public string timeStepToWriteInfo()
+        {
+            return subjectID + "," + DateTime.Today.Month + "_" + DateTime.Today.Day + "," + DateTime.Now.Hour + "_" +
+                   DateTime.Now.Minute + "_" + DateTime.Now.Second + "," + Time.time + "," + phase + "," + block + "," +
+                   trial + "," + stepInTrial + "," + trialTimer.GetTimePassed() + ",";
+        }
         
         // Singleton initiated on Awake()
         public static ExperimentHandler Instance;

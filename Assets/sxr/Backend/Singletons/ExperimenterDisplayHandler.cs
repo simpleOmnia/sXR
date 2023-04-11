@@ -44,15 +44,20 @@ namespace sxr_internal {
             string[] files = Directory.GetFiles(sxrSettings.Instance.subjectDataDirectory);
             Debug.Log("FILES in "+sxrSettings.Instance.subjectDataDirectory);
             foreach (var f in files)
-                if ((subjID.text=="" || f.Split("_")[4] == subjID.text) && f.Contains("camera_tracker") && !f.Contains(".meta"))
+            {
+                var new_f = f.Substring(sxrSettings.Instance.subjectDataDirectory.Length); 
+                Debug.Log(new_f);
+                Debug.Log(new_f.Split("_")[4]);
+                if ((subjID.text == "" || new_f.Split("_")[4] == subjID.text) && f.Contains("camera_tracker") &&
+                    !f.Contains(".meta"))
                 {
-                    Debug.Log(f); 
                     replayMode.StartReplay(f, phase: eh.phase, block: eh.block, trial: eh.trial,
-                        autoContinue: subjID.text == ""); 
-                    break; 
+                        autoContinue: subjID.text == "");
+                    break;
                 }
-            
-            
+            }
+
+
 
         }
 

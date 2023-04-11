@@ -57,11 +57,11 @@ namespace sxr_internal
             Debug.LogWarning("Did not find row with name \"" + rowName + "\"");
             return new string[] { }; }
 
-        public string[] GetColByIndex(int colIndex) {
+        public string[] GetColByIndex(int colIndex, bool dropHeaderRow=true) {
             List<string> returnString = new List<string>();
             int rowCount = 0;
             foreach (var row in ListOfRows) {
-                if (row.Length > colIndex - 1)
+                if (row.Length > colIndex - 1 && (!dropHeaderRow || rowCount>0))
                     returnString.Add(row[colIndex]);
                 else
                     Debug.LogWarning("Did not find col with index " + colIndex + " for row: " + rowCount);
