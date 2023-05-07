@@ -25,6 +25,9 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 **Automatic position/eye-tracker recording** - Using 'sxr.StartRecordingCameraPos()' or 'sxr.StartRecordingEyeTrackerInfo()' will enable automatic recording of the position/eye-tracker info at the frequency you specify in the sXR tab of the toolbar. Synchronizes eye-tracker and position information allowing for the scene to be replayed with the participant's gaze highlighted
 
+**File Writing** - Experiment flow is handled automatically and file writing is handled to allow for simple analysis
+
+**Playback Mode** - Use camera recordings to replay the route taken by your participants along with their gaze (when eye-tracking is available)
 
 # Commands List
 [Experiment Flow](#experiment-flow)
