@@ -81,7 +81,7 @@ namespace sxr_internal {
 
             subjectFile = sxrSettings.Instance.subjectDataDirectory +  DateTime.Today.Date.Year + "_" 
                           + DateTime.Today.Date.Month + "_" + DateTime.Today.Date.Day +  
-                          "_" +  DateTime.Now.Hour + DateTime.Now.Minute + "_" + subjectID;
+                          "_" +  DateTime.Now.Hour.ToString("00") + DateTime.Now.Minute.ToString("00") + "_" + subjectID;
             backupFile = sxrSettings.Instance.backupDataDirectory != ""
                 ? sxrSettings.Instance.backupDataDirectory + Path.DirectorySeparatorChar +  DateTime.Today.Date.Year + "_" 
                   + DateTime.Today.Date.Month + "_"  + DateTime.Today.Date.Day + "_" + DateTime.Now.Hour 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
@@ -37,27 +38,38 @@ namespace sxr_internal {
 
             sxr.GetObject("StartScreen").SetActive(false); }
 
+        /// <summary>
+        ///  In development, can be used with ReplayMode singleton to replay camera_tracker files
+        /// </summary>
         public void ReplayButton()
         {
             StartButton();
             var replayMode = sxr.GetObject("vrCamera").AddComponent<ReplayMode>();
             string[] files = Directory.GetFiles(sxrSettings.Instance.subjectDataDirectory);
             Debug.Log("FILES in "+sxrSettings.Instance.subjectDataDirectory);
+            List<string>cameraFiles = new List<string>() ; 
+        
             foreach (var f in files)
             {
-                var new_f = f.Substring(sxrSettings.Instance.subjectDataDirectory.Length); 
-                Debug.Log(new_f);
-                Debug.Log(new_f.Split("_")[4]);
-                if ((subjID.text == "" || new_f.Split("_")[4] == subjID.text) && f.Contains("camera_tracker") &&
-                    !f.Contains(".meta"))
+                if (subjID.text != "")
                 {
-                    replayMode.StartReplay(f, phase: eh.phase, block: eh.block, trial: eh.trial,
-                        autoContinue: subjID.text == "");
-                    break;
+                    var new_f = f.Substring(sxrSettings.Instance.subjectDataDirectory.Length);
+                    Debug.Log(new_f);
+                    Debug.Log(new_f.Split("_")[4]);
+                    if (new_f.Split("_")[4] == subjID.text && f.Contains("camera_tracker") &&
+                        !f.Contains(".meta")) {
+                        replayMode.StartReplay(f, phase: eh.phase, block: eh.block, trial: eh.trial);
+                        break; }
+                }
+                else
+                {
+                    if(f.Contains("camera_tracker"))
+                        cameraFiles.Add(f); 
                 }
             }
 
-
+            if (subjID.text == "")
+                replayMode.StartReplays(cameraFiles); 
 
         }
 

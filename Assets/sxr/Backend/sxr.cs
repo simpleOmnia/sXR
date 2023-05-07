@@ -578,17 +578,22 @@ public static class sxr {
     
     /// <summary>
     /// Follows the specified parabola in world space coordinates.  Matches the tangent of curve at current x-value
+    /// In development, currently follows a manufactured curve, will be updated to follow parabola 
     /// </summary>
     /// <param name="gameObj"></param>
     /// <param name="negCurve"></param>
     /// <param name="speed"></param>
     /// <param name="verticalStretch"></param>
     /// <param name="horizontalShift"></param>
-    public static void FollowParabola(GameObject gameObj, bool negCurve, float speed, float verticalStretch, float horizontalShift)
+    public static void FollowParabola(GameObject gameObj, bool negCurve, float speed, float verticalStretch, float xStart)
     {
+        //todo Update to follow parabolic path
         var rt = gameObj.transform.rotation.eulerAngles;
+        Debug.Log(rt.y);
+        float changeAmount = (gameObj.transform.position.x-xStart)*verticalStretch;
+        Debug.Log(changeAmount+": "+Math.Atan(changeAmount));
         float rotation = rt.y  + (negCurve ? -1 : 1) * 
-            (float) Math.Atan( ((gameObj.transform.position.x*verticalStretch)-horizontalShift)); // Set rotation to tangent of curve 
+            (float) Math.Atan(changeAmount); // Set rotation to tangent of curve 
         rotation = Math.Clamp(rotation, 0f, 180f); 
         gameObj.transform.rotation = Quaternion.Euler(rt.x, rotation, rt.z); // rotate to tangent at position
         gameObj.transform.position += speed * Time.deltaTime * gameObj.transform.forward ; // move forward 

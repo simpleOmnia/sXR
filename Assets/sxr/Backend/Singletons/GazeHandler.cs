@@ -242,7 +242,7 @@ namespace sxr_internal {
                     return fixationPoint;
                 sxr.DebugLog("Found eyesData but unable to get fixation point"); }
             else
-                sxr.DebugLog("No eyesData available, try GetGazeCombinedGazeRayLocal() { and GetGazeCombinedRotationLocal() { ");
+                sxr.DebugLog("No eyesData available, try GetGazeCombinedGazeRayLocal() and GetGazeCombinedRotationLocal() ");
 
             return new Vector3(); }
         
