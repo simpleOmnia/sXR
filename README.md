@@ -16,6 +16,8 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 [Vive Pro Eye Setup](https://github.com/unity-sXR/sXR/wiki/Vive-Pro-Eye-Setup)
 
+[Replay Mode](https://github.com/unity-sXR/sXR/wiki/Replay-Mode)
+
 # Features
 **Autosave** - Enabled by default, can be turned off in the sXR tab of the toolbar.  Automatically saves the scene when "Play" is pressed.  Be sure to use "File->Save As" to name your scene or it will ask where you want to save.  
 
