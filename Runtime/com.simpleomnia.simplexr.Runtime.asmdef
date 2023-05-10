@@ -1,0 +1,17 @@
+{
+  "name": "com.simpleomnia.simplexr.Runtime",
+  "references": ["Unity.XR.Management",
+    "Unity.InputSystem",
+    "Unity.TextMeshPro",
+    "\"Unity.VisualScripting",
+    "Unity.VisualScripting.Core"],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
