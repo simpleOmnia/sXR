@@ -85,15 +85,15 @@ namespace sxr_internal {
         /// Plays one of the sounds provided by sXR
         /// </summary>
         /// <param name="sound"></param>
-        public void PlayBuiltinSound(sxr.ProvidedSounds sound) {
+        public void PlayBuiltinSound(sxr_internal.ProvidedSounds sound) {
             switch (sound) {
-                case sxr.ProvidedSounds.Beep: Beep();
+                case sxr_internal.ProvidedSounds.Beep: Beep();
                     break;
-                case sxr.ProvidedSounds.Buzz: Buzz();
+                case sxr_internal.ProvidedSounds.Buzz: Buzz();
                     break;
-                case sxr.ProvidedSounds.Ding: Ding();
+                case sxr_internal.ProvidedSounds.Ding: Ding();
                     break;
-                case sxr.ProvidedSounds.Stop: Stop();
+                case sxr_internal.ProvidedSounds.Stop: Stop();
                     break; } }
         /// <summary>
         /// Plays beep sound effect

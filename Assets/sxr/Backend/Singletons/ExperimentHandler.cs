@@ -26,7 +26,7 @@ namespace sxr_internal {
         /// <param name="frequency">Pause between returning true when trigger/spacebar/mouse is held</param>
         /// <returns>true if [frequency] seconds has passed since last trigger and trigger/space/mouse is pressed</returns>
         public bool GetTrigger(float frequency){
-            if((sxr.CheckController( sxr.ControllerButton.Trigger) || 
+            if((sxr.CheckController( sxr_internal.ControllerButton.Trigger) || 
                 Input.GetKey(KeyCode.Space) || Input.GetAxis("Fire1")>0 || Input.GetMouseButton((int) MouseButton.Left))
                && Time.time-lastTriggerPress > frequency) {
                 sxr.DebugLog("Valid trigger press detected: " + Time.time); 

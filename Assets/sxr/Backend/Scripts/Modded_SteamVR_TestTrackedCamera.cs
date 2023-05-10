@@ -1,16 +1,20 @@
 //======= Copyright (c) Valve Corporation, All rights reserved. ===============
+
+using System;
 using UnityEngine;
 
+namespace AR_Passthrough_SampleScene
+{
 #if SXR_USE_STEAMVR
 using Valve.VR.Extras;
 using Valve.VR;
 public class Modded_SteamVR_TestTrackedCamera : MonoBehaviour
 {
-    public float xOffset=.1f;
-    public float yOffset=.05f; 
-    public float scaleX=.75f;
-    public float scaleY=.75f; 
-    public float scaler= .02f; 
+    public float xOffset = .1f;
+    public float yOffset = .05f; 
+    public float scaleX = .75f;
+    public float scaleY = .75f; 
+    public float scaler = .02f; 
     public Material material;
     public Transform target;
     public bool undistorted = true;
@@ -90,7 +94,12 @@ public class Modded_SteamVR_TestTrackedCamera : MonoBehaviour
     }
 }
 #else
-public class Modded_SteamVR_TestTrackedCamera
-{
-}
+    public class Modded_SteamVR_TestTrackedCamera : MonoBehaviour
+    {
+        private void Start()
+        {
+            Debug.LogWarning("AR Passthrough currently requires SteamVR package.");
+        }
+    }
 #endif
+}

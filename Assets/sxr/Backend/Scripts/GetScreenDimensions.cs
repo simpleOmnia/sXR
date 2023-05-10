@@ -12,8 +12,8 @@ namespace sxr_internal {
             Debug.Log("Using resolution: " + Screen.currentResolution.width + ", " + Screen.currentResolution.height); 
             vrCameraTarget = new RenderTexture(Screen.currentResolution.width, Screen.currentResolution.height, 32);
             sxrSettings.Instance.vrCamera.targetTexture = vrCameraTarget;
-            UI_Handler.Instance.GetRawImageAtPosition(sxr.UI_Position.VRcamera).texture = vrCameraTarget;
-            UI_Handler.Instance.GetRawImageAtPosition(sxr.UI_Position.VRcamera).SetNativeSize(); }
+            UI_Handler.Instance.GetRawImageAtPosition(sxr_internal.UI_Position.VRcamera).texture = vrCameraTarget;
+            UI_Handler.Instance.GetRawImageAtPosition(sxr_internal.UI_Position.VRcamera).SetNativeSize(); }
 
         void Update() {
             if (sxrSettings.Instance.GetCurrentFrame() == 5)

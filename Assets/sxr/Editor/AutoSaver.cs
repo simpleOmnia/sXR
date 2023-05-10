@@ -2,11 +2,14 @@
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-/// <summary>
+namespace sxr_internal
+{
+    /// <summary>
     /// Automatically saves the scene and asset library whenever play is pressed.  
     /// </summary>
 
-public class Autosaver{
+    public class Autosaver
+    {
 #if SXR_USE_AUTOSAVER
     [InitializeOnEnterPlayMode]
     static void AutosaverInit() {
@@ -14,4 +17,5 @@ public class Autosaver{
         EditorSceneManager.SaveOpenScenes();
         AssetDatabase.SaveAssets(); }
 #endif
+    }
 }

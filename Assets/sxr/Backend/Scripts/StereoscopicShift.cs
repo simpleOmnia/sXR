@@ -3,16 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StereoscopicShift : MonoBehaviour
+namespace sxr_internal
 {
-    // Start is called before the first frame update
-    void Start()
+    //todo Update for 2 camera 
+    public class StereoscopicShift : MonoBehaviour
     {
-        
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
 
-    private void OnRenderImage(RenderTexture src, RenderTexture dest)
-    {
-        
+        }
+
+        private void OnRenderImage(RenderTexture src, RenderTexture dest)
+        {
+
+        }
     }
 }

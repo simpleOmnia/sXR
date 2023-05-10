@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using sxr_internal;
 using Unity.VisualScripting;
-using UnityEngine.UIElements;
 
 /// <summary>
 /// Contains static calls to allow for simple, easy to understand access to sxr's functions...
@@ -14,24 +13,8 @@ using UnityEngine.UIElements;
 /// operator for optional parameters.)
 /// </summary>
 public static class sxr {
-   
+    
 // ****   USER INTERFACE   ****
-
-    /// <summary>
-    /// Positions available to display UI Images. Higher numbers will display over lower numbers.
-    /// </summary>
-    public enum UI_Position {
-        FullScreen1, FullScreen2, FullScreen3, FullScreen4, FullScreen5, 
-        PartialScreenMiddle1, PartialScreenMiddle2, PartialScreenMiddle3, PartialScreenMiddle4,
-        PartialScreenBottomLeft, PartialScreenBottom, PartialScreenBottomRight,
-        PartialScreenTopLeft, PartialScreenTop, PartialScreenTopRight,
-        PartialScreenLeft, PartialScreenRight, VRcamera }
-    
-    /// <summary>
-    /// Images included by default in sXR
-    /// </summary>
-    public enum Prebuilt_Images{Stop, Loading, Finished, EyeError}
-    
     /// <summary>
     /// Displays one of the "prebuilt" images that comes with sXR.
     /// Use 'sxr.Prebuilt_Images' (.Stop, .Loading, .Finished, .EyeError) to specify image
@@ -74,10 +57,7 @@ public static class sxr {
     { return UI_Handler.Instance.ParseInputUI(out output); }
 
     
-    /// <summary>
-    /// Pre-built positions to display text 
-    /// </summary>
-    public enum TextPosition{Top, MiddleTop, MiddleBottom, Bottom, TopLeft}
+    
     
     
     /// <summary>
@@ -181,8 +161,6 @@ public static class sxr {
     /// </summary>
     public static bool KeyReleased(KeyCode whichKey) { return Input.GetKeyUp(whichKey);}
 
-    public enum JoyStickDirection { Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight, None }
-
     /// <summary>
     /// Returns the direction the joystick is being pushed in. Can be any of the 9 possible
     /// directions  
@@ -190,19 +168,7 @@ public static class sxr {
     /// <returns>JoystickDirection (Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight, None</returns>
     public static JoyStickDirection GetJoystickDirection() { return JoystickHandler.Instance.GetDirection();}
 
-    public enum ControllerButton{
-        LH_Trigger, LH_SideButton, LH_TrackPadRight, 
-        LH_TrackPadLeft, LH_TrackPadUp, LH_TrackPadDown,
-        LH_ButtonA, LH_ButtonB,
     
-        RH_Trigger, RH_SideButton, RH_TrackPadRight,
-        RH_TrackPadLeft, RH_TrackPadUp, RH_TrackPadDown,
-        RH_ButtonA, RH_ButtonB,
-    
-        Trigger, SideButton, TrackPadRight,
-        TrackPadLeft, TrackPadUp, TrackPadDown,
-        ButtonA, ButtonB
-    }
     
     /// <summary>
     /// Marks the time  of a "true" value for each check of the  button.
@@ -706,11 +672,7 @@ public static class sxr {
         { return CheckCollision(GetObject(obj1), GetObject(obj2));}
     
 // *****   Extras   **** 
-    /// <summary>
-    /// Royalty free sounds provided with sXR
-    /// </summary>
-    public enum ProvidedSounds{Beep, Buzz, Ding, Stop}
-    
+
     /// <summary>
     /// Plays one of the sounds provided by sXR. Use sxr.ProvidedSounds (.Beep, .Buzz, .Ding, .Stop)
     /// </summary>
@@ -785,6 +747,6 @@ public static class sxr {
            Debug.Log("Frame " + sxrSettings.Instance.GetCurrentFrame() + ": " + toWrite); }
     public static void DebugLog(string toWrite) { DebugLog(toWrite, 50); }
     
-   
-}   
+}  
+
 

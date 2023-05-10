@@ -10,16 +10,16 @@ namespace sxr_internal {
     ///  Attach to playerCamera -> Canvas
     /// Contains: 
     ///     void EnableOnly(Texture2D whichImage)
-    ///     void SetPosition(sxr.UI_Position whichPosition, Texture2D image, bool overridePosition=false)
+    ///     void SetPosition(sxr_internal.UI_Position whichPosition, Texture2D image, bool overridePosition=false)
     ///     void SetPosition(int whichPosition, Texture2D image, bool overridePosition
     ///     void FlipComponentUI(Texture2D whichImage)
     ///     void EnableComponentUI(Texture2D whichImage, bool enabled)
-    ///     void EnableComponentUI(sxr.UI_Position whichPosition, bool enabled)
-    ///     void EnableComponentUI(sxr.UI_Position whichPosition)
+    ///     void EnableComponentUI(sxr_internal.UI_Position whichPosition, bool enabled)
+    ///     void EnableComponentUI(sxr_internal.UI_Position whichPosition)
     ///     void DisableAllComponentsUI()
     ///     bool GetEnabled(Texture2D whichImage)
     /// On Awake:
-    ///     Finds all RawImage components in children with it's name being a sxr.UI_Position, and sets the corresponding Positions to be the component
+    ///     Finds all RawImage components in children with it's name being a sxr_internal.UI_Position, and sets the corresponding Positions to be the component
     ///     Initializes singleton
     /// On Start:
     ///     N/A
@@ -127,7 +127,7 @@ namespace sxr_internal {
         /// <param name="imageName">Name of the image to display</param>
         /// <param name="position">Position on the UI to display image</param>
         /// <param name="overridePrevious">If there is a previous image, overwrite it with the new image</param> 
-        public void DisplayImage(string imageName, sxr.UI_Position position, bool overridePrevious) {
+        public void DisplayImage(string imageName, sxr_internal.UI_Position position, bool overridePrevious) {
             var images = Resources.LoadAll<Texture2D>("GUI_Images");
             Texture2D image = null;
             foreach (var img in images)
@@ -160,28 +160,28 @@ namespace sxr_internal {
             EnableComponentUI(whichImage, true); }
 
         /// <summary>
-        /// Sets Texture2D at given screen sxr.UI_Position to the given Texture2D
+        /// Sets Texture2D at given screen sxr_internal.UI_Position to the given Texture2D
         /// If override is true, it will replace any Texture2D already in the whichPosition
         /// If override is false and there is already a Texture2D at whichPosition, it will not replace the preexisting Texture2D
         /// </summary>
         /// <param name="whichPosition">Position to place image at</param>
         /// <param name="image">Texture2D to place at Position</param>
         /// <param name="overridePosition">Whether or not to override a preexisting Texture2D at whichPosition</param>
-        public void SetPosition(sxr.UI_Position whichPosition, Texture2D image, bool overridePosition=false) {
+        public void SetPosition(sxr_internal.UI_Position whichPosition, Texture2D image, bool overridePosition=false) {
             if( UI_overlays[(int) whichPosition].texture == null || overridePosition)
                 UI_overlays[(int) whichPosition].texture = image;
             else {
                 Debug.Log("*** ERROR - UI Position " + whichPosition.ToString() +" already set. Use overridePosition:true or choose a different position"); } }
         
         /// <summary>
-        /// Sets Texture2D at given screen sxr.UI_Position to the given Texture2D
+        /// Sets Texture2D at given screen sxr_internal.UI_Position to the given Texture2D
         /// If override is true, it will replace any Texture2D already in the whichPosition
         /// If override is false and there is already a Texture2D at whichPosition, it will not replace the preexisting Texture2D
         /// </summary>
         /// <param name="whichPosition">Position to place image at</param>
         /// <param name="image">Texture2D to place at Position</param>
         /// <param name="overridePosition">Whether or not to override a preexisting Texture2D at whichPosition</param>
-        public void SetPosition(int whichPosition, Texture2D image, bool overridePosition){SetPosition(Enum.Parse<sxr.UI_Position>(Enum.GetName(typeof(sxr.UI_Position), whichPosition)), image, overridePosition);}
+        public void SetPosition(int whichPosition, Texture2D image, bool overridePosition){SetPosition(Enum.Parse<sxr_internal.UI_Position>(Enum.GetName(typeof(sxr_internal.UI_Position), whichPosition)), image, overridePosition);}
         /// <summary>
         /// Disables whichImage if it's enabled
         /// Enables whichImage if it's disabled
@@ -209,7 +209,7 @@ namespace sxr_internal {
         /// </summary>
         /// <param name="whichPosition">Position of image to set enable value of</param>
         /// <param name="enabled">Whether or not to enable image at whichPosition</param>
-        public void EnableComponentUI(sxr.UI_Position whichPosition, bool enabled) {
+        public void EnableComponentUI(sxr_internal.UI_Position whichPosition, bool enabled) {
             foreach (var component in UI_overlays)
                 if (component.name == whichPosition.ToString())
                     component.enabled = enabled; } 
@@ -218,14 +218,14 @@ namespace sxr_internal {
         /// Sets enabled value of image at whichPosition to true
         /// </summary>
         /// <param name="whichPosition">Position of image to enable</param>
-        public void EnableComponentUI(sxr.UI_Position whichPosition){ EnableComponentUI(whichPosition, true);}
+        public void EnableComponentUI(sxr_internal.UI_Position whichPosition){ EnableComponentUI(whichPosition, true);}
 
         /// <summary>
         /// Disables all UI_overlays images
         /// </summary>
         public void DisableAllComponentsUI() {
             for (int i = 0; i < UI_overlays.Length; i++) {
-                if (i != (int) sxr.UI_Position.VRcamera) {
+                if (i != (int) sxr_internal.UI_Position.VRcamera) {
                     var image = UI_overlays[i];
                     if (image != null && image.texture != null)
                         image.enabled = false; } } }
@@ -234,7 +234,7 @@ namespace sxr_internal {
         /// Disables the specified UI component
         /// </summary>
         /// <param name="position"></param>
-        public void DisableComponentUI(sxr.UI_Position position)
+        public void DisableComponentUI(sxr_internal.UI_Position position)
         { UI_overlays[(int) position].enabled = false;}
         
         /// <summary>
@@ -251,25 +251,25 @@ namespace sxr_internal {
             Debug.Log("*** Searched image does not appear to be on any active UI Component: " +whichImage.name); 
             return false; }
 
-        public RawImage GetRawImageAtPosition(sxr.UI_Position pos) {
+        public RawImage GetRawImageAtPosition(sxr_internal.UI_Position pos) {
             foreach (var component in UI_overlays)
                 if (component.name == pos.ToString())
                     return component;
             Debug.Log("No image found at " + pos);
             return null; }
 
-        public void DisplayPrebuilt(sxr.Prebuilt_Images image) {
+        public void DisplayPrebuilt(sxr_internal.Prebuilt_Images image) {
             switch (image) {
-                case sxr.Prebuilt_Images.Stop:
+                case sxr_internal.Prebuilt_Images.Stop:
                     UI_Handler.Instance.emergencyStop.enabled = true;
                     break;
-                case sxr.Prebuilt_Images.Finished:
+                case sxr_internal.Prebuilt_Images.Finished:
                     UI_Handler.Instance.finished.enabled = true;
                     break;
-                case sxr.Prebuilt_Images.Loading:
+                case sxr_internal.Prebuilt_Images.Loading:
                     UI_Handler.Instance.pleaseWait.enabled = true;
                     break;
-                case sxr.Prebuilt_Images.EyeError:
+                case sxr_internal.Prebuilt_Images.EyeError:
                     UI_Handler.Instance.eyeError.enabled = true;
                     break; } }
 
@@ -304,8 +304,8 @@ namespace sxr_internal {
                 else if (component.name == "EmergencyStop")
                     emergencyStop = component; 
                 else
-                    for (int i = 0; i < Enum.GetNames(typeof(sxr.UI_Position)).Length; i++) {
-                        if(component.name == Enum.GetValues(typeof(sxr.UI_Position)).GetValue(i).ToString()) 
+                    for (int i = 0; i < Enum.GetNames(typeof(sxr_internal.UI_Position)).Length; i++) {
+                        if(component.name == Enum.GetValues(typeof(sxr_internal.UI_Position)).GetValue(i).ToString()) 
                             UI_overlays[i] = component; } } 
             
             var experimenterTextComponents = gameObject.GetComponentsInChildren<TextMeshProUGUI>();

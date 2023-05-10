@@ -24,19 +24,19 @@ namespace sxr_internal {
                     if(controller.isValid) {
                         bool rightSide = controller == rightController;
                         if (!controller.TryGetFeatureValue(CommonUsages.triggerButton, out buttonPressed[
-                            (int) (rightSide ? sxr.ControllerButton.RH_Trigger : sxr.ControllerButton.LH_Trigger)]))
+                            (int) (rightSide ? sxr_internal.ControllerButton.RH_Trigger : sxr_internal.ControllerButton.LH_Trigger)]))
                             sxr.DebugLog("No trigger found for device: " + controller.name);
 
                         if (!controller.TryGetFeatureValue(CommonUsages.gripButton, out buttonPressed[
-                            (int) (rightSide ? sxr.ControllerButton.RH_SideButton: sxr.ControllerButton.LH_SideButton)]))
+                            (int) (rightSide ? sxr_internal.ControllerButton.RH_SideButton: sxr_internal.ControllerButton.LH_SideButton)]))
                             sxr.DebugLog("No side button found for device: " + controller.name);
                         
                         if (!controller.TryGetFeatureValue(CommonUsages.primaryButton, out buttonPressed[
-                            (int) (rightSide ? sxr.ControllerButton.RH_ButtonA : sxr.ControllerButton.LH_ButtonA)]))
+                            (int) (rightSide ? sxr_internal.ControllerButton.RH_ButtonA : sxr_internal.ControllerButton.LH_ButtonA)]))
                             sxr.DebugLog("No primary button found for device: " + controller.name);
                         
                         if (!controller.TryGetFeatureValue(CommonUsages.secondaryButton, out buttonPressed[
-                            (int) (rightSide ? sxr.ControllerButton.RH_ButtonB : sxr.ControllerButton.LH_ButtonB)]))
+                            (int) (rightSide ? sxr_internal.ControllerButton.RH_ButtonB : sxr_internal.ControllerButton.LH_ButtonB)]))
                             sxr.DebugLog("No secondary button found for device: " + controller.name);
 
                         if (controller.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out bool trackPadClicked)) {
@@ -47,49 +47,49 @@ namespace sxr_internal {
                                 else {
                                     if (trackPad.x > .2f)
                                         buttonPressed[(int) (rightSide
-                                            ? sxr.ControllerButton.RH_TrackPadRight : sxr.ControllerButton.LH_TrackPadRight) ]= true;
+                                            ? sxr_internal.ControllerButton.RH_TrackPadRight : sxr_internal.ControllerButton.LH_TrackPadRight) ]= true;
                                     if (trackPad.x < -.2f)
                                         buttonPressed[(int) (rightSide
-                                            ? sxr.ControllerButton.RH_TrackPadLeft : sxr.ControllerButton.LH_TrackPadLeft) ]= true;
+                                            ? sxr_internal.ControllerButton.RH_TrackPadLeft : sxr_internal.ControllerButton.LH_TrackPadLeft) ]= true;
                                     if (trackPad.y > .2f)
                                         buttonPressed[(int) (rightSide
-                                            ? sxr.ControllerButton.RH_TrackPadUp : sxr.ControllerButton.LH_TrackPadUp) ]= true;
+                                            ? sxr_internal.ControllerButton.RH_TrackPadUp : sxr_internal.ControllerButton.LH_TrackPadUp) ]= true;
                                     if (trackPad.y < -.2f)
                                         buttonPressed[(int) (rightSide
-                                            ? sxr.ControllerButton.RH_TrackPadDown : sxr.ControllerButton.LH_TrackPadDown) ]= true; } }
+                                            ? sxr_internal.ControllerButton.RH_TrackPadDown : sxr_internal.ControllerButton.LH_TrackPadDown) ]= true; } }
                         }
 
-                        buttonPressed[(int) sxr.ControllerButton.Trigger] =
-                            buttonPressed[(int) sxr.ControllerButton.LH_Trigger] ||
-                            buttonPressed[(int) sxr.ControllerButton.RH_Trigger];
+                        buttonPressed[(int) sxr_internal.ControllerButton.Trigger] =
+                            buttonPressed[(int) sxr_internal.ControllerButton.LH_Trigger] ||
+                            buttonPressed[(int) sxr_internal.ControllerButton.RH_Trigger];
                         
-                        buttonPressed[(int) sxr.ControllerButton.SideButton] =
-                            buttonPressed[(int) sxr.ControllerButton.LH_SideButton] ||
-                            buttonPressed[(int) sxr.ControllerButton.RH_SideButton];
+                        buttonPressed[(int) sxr_internal.ControllerButton.SideButton] =
+                            buttonPressed[(int) sxr_internal.ControllerButton.LH_SideButton] ||
+                            buttonPressed[(int) sxr_internal.ControllerButton.RH_SideButton];
 
-                        buttonPressed[(int) sxr.ControllerButton.ButtonA] =
-                            buttonPressed[(int) sxr.ControllerButton.LH_ButtonA] ||
-                            buttonPressed[(int) sxr.ControllerButton.RH_ButtonA];
+                        buttonPressed[(int) sxr_internal.ControllerButton.ButtonA] =
+                            buttonPressed[(int) sxr_internal.ControllerButton.LH_ButtonA] ||
+                            buttonPressed[(int) sxr_internal.ControllerButton.RH_ButtonA];
                         
-                        buttonPressed[(int) sxr.ControllerButton.ButtonB] =
-                            buttonPressed[(int) sxr.ControllerButton.ButtonB] ||
-                            buttonPressed[(int) sxr.ControllerButton.RH_ButtonB];
+                        buttonPressed[(int) sxr_internal.ControllerButton.ButtonB] =
+                            buttonPressed[(int) sxr_internal.ControllerButton.ButtonB] ||
+                            buttonPressed[(int) sxr_internal.ControllerButton.RH_ButtonB];
                         
-                        buttonPressed[(int) sxr.ControllerButton.TrackPadDown] =
-                            buttonPressed[(int) sxr.ControllerButton.LH_TrackPadDown] ||
-                            buttonPressed[(int) sxr.ControllerButton.RH_TrackPadDown];
+                        buttonPressed[(int) sxr_internal.ControllerButton.TrackPadDown] =
+                            buttonPressed[(int) sxr_internal.ControllerButton.LH_TrackPadDown] ||
+                            buttonPressed[(int) sxr_internal.ControllerButton.RH_TrackPadDown];
                         
-                        buttonPressed[(int) sxr.ControllerButton.TrackPadLeft] =
-                            buttonPressed[(int) sxr.ControllerButton.LH_TrackPadLeft] ||
-                            buttonPressed[(int) sxr.ControllerButton.RH_TrackPadLeft];
+                        buttonPressed[(int) sxr_internal.ControllerButton.TrackPadLeft] =
+                            buttonPressed[(int) sxr_internal.ControllerButton.LH_TrackPadLeft] ||
+                            buttonPressed[(int) sxr_internal.ControllerButton.RH_TrackPadLeft];
                         
-                        buttonPressed[(int) sxr.ControllerButton.TrackPadRight] =
-                            buttonPressed[(int) sxr.ControllerButton.LH_TrackPadRight] ||
-                            buttonPressed[(int) sxr.ControllerButton.RH_TrackPadRight];
+                        buttonPressed[(int) sxr_internal.ControllerButton.TrackPadRight] =
+                            buttonPressed[(int) sxr_internal.ControllerButton.LH_TrackPadRight] ||
+                            buttonPressed[(int) sxr_internal.ControllerButton.RH_TrackPadRight];
                         
-                        buttonPressed[(int) sxr.ControllerButton.TrackPadUp] =
-                            buttonPressed[(int) sxr.ControllerButton.LH_TrackPadUp] ||
-                            buttonPressed[(int) sxr.ControllerButton.RH_TrackPadUp];
+                        buttonPressed[(int) sxr_internal.ControllerButton.TrackPadUp] =
+                            buttonPressed[(int) sxr_internal.ControllerButton.LH_TrackPadUp] ||
+                            buttonPressed[(int) sxr_internal.ControllerButton.RH_TrackPadUp];
                     }
             }
         }
