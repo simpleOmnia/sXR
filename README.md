@@ -1,4 +1,4 @@
-![sXR Logo]([https://github.com/unity-sXR/sXR/blob/master/Assets/sxr/Resources/sxrlogo.png](https://github.com/unity-sXR/ReadmeImages/blob/main/sxrlogo.png))
+![sXR Logo]([[https://github.com/unity-sXR/sXR/blob/master/Assets/sxr/Resources/sxrlogo.png](https://github.com/unity-sXR/ReadmeImages/blob/main/sxrlogo.png)](https://github.com/unity-sXR/ReadmeImages/blob/main/sxrlogo.png))
 
 [Background](#background) | [Beginners](#for-beginners) | [Tutorials](#tutorials) | [Features](#features) | [Commands List](#commands-list) | [Coming Soon...](#coming-soon) | [Requested Features](#requested-features) | [Version History](#version-history)
 
