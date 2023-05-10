@@ -1,7 +1,7 @@
 ![sXR Logo](https://github.com/unity-sXR/sXR/blob/master/Assets/sxr/Resources/sxrlogo.png)
 
-# Download Link
-[Download Here](https://github.com/unity-sXR/sXR/raw/master/Assets/simpleXR.unitypackage)
+# ****** [Download Link](https://github.com/unity-sXR/sXR/raw/master/Assets/simpleXR.unitypackage) ******
+[*Download Here*](https://github.com/unity-sXR/sXR/raw/master/Assets/simpleXR.unitypackage)
 
 [Background](#background) | [Beginners](#for-beginners) | [Tutorials](#tutorials) | [Features](#features) | [Commands List](#commands-list) | [Coming Soon...](#coming-soon) | [Requested Features](#requested-features) | [Version History](#version-history)
 
