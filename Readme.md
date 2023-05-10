@@ -150,10 +150,8 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 **DebugLog()** - Displays a debug every message based on the frequency specified in sXR_settings and passed in as the 'frameFrequency' 
 
 
-# Coming Very Soon...
+# Coming Soon...
 ~~Camera passthrough for augmented reality (on supported headsets)~~ Augmented Reality sample scene available, requires SteamVR for now
-
-Computer vision prefab - Import trained ONXX models to do realtime image segmentation in VR/AR
 
 Eye-tracking/shader tutorial + sxr.commands for assigning shaders to objects
 
