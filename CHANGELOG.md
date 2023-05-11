@@ -1,0 +1,1 @@
+11May23 13:00 - Updated to automatically load all resources into Assets folder upon right-click-> add sxr_prefab
