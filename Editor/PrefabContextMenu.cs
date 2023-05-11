@@ -63,9 +63,5 @@ public class PrefabContextMenu : EditorWindow
             Undo.RegisterCreatedObjectUndo(instance, "Create " + instance.name);
             Selection.activeObject = instance;
         }
-        else
-        {
-            Debug.LogError("Prefab not found at path: " + prefabPath);
-        }
     }
 }
