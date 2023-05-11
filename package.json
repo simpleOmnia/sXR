@@ -12,6 +12,23 @@
     "com.unity.inputsystem": "1.4.4",
     "com.unity.xr.management": "4.2.1"
   },
+  "samples": [
+    {
+      "displayName": "Sample Experiment",
+      "description": "A sample scene showing how to use simpleXR.",
+      "path": "Samples~/ExampleExperiment"
+    },
+    {
+      "displayName": "Shader Sample",
+      "description": "A sample scene showing how to implement shaders with sXR.",
+      "path": "Samples~/ShadersSample"
+    },
+    {
+      "displayName": "AR Sample",
+      "description": "A sample scene showing how to set up camera passthrough. Requires SteamVR package",
+      "path": "Samples~/AugmentedReality"
+    }
+  ],
   "keywords": [
     "xr",
     "vr",
