@@ -29,17 +29,19 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 
 # Commands List
-[Experiment Flow](#experiment-flow)
+[Experiment Control](#experiment-control)
 
 [Data Recording](#data-recording)
 
 [User Interface](#user-interface)
 
+[Input Devices](#input-devices)
+
 [Object Manipulation](#object-manipulation)
 
 [Extras](#extras)
 
-## Experiment Flow
+## Experiment Control
 **SetExperimentName()** - Used to override automatic naming scheme
 
 **ChangeExperimenterTextbox()** - Chooses what to display on the specified textbox of the experimenter's screen
