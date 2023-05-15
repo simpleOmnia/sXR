@@ -760,9 +760,10 @@ public static class sxr {
         else ShaderHandler.Instance.currentActiveNames.Add(shaderName); }
 
     public static bool SetShaderVariables<T>(string shaderName, string variableName, T value)
-    {
-        return ShaderHandler.Instance.ModifyShader(shaderName, variableName, value); 
-    }
+    { return ShaderHandler.Instance.ModifyShader(shaderName, variableName, value); }
+    
+     public static bool SetShaderVariables<T>(string shaderName, int variableID, T value)
+    { return ShaderHandler.Instance.ModifyShader(shaderName, variableID, value); }
 
     /// <summary>
     /// Launches the SRanipal Eye Calibration tool.  Returns true if calibration is successful
