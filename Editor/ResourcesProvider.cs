@@ -7,7 +7,6 @@ public class ResourcesProvider : EditorWindow
     private const string PackageResourcesDirectory = "Packages/com.simpleomnia.simplexr/Runtime/Resources/";
     private const string ProjectResourcesDirectory = "Assets/sXR/Resources/";
     private const string MainPrefabName = "sxr_prefab";
-    private bool initialResourcesLoaded = false; 
 
     /// <summary>
     /// Right click option to add sxr_prefab
