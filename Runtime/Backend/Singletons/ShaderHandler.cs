@@ -111,16 +111,16 @@ namespace sxr_internal {
 
             ActivateShaders(activePositions); }
 
-        public bool ModifyShader<T>(string shaderName, string setting, T settingValue) {
+        public bool ModifyShader<T>(string shaderName, int settingID, T settingValue) {
             foreach (var shaderMaterial in shaderMaterials) {
                 if (shaderMaterial.name == shaderName) {
                     Type type = typeof(T);
                     if(type == typeof(float))
-                        shaderMaterial.SetFloat(setting, (float)(object)settingValue);
+                        shaderMaterial.SetFloat(settingID, (float)(object)settingValue);
                     else if (type == typeof(int))
-                        shaderMaterial.SetInteger(setting, (int) (object) settingValue);
+                        shaderMaterial.SetInteger(settingID, (int) (object) settingValue);
                     else if (type == typeof(ComputeBuffer))
-                        shaderMaterial.SetBuffer(setting, (ComputeBuffer) (object) settingValue);
+                        shaderMaterial.SetBuffer(settingID, (ComputeBuffer) (object) settingValue);
                     else
                         Debug.LogWarning("sXR: Type of "+type+" not supported in ModifyShader()");
                     
@@ -128,6 +128,8 @@ namespace sxr_internal {
             Debug.LogWarning("sXR: Could not find shader - "+shaderName);
             return false; 
         }
+        public bool ModifyShader<T>(string shaderName, string setting, T settingValue) 
+        { ModifyShader(shaderName, Shader.PropertyToID(setting), settingValue); }
         
         public void ListShaders() {
             string output = shaderMaterials.Length + " Shaders Detected: ";
