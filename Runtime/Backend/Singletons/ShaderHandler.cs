@@ -129,7 +129,7 @@ namespace sxr_internal {
             return false; 
         }
         public bool ModifyShader<T>(string shaderName, string setting, T settingValue) 
-        { ModifyShader(shaderName, Shader.PropertyToID(setting), settingValue); }
+        { return ModifyShader(shaderName, Shader.PropertyToID(setting), settingValue); }
         
         public void ListShaders() {
             string output = shaderMaterials.Length + " Shaders Detected: ";
