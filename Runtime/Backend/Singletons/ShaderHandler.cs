@@ -40,6 +40,9 @@ namespace sxr_internal {
         public List<int> currentActivePositions = new List<int>(); 
         public List<string> currentActiveNames = new List<string>();
 
+        public Material[] GetShaderMaterials()
+        { return shaderMaterials; }
+        
         public void Update() {
             if (editorUpdate) {
                 if(!activePositions.SequenceEqual(currentActivePositions))
