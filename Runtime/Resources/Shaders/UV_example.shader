@@ -1,4 +1,4 @@
-﻿Shader "UV_Sample"{
+﻿Shader "sXR/UV_Sample"{
     Properties{ [MainTexture] _MainTex ("Texture", 2D) = "white" {} } // Texture that can be passed in to shader material or the texture the material is applied to  
     
     SubShader{ // Renderer chooses first SubShader compatible with GPU and target device

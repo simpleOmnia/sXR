@@ -33,17 +33,20 @@ public class ResourcesProvider : EditorWindow
             Directory.CreateDirectory(ProjectResourcesDirectory);
 
         foreach (var directory in Directory.GetDirectories(PackageResourcesDirectory, "*", SearchOption.AllDirectories)) {
-            string targetDirectory = directory.Replace(PackageResourcesDirectory, ProjectResourcesDirectory);
-            Directory.CreateDirectory(targetDirectory);
+            if (directory != "Shaders")
+            {
+                string targetDirectory = directory.Replace(PackageResourcesDirectory, ProjectResourcesDirectory);
+            
+                Directory.CreateDirectory(targetDirectory);
 
-            foreach (var filePath in Directory.GetFiles(directory)) {
-                string targetFilePath = Path.Combine(targetDirectory, Path.GetFileName(filePath));
+                foreach (var filePath in Directory.GetFiles(directory)) {
+                    string targetFilePath = Path.Combine(targetDirectory, Path.GetFileName(filePath));
 
-                if (File.Exists(targetFilePath)) { 
-                    Debug.Log("Resource already available at "+targetFilePath);
-                    continue; }
+                    if (File.Exists(targetFilePath)) { 
+                        Debug.Log("Resource already available at "+targetFilePath);
+                        continue; }
 
-                File.Copy(filePath, targetFilePath, false); } }
+                    File.Copy(filePath, targetFilePath, false); } } }
 
         AssetDatabase.Refresh(); 
     }

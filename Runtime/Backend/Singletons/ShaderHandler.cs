@@ -114,10 +114,17 @@ namespace sxr_internal {
                     Type type = typeof(T);
                     if(type == typeof(float))
                         shaderMaterial.SetFloat(setting, (float)(object)settingValue);
+                    else if (type == typeof(int))
+                        shaderMaterial.SetInteger(setting, (int) (object) settingValue);
+                    else if (type == typeof(ComputeBuffer))
+                        shaderMaterial.SetBuffer(setting, (ComputeBuffer) (object) settingValue);
+                    else
+                        Debug.LogWarning("sXR: Type of "+type+" not supported in ModifyShader()");
+                    
                     return true; } }
-
-            Debug.Log("Could not find shader with name: " + shaderName);
-            return false; }
+            Debug.LogWarning("sXR: Could not find shader - "+shaderName);
+            return false; 
+        }
         
         public void ListShaders() {
             string output = shaderMaterials.Length + " Shaders Detected: ";

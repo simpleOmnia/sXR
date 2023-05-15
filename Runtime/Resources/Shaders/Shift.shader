@@ -1,4 +1,4 @@
-Shader "Shift"{
+Shader "sXR/Shift"{
     Properties{ _MainTex ("Texture", 2D) = "white" {} }
     
     SubShader{

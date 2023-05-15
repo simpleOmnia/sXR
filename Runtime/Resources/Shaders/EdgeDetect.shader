@@ -1,4 +1,4 @@
-﻿Shader "EdgeDetect"
+﻿Shader "sXR/EdgeDetect"
 {
     Properties
     {

@@ -1,4 +1,4 @@
-Shader "Greyscale" {
+Shader "sXR/Greyscale" {
     Properties{ _MainTex ("Texture", 2D) = "white" {} }
     
     SubShader{

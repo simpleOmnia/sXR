@@ -648,16 +648,61 @@ public static class sxr {
     /// <param name="objectName"> Name of the object</param>
     /// <param name="useGravity"> If the object will be affected by gravity.  Optional - Default=true</param>
     public static void EnableObjectPhysics(GameObject gameObject, bool useGravity) {
-            if (gameObject.GetComponents<Rigidbody>().Length == 0)
+        if (gameObject.GetComponents<Rigidbody>().Length == 0)
                 gameObject.AddComponent<Rigidbody>();
-            gameObject.GetComponent<Rigidbody>().isKinematic = false;
-            gameObject.GetComponent<Rigidbody>().useGravity = useGravity; }
+        gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        gameObject.GetComponent<Rigidbody>().useGravity = useGravity;
+        Collider[] colliders = gameObject.GetComponents<Collider>();
+        Collider physicsCollider = null;
+
+        foreach (Collider collider in colliders) {
+            if (!collider.isTrigger) {
+                physicsCollider = collider;
+                break; } }
+
+        if (physicsCollider == null) {
+            if (gameObject.GetComponent<MeshFilter>() != null && gameObject.GetComponent<MeshFilter>().sharedMesh != null)
+                physicsCollider = gameObject.AddComponent<MeshCollider>();
+            else
+                physicsCollider = gameObject.AddComponent<BoxCollider>();
+        }
+    }
     public static void EnableObjectPhysics(GameObject gameObject)
         { EnableObjectPhysics(gameObject, true);}
     public static void EnableObjectPhysics(string objectName, bool useGravity)
         { EnableObjectPhysics(GetObject(objectName), useGravity);}
     public static void EnableObjectPhysics(string objectName)
         {EnableObjectPhysics(objectName, true);}
+    
+    /// <summary>
+    /// Modifies the physics of the current game object
+    /// </summary>
+    /// <param name="gameObject"></param>
+    /// <param name="bounciness"></param>
+    /// <param name="staticFriction"></param>
+    /// <param name="dynamicFriction"></param>
+    public static void ModifyObjectsPhysics(GameObject gameObject, float bounciness, float staticFriction, float dynamicFriction) {
+        Collider[] colliders = gameObject.GetComponents<Collider>();
+        Collider physicsCollider = null;
+
+        foreach (Collider collider in colliders) {
+            if (!collider.isTrigger) {
+                physicsCollider = collider;
+                break; } }
+
+        if (physicsCollider == null) {
+            if (gameObject.GetComponent<MeshFilter>() != null && gameObject.GetComponent<MeshFilter>().sharedMesh != null)
+                physicsCollider = gameObject.AddComponent<MeshCollider>();
+            else
+                physicsCollider = gameObject.AddComponent<BoxCollider>();
+        }
+
+        physicsCollider.material = new PhysicMaterial {
+            bounciness = bounciness,
+            staticFriction = staticFriction,
+            dynamicFriction = dynamicFriction
+        };
+    }
 
     /// <summary>
     /// Checks if the two specified objects are touching. Can take in object names as strings,
