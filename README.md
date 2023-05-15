@@ -29,17 +29,27 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 
 # Commands List
-[Experiment Flow](#experiment-flow)
+[Experiment Control](#experiment-control)
 
 [Data Recording](#data-recording)
 
 [User Interface](#user-interface)
 
+[Input Devices](#input-devices)
+
 [Object Manipulation](#object-manipulation)
 
 [Extras](#extras)
 
-## Experiment Flow
+## Experiment Control
+**SetExperimentName()** - Used to override automatic naming scheme
+
+**ChangeExperimenterTextbox()** - Chooses what to display on the specified textbox of the experimenter's screen
+
+**DefaultExperimenterTextboxes()** - Specifies whether or not to use the defaults for textboxes 1-3 on the experimenter screen
+
+**ExperimenterTextboxEnabled()** - Used to disable/re-enable textboxes on the experimenter's screen.  
+
 **GetPhase()** - Returns the current phase of the experiment. The experiment flow hierarchy is Phase > Block > Trial > Step
 
 **GetBlock()** - Returns the current block number of the experiment
@@ -58,6 +68,8 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 **StartTimer()** - Starts a timer with the provided name. If no name is provided, starts the default trial timer. Requires a specified duration to use CheckTimer()
 
+**PauseTimer()** - Pauses the timer with the provided name. If no name is provided, pauses the default trial timer.
+
 **CheckTimer()** - Checks if the duration of a timer has passed. If it is a named timer, deletes the timer once duration is reached and CheckTimer() is called
 
 **RestartTimer()** - Restarts the timer with the provided name. If no name is provided, restarts the default trial timer
@@ -75,6 +87,10 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 **StartRecordingCameraPos()** - Starts recording the world position of the vrCamera at the interval specified in sXR_settings
 
 **PauseRecordingCameraPos()** - Pauses recording the camera until StartRecordingCameraPos() is called again
+
+**StartRecordingJoystick()** - Starts recording the joystick position at the interval specified in sXR_settings
+
+**PauseRecordingJoystic()** - Pauses recording the joystick until StartRecordingJoystick() is called again
 
 **StartRecordingEyeTrackerInfo()** - Starts recording the information provided by an eyetracker at the interval specified in sXR_settings. Supports screenFixationX, screenFixationY, gazeFixationX, gazeFixationY, gazeFixationZ, leftEyePositionX, leftEyePositionY, leftEyePositionZ, rightEyePositionX, rightEyePositionY, rightEyePositionZ, leftEyeRotationX, leftEyeRotationY,leftEyeRotationZ, rightEyeRotationX, rightEyeRotationY, rightEyeRotationZ, leftEyePupilSize, rightEyePupilSize, leftEyeOpenAmount, and rightEyeOpenAmount (if these options are supported by the headset eyetracker, pupil size and eye open amount are not available through OpenXR). 
 
@@ -98,6 +114,8 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 **HideAllText()** - Hides all text locations displayed on the VR headset
 
 **DisplayImage()** - Displays an image at the specified location on the VR headset
+
+**DisplayPrebuilt()** - Displays prebuilt "STOP", "Loading", "Finished", and "Eye Error" screens
 
 **HideImageUI()** - Hides an image at the specified location on the VR headset
 
@@ -125,7 +143,21 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 **MoveObjectTo()** - Moves the object with the provided name to the specified location. If a time is given, the object will take that duration to reach the target location
 
+**MoveObjectAtSpeedTo()** - Moves the object to the specified location moving at the given speed
+
+**FollowParabola()** - Moves object along the specified parabola
+
+**ObjectMoving()** - Returns true if the object is currently in controlled motion
+
+**ResizeObject()** - Resizes the object over the specified timeframe
+
+**ObjectResizing()** - Returns true if object is currently being resized
+
 **SpawnObject()** - Can be used to spawn a Unity PrimitiveType (Sphere, Cube, Plane, etc.).  Can also be used to copy an object if an object name is provided. 
+
+**ObjectVisibility()** - Sets the object's and all children object's renderers to be enabled/disabled
+
+**IsObjectVisible()** - Returns true if the object's renderers are enabled
 
 **MakeObjectGrabbable()** - Checks for a collision between the object with the provided name and either of the controllers. If the controller is touching the object and the trigger is pulled, the item can be moved with the controller. 
 
@@ -136,9 +168,13 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 ## Extras
 **PlaySound()** - Plays the sound with the specified name. Can also play 'sxr.ProvidedSounds' (Beep, Buzz, Ding, and Stop)
 
+**PlayRandomSoundInFolder()** - Selects a random sound in the specified folder and plays it
+
 **ApplyShaders()** - Activates the shaders with the names provided.  
 
 **ApplyShader()** - Activates the shader with the provided name. Will de-activate all other shaders if turnOffOthers=true is passed
+
+**SetShaderVariables()** - Used to modify variables for the specified shader
 
 **LaunchEyeCalibration()** - If using SRanipal, will launch the eye calibration tool and return true if calibration is successful
 
