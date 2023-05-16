@@ -195,8 +195,6 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 # Coming Very Soon...
 ~~Camera passthrough for augmented reality (on supported headsets)~~ Augmented Reality sample scene available, requires SteamVR for now
 
-Computer vision prefab - Import trained ONXX models to do realtime image segmentation in VR/AR
-
 Eye-tracking/shader tutorial + sxr.commands for assigning shaders to objects
 
 Gaze-ray objects - record when the user looks at certain objects
