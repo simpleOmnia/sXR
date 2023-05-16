@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Rendering;
 
 //TODO Update Readme in Backend/shaders
@@ -37,9 +38,8 @@ namespace sxr_internal {
 
         [Header("List the currently active shaders (cannot edit:")]
         
-        private List<int> currentActivePositions = new List<int>(); 
-        private List<string> currentActiveNames = new List<string>();
-        RenderTexture temp, processed;
+        public List<int> currentActivePositions = new List<int>(); 
+        public List<string> currentActiveNames = new List<string>();
 
         public Material[] GetShaderMaterials()
         { return shaderMaterials; }
@@ -56,42 +56,54 @@ namespace sxr_internal {
                 ListShaders();
                 listShaders = false; } }
 
-        public void AddToCurrentActiveNames(string shaderName)
-        {
-            currentActiveNames.Add(shaderName);
-            activeNames.Add(shaderName);
-            for(int i=0; i<shaderMaterials.Length; i++)
-            {
-                if (shaderName == shaderMaterials[i].name)
-                {
-                    currentActivePositions.Add(i);
-                    activePositions.Add(i);
-                }
-            }
-        }
+        RenderTexture temp, processed;
         public void ActivateShaders(List<int> activePositions)
         {
+            if (commandBuffer != null)
+            {
+                RenderTexture.ReleaseTemporary(processed);
+                sxrSettings.Instance.vrCamera.RemoveCommandBuffer(CameraEvent.AfterEverything, commandBuffer);
+                commandBuffer.Release();
+            }
+            
             Debug.Log("Activate shaders by position: " + activePositions.ToArray().ToCommaSeparatedString()); 
             this.activePositions = activePositions;
             activeNames.Clear();
             currentActiveNames.Clear();
             currentActivePositions.Clear(); 
 
-            // Apply each shader in turn
-            foreach (int currShader in activePositions) {
-                currentActivePositions.Add(currShader);
-                activeNames.Add(shaderMaterials[currShader].name);
-                currentActiveNames.Add(shaderMaterials[currShader].name);
-            }
+            // Create a new command buffer
+            commandBuffer = new CommandBuffer();
+            processed = RenderTexture.GetTemporary(Screen.width, Screen.height);
+            commandBuffer.Blit(RenderTexture.active, processed); 
             
-        }
+            // Apply each shader in turn
+                foreach (int currShader in activePositions)
+                {
+                    temp = processed; 
+                    currentActivePositions.Add(currShader);
+                    activeNames.Add(shaderMaterials[currShader].name);
+                    currentActiveNames.Add(shaderMaterials[currShader].name);
+                    Material shaderMaterial = shaderMaterials[currShader]; 
+                    // Set the shader material properties here if necessary
+
+                    // Apply the shader
+                    commandBuffer.Blit(temp, processed, shaderMaterial);
+                }
+
+                // Copy the final result back to the source render target
+                commandBuffer.Blit(processed, BuiltinRenderTextureType.CameraTarget);
+                
+                // Add the command buffer to the camera
+                //sxrSettings.Instance.vrCamera.AddCommandBuffer(CameraEvent.AfterEverything, commandBuffer);
+            }
 
         private void OnRenderImage(RenderTexture src, RenderTexture dest)
         {
             RenderTexture.ReleaseTemporary(processed);
             processed = RenderTexture.GetTemporary(src.width, src.height, 0 );
             Graphics.Blit(src, processed);
-            foreach (var shaderNum in currentActivePositions)
+            foreach (var shaderNum in activePositions)
             {
                 temp = processed;
                 processed = RenderTexture.GetTemporary(src.width, src.height, 0 );
