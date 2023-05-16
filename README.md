@@ -1,10 +1,13 @@
 ![sXR Logo](https://github.com/unity-sXR/ReadmeImages/blob/main/sxrlogo.png)
 
-[Background](#background) | [Beginners](#for-beginners) | [Tutorials](#tutorials) | [Features](#features) | [Commands List](#commands-list) | [Coming Soon...](#coming-soon) | [Requested Features](#requested-features) | [Version History](#version-history)
+[Background](#background) | [Installation](#installation) | [Beginners](#for-beginners) | [Tutorials](#tutorials) | [Features](#features) | [Commands List](#commands-list) | [Coming Soon...](#coming-soon) | [Requested Features](#requested-features) | [Version History](#version-history)
 
 
 # Background
 simpleXR (sXR) is a software package designed to facilitate rapid development of XR experiments. Researchers in many different fields are starting to use virtual/augmented reality for studying things like learning, navigation, vision, or fear. However, the packages previously available for developing in XR were directed at computer scientists or people with a strong background in programming. sXR makes programming as simple as possible by providing one easy to use library with single line commands for more complicated tasks. The package is built for Unity and can be downloaded as a template project or added to previous projects with little effort. Just replace the scene's camera with the sXR_prefab and you'll gain access to multiple user interfaces and a plethora of commands that will allow you to start gathering data in days, not months. Extended reality is hard...  simpleXR is simple.
+
+# Installation
+Installation is now available through the package manager.  Add from Git URL (with '.git' at the end), then right click to add sxr_prefab to your scene. For a full guide, see the wiki [Installation page](https://github.com/simpleOmnia/sXR/wiki/Installation)
 
 # For Beginners
 While sXR makes Unity much simpler, it can still be complicated if you're just starting out. The project contains a sample experiment with a step-by-step video walkthrough [(youtube link)](https://youtu.be/NZE6ZiD2sPA). If you don't understand the ExperimentScript.cs file of the sample experiment, I recommend watching the entire video as it breaks down the entire development process. Feel free to reach out if you get stuck!
