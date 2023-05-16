@@ -10,7 +10,8 @@
   "licensesUrl": "https://github.com/unity-sXR/sXR/blob/master/LICENSE.md",
   "dependencies": {
     "com.unity.inputsystem": "1.4.4",
-    "com.unity.xr.management": "4.2.1"
+    "com.unity.xr.management": "4.2.1",
+    "com.unity.textmeshpro": "3.0.6"
   },
   "samples": [
     {
