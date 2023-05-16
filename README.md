@@ -148,6 +148,12 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 **MoveObjectAtSpeedTo()** - Moves the object to the specified location moving at the given speed
 
+**RotateObject()** - Rotates the object with the provided name by the specified amount. If a time is given, the object will take that duration to reach the target rotation
+
+**RotateObjectTo()** - Rotates the object with the provided name to the specified rotation values. If a time is given, the object will take that duration to reach the target rotation
+
+**RotateObjectAtSpeedTo()** - Rotates the object to the specified rotation moving at the given speed
+
 **FollowParabola()** - Moves object along the specified parabola
 
 **ObjectMoving()** - Returns true if the object is currently in controlled motion
