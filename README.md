@@ -1,10 +1,16 @@
 ![sXR Logo](https://github.com/unity-sXR/ReadmeImages/blob/main/sxrlogo.png)
 
-[Background](#background) | [Beginners](#for-beginners) | [Tutorials](#tutorials) | [Features](#features) | [Commands List](#commands-list) | [Coming Soon...](#coming-soon) | [Requested Features](#requested-features) | [Version History](#version-history)
+[Background](#background) | [Installation](#installation) | [Beginners](#for-beginners) | [Tutorials](#tutorials) | [Features](#features) | [Commands List](#commands-list) | [Coming Soon...](#coming-soon) | [Requested Features](#requested-features) | [Version History](#version-history)
 
 
 # Background
 simpleXR (sXR) is a software package designed to facilitate rapid development of XR experiments. Researchers in many different fields are starting to use virtual/augmented reality for studying things like learning, navigation, vision, or fear. However, the packages previously available for developing in XR were directed at computer scientists or people with a strong background in programming. sXR makes programming as simple as possible by providing one easy to use library with single line commands for more complicated tasks. The package is built for Unity and can be downloaded as a template project or added to previous projects with little effort. Just replace the scene's camera with the sXR_prefab and you'll gain access to multiple user interfaces and a plethora of commands that will allow you to start gathering data in days, not months. Extended reality is hard...  simpleXR is simple.
+
+# Installation
+Installation is now available through the package manager.  Add from Git URL (with '.git' at the end), then right click to add sxr_prefab to your scene. For a full guide, see the wiki [Installation page](https://github.com/simpleOmnia/sXR/wiki/Installation)
+
+Once installed, "sxr." commands should be automatically available in your IDE without any further setup: 
+![ideAutofill](https://github.com/simpleOmnia/ReadmeImages/blob/main/ideAutofills.gif)
 
 # For Beginners
 While sXR makes Unity much simpler, it can still be complicated if you're just starting out. The project contains a sample experiment with a step-by-step video walkthrough [(youtube link)](https://youtu.be/NZE6ZiD2sPA). If you don't understand the ExperimentScript.cs file of the sample experiment, I recommend watching the entire video as it breaks down the entire development process. Feel free to reach out if you get stuck!
@@ -145,6 +151,12 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 **MoveObjectAtSpeedTo()** - Moves the object to the specified location moving at the given speed
 
+**RotateObject()** - Rotates the object with the provided name by the specified amount. If a time is given, the object will take that duration to reach the target rotation
+
+**RotateObjectTo()** - Rotates the object with the provided name to the specified rotation values. If a time is given, the object will take that duration to reach the target rotation
+
+**RotateObjectAtSpeedTo()** - Rotates the object to the specified rotation moving at the given speed
+
 **FollowParabola()** - Moves object along the specified parabola
 
 **ObjectMoving()** - Returns true if the object is currently in controlled motion
@@ -186,8 +198,6 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 # Coming Very Soon...
 ~~Camera passthrough for augmented reality (on supported headsets)~~ Augmented Reality sample scene available, requires SteamVR for now
 
-Computer vision prefab - Import trained ONXX models to do realtime image segmentation in VR/AR
-
 Eye-tracking/shader tutorial + sxr.commands for assigning shaders to objects
 
 Gaze-ray objects - record when the user looks at certain objects
@@ -200,9 +210,6 @@ VR Controller "Touch" option for buttons (i.e. when the controller button is  to
 
 Hand-tracking without controllers (for supported devices- Vive Pro Eye, Quest 2, etc)
 
-# Requested Features
-N/a
+# Requested Features (May implement if enough people request)
+Computer Vision prefab - train ONYXX models and use them with Unity's Barracuda
 
-# Version History
-31 January 2023 - Version 0.0.1 Additional features and more strict version control implementation - recreated repository
-6 January 2023 - Version 0.0.0: Initial release 
