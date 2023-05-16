@@ -211,5 +211,7 @@ Hand-tracking without controllers (for supported devices- Vive Pro Eye, Quest 2,
 N/a
 
 # Version History
+16 May 2023 - Version 1.0.3 Stereoscopic Rendering available with multi-pass
+14 May 2023 - Version 1.0.0 Re-released as a Unity Package
 31 January 2023 - Version 0.0.1 Additional features and more strict version control implementation - recreated repository
 6 January 2023 - Version 0.0.0: Initial release 
