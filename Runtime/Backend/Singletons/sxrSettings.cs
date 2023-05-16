@@ -41,7 +41,7 @@ namespace sxr_internal {
         [Header("Gaze Tracking")] public bool interpolateGaze = true;
         public float interpolateAmount = 18.0f;
 
-        public Camera vrCamera, outputCamera;
+        public Camera vrCamera;
 
         private int currentFrame = 0;
         public int GetCurrentFrame() { return currentFrame; }
@@ -92,8 +92,6 @@ namespace sxr_internal {
             
             if (!vrCamera)
                 vrCamera = gameObject.transform.Find("vrCameraAssembly").GameObject().GetComponentInChildren<Camera>(); 
-            if(!outputCamera)
-                outputCamera = gameObject.transform.Find("OutputCameraAssembly").GameObject().GetComponentInChildren<Camera>();
             if(usePreviousSettings)
                 LoadFromJson(); }
     }

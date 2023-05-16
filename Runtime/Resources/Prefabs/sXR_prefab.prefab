@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1814726622746903117}
   - component: {fileID: 4477492095720511879}
   - component: {fileID: 6166002962384641556}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: InputCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 5087263934196605873}
   - component: {fileID: 2538142509762052753}
   - component: {fileID: 3567122671120414401}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: InputDropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 9028402858532285040}
   - component: {fileID: 1361918198407866865}
   - component: {fileID: 1906576330370092934}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -581,7 +581,6 @@ MonoBehaviour:
   interpolateGaze: 1
   interpolateAmount: 18
   vrCamera: {fileID: 0}
-  outputCamera: {fileID: 0}
 --- !u!1 &697777116416788665
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,7 +612,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 697777117920159285}
   - {fileID: 4179994668175032925}
   - {fileID: 3078904345266153972}
   - {fileID: 4179994669040316689}
@@ -729,7 +727,6 @@ GameObject:
   - component: {fileID: 4251744240555814466}
   - component: {fileID: 1340924197316144628}
   - component: {fileID: 6457949566599413551}
-  - component: {fileID: 697777116765190968}
   - component: {fileID: 697777116765190967}
   - component: {fileID: 482405861782937379}
   m_Layer: 0
@@ -919,26 +916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e76339db9c7f24d438ab74bb65110fad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &697777116765190968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697777116765190964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78deb03d5155a3e45bf4693815b5455f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activePositions: 
-  activeNames: []
-  editorUpdate: 0
-  listShaders: 0
-  shaderCameras: []
-  numCameras: 0
-  currentActivePositions: 
-  currentActiveNames: []
 --- !u!114 &697777116765190967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1046,11 +1023,10 @@ GameObject:
   m_Component:
   - component: {fileID: 697777117056887695}
   - component: {fileID: 697777117056887664}
-  - component: {fileID: 4529934111365439948}
   - component: {fileID: 237659414620908978}
-  m_Layer: 0
-  m_Name: OutputCamera
-  m_TagString: MainCamera
+  m_Layer: 5
+  m_Name: UI_Camera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1081,7 +1057,7 @@ Camera:
   m_GameObject: {fileID: 697777117056887694}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1108,10 +1084,10 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 32
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1123,19 +1099,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &4529934111365439948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697777117056887694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e658761a8cc2382438c2f648266a3be0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vrCameraTarget: {fileID: 0}
 --- !u!114 &237659414620908978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1169,7 +1132,8 @@ GameObject:
   - component: {fileID: 697777117648311232}
   - component: {fileID: 697777117648311234}
   - component: {fileID: 6761375673031993419}
-  m_Layer: 0
+  - component: {fileID: 2497213899404466174}
+  m_Layer: 6
   m_Name: vrCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1227,12 +1191,12 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: de20a7fda932c0040838fa8f1a4ea456, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -1391,79 +1355,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &697777117920159284
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 697777117920159285}
-  - component: {fileID: 697777117920159287}
-  - component: {fileID: 697777117920159286}
-  m_Layer: 5
-  m_Name: VRcamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &697777117920159285
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697777117920159284}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.4999998, y: 1.4999998, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 697777116416788666}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1976, y: 1976}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &697777117920159287
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697777117920159284}
-  m_CullTransparentMesh: 1
---- !u!114 &697777117920159286
+--- !u!114 &2497213899404466174
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697777117920159284}
+  m_GameObject: {fileID: 697777117648311258}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 78deb03d5155a3e45bf4693815b5455f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 0}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+  activePositions: 
+  activeNames: []
+  editorUpdate: 0
+  listShaders: 1
+  currentActivePositions: 
+  currentActiveNames: []
 --- !u!1 &721856796517027709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1475,7 +1384,7 @@ GameObject:
   - component: {fileID: 4583948675915374890}
   - component: {fileID: 2180701171413724731}
   - component: {fileID: 1118481958377456129}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1549,7 +1458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7846087740420970911}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1900,7 +1809,7 @@ GameObject:
   - component: {fileID: 9043900472098477982}
   - component: {fileID: 7026073652840571756}
   - component: {fileID: 2142376926586905208}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2111,7 +2020,7 @@ GameObject:
   - component: {fileID: 6097580072816953189}
   - component: {fileID: 524700029079221616}
   - component: {fileID: 6772462440993587200}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TextToDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2247,7 +2156,7 @@ GameObject:
   - component: {fileID: 6348666487200482827}
   - component: {fileID: 3492463296428167531}
   - component: {fileID: 3553769515331743220}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SubmitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2695,7 +2604,7 @@ GameObject:
   - component: {fileID: 1829567658214131057}
   - component: {fileID: 4059308855666158494}
   - component: {fileID: 2414345213060001121}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Item Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3039,7 +2948,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5243044298791948320}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Sliding Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3211,7 +3120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5033550462907616987}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3380,7 +3289,7 @@ GameObject:
   - component: {fileID: 3355751270068638827}
   - component: {fileID: 4931155772678310130}
   - component: {fileID: 4361521452441933264}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6123,8 +6032,8 @@ GameObject:
   m_Component:
   - component: {fileID: 796751127987585909}
   - component: {fileID: 7904967174717653730}
-  m_Layer: 0
-  m_Name: OutputCameraAssembly
+  m_Layer: 5
+  m_Name: UI_CameraAssembly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6621,7 +6530,7 @@ GameObject:
   - component: {fileID: 3298444911548638877}
   - component: {fileID: 7918893253519169578}
   - component: {fileID: 2312280581504122273}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Template
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6727,7 +6636,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1715554027879014309}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6766,7 +6675,7 @@ GameObject:
   - component: {fileID: 1979687487120765080}
   - component: {fileID: 8014829976467805105}
   - component: {fileID: 7148916704767327123}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7020,7 +6929,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6860466999557695659}
   - component: {fileID: 3665015792366737625}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: InputSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7114,7 +7023,7 @@ GameObject:
   - component: {fileID: 3905875463479229708}
   - component: {fileID: 2092290852994464292}
   - component: {fileID: 1621581163761038139}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Viewport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7446,7 +7355,7 @@ GameObject:
   - component: {fileID: 5589511616498316229}
   - component: {fileID: 3301226771655825568}
   - component: {fileID: 6171203718361339775}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Item Checkmark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8169,7 +8078,7 @@ GameObject:
   - component: {fileID: 1920136923933947440}
   - component: {fileID: 4095271968096911897}
   - component: {fileID: 8252942565635194846}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8303,7 +8212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5879635517973582331}
   - component: {fileID: 5903217922534090565}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8855,7 +8764,7 @@ GameObject:
   - component: {fileID: 5584235359435593051}
   - component: {fileID: 2531535657515607220}
   - component: {fileID: 2791091004313523386}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8931,7 +8840,7 @@ GameObject:
   - component: {fileID: 7229298535834896365}
   - component: {fileID: 2568447648867947930}
   - component: {fileID: 4564771968147219522}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Item Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9274,7 +9183,7 @@ GameObject:
   - component: {fileID: 7284860960226184564}
   - component: {fileID: 3801037845030422902}
   - component: {fileID: 3449042396987937387}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TextToDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9587,7 +9496,7 @@ GameObject:
   - component: {fileID: 2287451031781171383}
   - component: {fileID: 8395152501204914454}
   - component: {fileID: 512722438483327323}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Scrollbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9816,6 +9725,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 796751127987585909}
     m_Modifications:
+    - target: {fileID: 1691609467046479643, guid: 466a715c126dfca44855666fd738d255, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1691609468886655012, guid: 466a715c126dfca44855666fd738d255, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -9863,6 +9776,14 @@ PrefabInstance:
     - target: {fileID: 1691609468886655013, guid: 466a715c126dfca44855666fd738d255, type: 3}
       propertyPath: m_Name
       value: RightLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 1691609468886655013, guid: 466a715c126dfca44855666fd738d255, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110685921984389737, guid: 466a715c126dfca44855666fd738d255, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1691609468886655035, guid: 9ba6c3343d8e5c24b958642cf71e88b9, type: 3}
@@ -9932,6 +9853,18 @@ PrefabInstance:
     - target: {fileID: 6169362948042999665, guid: 51fa476438e6fee48b10ead10c32715e, type: 3}
       propertyPath: m_Name
       value: LeftLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 6169362948042999665, guid: 51fa476438e6fee48b10ead10c32715e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6169362948954005583, guid: 51fa476438e6fee48b10ead10c32715e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7624408825068668221, guid: 51fa476438e6fee48b10ead10c32715e, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 272850237864656164, guid: 81eb8a07f64251845bbe5c9a2ef66920, type: 3}
       propertyPath: m_AnchorMax.y

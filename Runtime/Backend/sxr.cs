@@ -757,7 +757,7 @@ public static class sxr {
     /// <param name="turnOffOthers"> if true, turns off all other full screen shaders</param>
     public static void ApplyShader(string shaderName, bool turnOffOthers) {
         if (turnOffOthers) ApplyShaders(new List<string> {shaderName});
-        else ShaderHandler.Instance.currentActiveNames.Add(shaderName); }
+        else ShaderHandler.Instance.AddToCurrentActiveNames(shaderName); }
 
     public static bool SetShaderVariables<T>(string shaderName, string variableName, T value)
     { return ShaderHandler.Instance.ModifyShader(shaderName, variableName, value); }
