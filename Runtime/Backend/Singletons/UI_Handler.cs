@@ -53,7 +53,11 @@ namespace sxr_internal {
             leftLaser.SetActive(true);
             submitButton.SetActive(true); }
 
-        public void HideInputUI() {
+        public void HideInputUI()
+        {
+            inputDropdown.SetActive(false);
+            inputSlider.SetActive(false);
+            submitButton.SetActive(false); 
             rightLaser.SetActive(false);
             leftLaser.SetActive(false); }
 
@@ -287,7 +291,7 @@ namespace sxr_internal {
         public static UI_Handler Instance { get; private set; }
         private void Awake() {
             // Parse all UI_Handler components from Unity names
-            var overlayComponents = gameObject.transform.Find("UI_Camera").GetComponentsInChildren<RawImage>();
+            var overlayComponents = gameObject.transform.Find("MainCanvas").GetComponentsInChildren<RawImage>();
             foreach (var component in overlayComponents) {
                 if (component.name == "Finished")
                 {

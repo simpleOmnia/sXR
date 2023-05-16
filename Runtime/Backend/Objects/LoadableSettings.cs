@@ -11,7 +11,8 @@ namespace sxr_internal {
         public bool use_autoVR = true; 
         public bool use_SRanipal = false;
         public bool use_steamVR = false;
-        public bool use_URP = false; 
+        public bool use_URP = false;
+        public bool use_singlePass = false; 
         
         public bool interpolateGaze = true;
         public float interpolateAmount = 18.0f;

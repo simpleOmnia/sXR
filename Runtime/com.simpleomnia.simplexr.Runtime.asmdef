@@ -3,8 +3,9 @@
   "references": ["Unity.XR.Management",
     "Unity.InputSystem",
     "Unity.TextMeshPro",
-    "\"Unity.VisualScripting",
-    "Unity.VisualScripting.Core"],
+    "Unity.VisualScripting",
+    "Unity.VisualScripting.Core"
+    ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

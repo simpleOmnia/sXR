@@ -56,33 +56,43 @@ namespace sxr_internal {
 
         public bool RecordThisFrame() { return currentFrame == recordFrame; }
 
-        void LoadFromJson() {
+        void LoadFromPreferences() {
             string savedSettingsPath = Application.dataPath + Path.DirectorySeparatorChar +
                                        "sxr" + Path.DirectorySeparatorChar + "Editor" +
                                        Path.DirectorySeparatorChar + "sxrSettings.json";
             LoadableSettings loadableSettings  = new LoadableSettings();
-            if (File.Exists(savedSettingsPath)) {
-                Debug.Log("Loaded settings from sxr/Editor json file");
-                string loadedSettings = File.ReadAllText(savedSettingsPath);
-                loadableSettings = JsonUtility.FromJson<LoadableSettings>(loadedSettings);
+            
+            loadableSettings.dataPath = PlayerPrefs.GetString("sXR_DataPath", "");
+            loadableSettings.backupPath = PlayerPrefs.GetString("sXR_BackupPath", "");
+            loadableSettings.use_autosaver = PlayerPrefs.GetInt("sXR_UseAutosaver", 0) ==1;
+            loadableSettings.use_autoVR = PlayerPrefs.GetInt("sXR_UseAutoVR", 0) ==1;
+            loadableSettings.use_safetyWalls = PlayerPrefs.GetInt("sXR_UseSafetyWalls", 0) ==1;
+            loadableSettings.safetyWallBoundsNS = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsNS", 5f);
+            loadableSettings.safetyWallBoundsEW = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsEW", 5f);
+            loadableSettings.debugSetting = PlayerPrefs.GetInt("sXR_DebugSetting", 2);
+            loadableSettings.recordFrequency = PlayerPrefs.GetFloat("sXR_RecordFrequency", 1f);
+            loadableSettings.use_SRanipal =PlayerPrefs.GetInt("sXR_UseSRanipal", 0) ==1;
+            loadableSettings.interpolateGaze = PlayerPrefs.GetInt("sXR_InterpolateGaze", 0) ==1;
+            loadableSettings.interpolateAmount = PlayerPrefs.GetFloat("sXR_InterpolateAmount", 5f);
+            loadableSettings.use_steamVR = PlayerPrefs.GetInt("sXR_UseSteamVR", 0) ==1;
+            loadableSettings.use_URP = PlayerPrefs.GetInt("sXR_UseURP", 0) ==1;
+            loadableSettings.use_singlePass = PlayerPrefs.GetInt("sXR_UseSinglePass", 0) ==1; 
 
 
-                safetyMessage = loadableSettings.use_safetyWalls;
-                distanceBetweenNorthSouth = loadableSettings.safetyWallBoundsNS;
-                distanceBetweenEastWest = loadableSettings.safetyWallBoundsEW;
+            safetyMessage = loadableSettings.use_safetyWalls;
+            distanceBetweenNorthSouth = loadableSettings.safetyWallBoundsNS;
+            distanceBetweenEastWest = loadableSettings.safetyWallBoundsEW;
 
-                interpolateGaze = loadableSettings.interpolateGaze;
-                interpolateAmount = loadableSettings.interpolateAmount;
+            interpolateGaze = loadableSettings.interpolateGaze;
+            interpolateAmount = loadableSettings.interpolateAmount;
 
-                recordFrequency = loadableSettings.recordFrequency;
+            recordFrequency = loadableSettings.recordFrequency;
 
-                debugMode = (DebugMode) loadableSettings.debugSetting;
+            debugMode = (DebugMode) loadableSettings.debugSetting;
 
-                subjectDataDirectory = loadableSettings.dataPath;
-                backupDataDirectory = loadableSettings.backupPath; }
-            else
-                Debug.Log("No saved editor settings detected.  To change features like autosaving the " +
-                          "scene or using manual data paths, see the 'sxr' tab on the toolbar"); }
+            subjectDataDirectory = loadableSettings.dataPath;
+            backupDataDirectory = loadableSettings.backupPath; }
+            
 
         // Singleton initiated on Awake()
         public static sxrSettings Instance; 
@@ -93,6 +103,6 @@ namespace sxr_internal {
             if (!vrCamera)
                 vrCamera = gameObject.transform.Find("vrCameraAssembly").GameObject().GetComponentInChildren<Camera>(); 
             if(usePreviousSettings)
-                LoadFromJson(); }
+                LoadFromPreferences(); }
     }
 }   

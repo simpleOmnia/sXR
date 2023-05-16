@@ -19,53 +19,56 @@ namespace sxr_internal{
 
         private bool initialLoad = true;
 
-        [MenuItem("sXR/Editor Settings")]
+        [MenuItem("sXR/sXR Settings")]
         static void Init() {
             sXR_Settings window = (sXR_Settings)EditorWindow.GetWindow(typeof(sXR_Settings));
             window.Show(); }
 
         
     void LoadFromPrefs(){
-        loadableSettings.dataPath = EditorPrefs.GetString("sXR_DataPath", "");
-        loadableSettings.backupPath = EditorPrefs.GetString("sXR_BackupPath", "");
-        loadableSettings.use_autosaver = EditorPrefs.GetBool("sXR_UseAutosaver", false);
-        loadableSettings.use_autoVR = EditorPrefs.GetBool("sXR_UseAutoVR", false);
-        loadableSettings.use_safetyWalls = EditorPrefs.GetBool("sXR_UseSafetyWalls", false);
-        loadableSettings.safetyWallBoundsNS = EditorPrefs.GetFloat("sXR_SafetyWallBoundsNS", 5f);
-        loadableSettings.safetyWallBoundsEW = EditorPrefs.GetFloat("sXR_SafetyWallBoundsEW", 5f);
-        loadableSettings.debugSetting = EditorPrefs.GetInt("sXR_DebugSetting", 2);
-        loadableSettings.recordFrequency = EditorPrefs.GetFloat("sXR_RecordFrequency", 1f);
-        loadableSettings.use_SRanipal = EditorPrefs.GetBool("sXR_UseSRanipal", false);
-        loadableSettings.interpolateGaze = EditorPrefs.GetBool("sXR_InterpolateGaze", false);
-        loadableSettings.interpolateAmount = EditorPrefs.GetFloat("sXR_InterpolateAmount", 5f);
-        loadableSettings.use_steamVR = EditorPrefs.GetBool("sXR_UseSteamVR", false);
-        loadableSettings.use_URP = EditorPrefs.GetBool("sXR_UseURP", false);
+        loadableSettings.dataPath = PlayerPrefs.GetString("sXR_DataPath", "");
+        loadableSettings.backupPath = PlayerPrefs.GetString("sXR_BackupPath", "");
+        loadableSettings.use_autosaver = PlayerPrefs.GetInt("sXR_UseAutosaver", 0) ==1;
+        loadableSettings.use_autoVR = PlayerPrefs.GetInt("sXR_UseAutoVR", 0) ==1;
+        loadableSettings.use_safetyWalls = PlayerPrefs.GetInt("sXR_UseSafetyWalls", 0) ==1;
+        loadableSettings.safetyWallBoundsNS = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsNS", 5f);
+        loadableSettings.safetyWallBoundsEW = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsEW", 5f);
+        loadableSettings.debugSetting = PlayerPrefs.GetInt("sXR_DebugSetting", 2);
+        loadableSettings.recordFrequency = PlayerPrefs.GetFloat("sXR_RecordFrequency", 1f);
+        loadableSettings.use_SRanipal =PlayerPrefs.GetInt("sXR_UseSRanipal", 0) ==1;
+        loadableSettings.interpolateGaze = PlayerPrefs.GetInt("sXR_InterpolateGaze", 0) ==1;
+        loadableSettings.interpolateAmount = PlayerPrefs.GetFloat("sXR_InterpolateAmount", 5f);
+        loadableSettings.use_steamVR = PlayerPrefs.GetInt("sXR_UseSteamVR", 0) ==1;
+        loadableSettings.use_URP = PlayerPrefs.GetInt("sXR_UseURP", 0) ==1;
+        loadableSettings.use_singlePass = PlayerPrefs.GetInt("sXR_UseSinglePass", 0) ==1; 
     }
 
     void SaveToPrefs() {
-        EditorPrefs.SetString("sXR_DataPath", loadableSettings.dataPath);
-        EditorPrefs.SetString("sXR_BackupPath", loadableSettings.backupPath);
-        EditorPrefs.SetBool("sXR_UseAutosaver", loadableSettings.use_autosaver);
-        EditorPrefs.SetBool("sXR_UseAutoVR", loadableSettings.use_autoVR);
-        EditorPrefs.SetBool("sXR_UseSafetyWalls", loadableSettings.use_safetyWalls);
-        EditorPrefs.SetFloat("sXR_SafetyWallBoundsNS", loadableSettings.safetyWallBoundsNS);
-        EditorPrefs.SetFloat("sXR_SafetyWallBoundsEW", loadableSettings.safetyWallBoundsEW);
-        EditorPrefs.SetInt("sXR_DebugSetting", loadableSettings.debugSetting);
-        EditorPrefs.SetFloat("sXR_RecordFrequency", loadableSettings.recordFrequency);
-        EditorPrefs.SetBool("sXR_UseSRanipal", loadableSettings.use_SRanipal);
-        EditorPrefs.SetBool("sXR_InterpolateGaze", loadableSettings.interpolateGaze);
-        EditorPrefs.SetFloat("sXR_InterpolateAmount", loadableSettings.interpolateAmount);
-        EditorPrefs.SetBool("sXR_UseSteamVR", loadableSettings.use_steamVR);
-        EditorPrefs.SetBool("sXR_UseURP", loadableSettings.use_URP);
+        PlayerPrefs.SetString("sXR_DataPath", loadableSettings.dataPath);
+        PlayerPrefs.SetString("sXR_BackupPath", loadableSettings.backupPath);
+        PlayerPrefs.SetInt("sXR_UseAutosaver", loadableSettings.use_autosaver ? 1:0);
+        PlayerPrefs.SetInt("sXR_UseAutoVR", loadableSettings.use_autoVR ? 1:0);
+        PlayerPrefs.SetInt("sXR_UseSafetyWalls", loadableSettings.use_safetyWalls ? 1:0);
+        PlayerPrefs.SetFloat("sXR_SafetyWallBoundsNS", loadableSettings.safetyWallBoundsNS);
+        PlayerPrefs.SetFloat("sXR_SafetyWallBoundsEW", loadableSettings.safetyWallBoundsEW);
+        PlayerPrefs.SetInt("sXR_DebugSetting", loadableSettings.debugSetting);
+        PlayerPrefs.SetFloat("sXR_RecordFrequency", loadableSettings.recordFrequency);
+        PlayerPrefs.SetInt("sXR_UseSRanipal", loadableSettings.use_SRanipal ? 1:0);
+        PlayerPrefs.SetInt("sXR_InterpolateGaze", loadableSettings.interpolateGaze ? 1:0);
+        PlayerPrefs.SetFloat("sXR_InterpolateAmount", loadableSettings.interpolateAmount);
+        PlayerPrefs.SetInt("sXR_UseSteamVR", loadableSettings.use_steamVR ? 1:0);
+        PlayerPrefs.SetInt("sXR_UseURP", loadableSettings.use_URP ? 1:0);
+        PlayerPrefs.SetInt("sXR_UseSinglePass", loadableSettings.use_singlePass ? 1:0);
     }
         
         void OnGUI()
         {
             if (initialLoad)
             {
-                initialLoad = false; 
+                initialLoad = false;
+                ResourcesProvider.CopyResourcesFromPackageToProject(); 
                 LoadFromPrefs();
-                Debug.Log("Loaded settings from EditorPrefs"); 
+                Debug.Log("Loaded settings from PlayerPrefs"); 
             }
             rctOffButton = GUI.skin.button.margin;
             rctOffButton.left = 25;
@@ -150,6 +153,11 @@ namespace sxr_internal{
             loadableSettings.use_URP = GUILayout.Toggle(loadableSettings.use_URP,
                 new GUIContent("   Use Universal Rendering Pipeline (URP)",
                     "Enable to use URP"));
+            
+            GUILayout.Space(20);
+            loadableSettings.use_singlePass = GUILayout.Toggle(loadableSettings.use_singlePass,
+                new GUIContent("   Use Single Pass Rendering",
+                    "Enable to use single pass, will lose stereoscopic effect for higher performance in some scenarios."));
 
             
             if (EditorGUI.EndChangeCheck()){
@@ -177,6 +185,11 @@ namespace sxr_internal{
                     EditorUtils.AddDefineIfNecessary("SXR_USE_URP", NamedBuildTarget.Standalone);
                 else 
                     EditorUtils.RemoveDefineIfNecessary("SXR_USE_URP",NamedBuildTarget.Standalone);
+                
+                if (loadableSettings.use_singlePass) 
+                    EditorUtils.AddDefineIfNecessary("SXR_USE_SINGLE_PASS", NamedBuildTarget.Standalone);
+                else 
+                    EditorUtils.RemoveDefineIfNecessary("SXR_USE_SINGLE_PASS",NamedBuildTarget.Standalone);
 
                 SaveToPrefs(); 
             } 

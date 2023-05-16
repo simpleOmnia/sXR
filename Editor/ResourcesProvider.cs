@@ -8,6 +8,10 @@ public class ResourcesProvider : EditorWindow
     private const string ProjectResourcesDirectory = "Assets/sXR/Resources/";
     private const string MainPrefabName = "sxr_prefab";
 
+    private bool resourcesLoaded; 
+    void OnEnable()
+    { CopyResourcesFromPackageToProject(); }
+
     /// <summary>
     /// Right click option to add sxr_prefab
     /// </summary>
@@ -15,25 +19,19 @@ public class ResourcesProvider : EditorWindow
     static void CreateMainPrefab() 
     { CreatePrefab(ProjectResourcesDirectory + "Prefabs"+ Path.DirectorySeparatorChar + MainPrefabName + ".prefab"); }
 
-    /// <summary>
-    /// Right click option to open window with other prefabs
-    /// </summary>
-    [MenuItem("GameObject/simpleXR/sXR Other", false, 11)]
-    static void ShowWindow() 
-    { GetWindow<ResourcesProvider>().ShowPopup(); }
-
-    /// <summary>
-    /// Right click option to copy resources to Assets
-    /// </summary>
-    [MenuItem("GameObject/simpleXR/Copy Resources", false, 12)]
-    static void CopyResourcesFromPackageToProject() {
+    // /// <summary>
+    // /// Right click option to copy resources to Assets
+    // /// </summary>
+    // [MenuItem("GameObject/simpleXR/Initialize sXR", false, 12)]
+    public static void CopyResourcesFromPackageToProject() {
         // Copy from package directory to project directory
         if (!Directory.Exists(ProjectResourcesDirectory))
             Directory.CreateDirectory(ProjectResourcesDirectory);
 
         foreach (var directory in Directory.GetDirectories(PackageResourcesDirectory, "*", SearchOption.AllDirectories)) {
-            if (directory != "Shaders")
+            if (!directory.Contains("Shaders"))
             {
+                Debug.Log(directory);
                 string targetDirectory = directory.Replace(PackageResourcesDirectory, ProjectResourcesDirectory);
             
                 Directory.CreateDirectory(targetDirectory);

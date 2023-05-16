@@ -1,68 +1,62 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
+using TrackedPoseDriver = UnityEngine.InputSystem.XR.TrackedPoseDriver;
 
-namespace sxr_internal
-{
-    /// <summary>
-    /// Attach this to your vrCamera to automatically switch to
-    /// headset tracking if a headset is connected. Without a headset,
-    /// arrow keys/WASD will move the camera and mouse will rotate
-    /// (See SimpleFirstPersonMovement script)
-    /// </summary>
-    public class AutomaticDesktopVsVR : MonoBehaviour
-    {
+namespace sxr_internal {
+    public class AutomaticDesktopVsVR : MonoBehaviour {
 #if SXR_USE_AUTOVR
-        [SerializeField] float checkFrequency = 3;
+        [SerializeField] private float checkFrequency = 3f;
+        private float lastCheck = 0;
         private SimpleFirstPersonMovement firstPerson;
+        private TrackedPoseDriver trackedPoseDriver;
 
-        void Start()
-        {
+        void Start() {
             Debug.Log("Using automatic Desktop vs VR");
-            firstPerson = gameObject.GetComponent<SimpleFirstPersonMovement>();
-            StartCoroutine(CheckHeadset());
+            firstPerson = GetComponent<SimpleFirstPersonMovement>();
+            if (GetComponent<TrackedPoseDriver>() == null)
+                Debug.LogError("sXR - sxr_prefab requires TrackedPoseDriver, make sure you're using the InputSystem " +
+                               "package and have set the correct input mode under 'Edit -> Project Settings -> Player' ");
+            trackedPoseDriver = GetComponent<TrackedPoseDriver>();
         }
 
-        IEnumerator CheckHeadset()
-        {
-            while (true)
-            {
-                List<InputDevice> inputDevices = new List<InputDevice>();
-                InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeadMounted, inputDevices);
-
-                if (inputDevices.Count > 0)
-                {
-                    StartXR();
-                }
-                else
-                {
-                    StopXR();
-                }
-
-                yield return new WaitForSeconds(checkFrequency);
+        void Update() {
+            if (Time.time - lastCheck > checkFrequency) {
+                CheckHeadset();
             }
         }
 
-        void StartXR()
-        {
+        void CheckHeadset() {
+            List<UnityEngine.XR.InputDevice> inputDevices = new List<UnityEngine.XR.InputDevice>();
+            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeadMounted, inputDevices);
+
+            if (inputDevices.Count > 0) {
+                StartXR();
+            } else {
+                StopXR();
+            }
+
+            lastCheck = Time.time;
+        }
+
+        void StartXR() {
             firstPerson.enabled = false;
-            if (!XRSettings.isDeviceActive)
-            {
+            trackedPoseDriver.enabled = true;
+
+            if(!XRGeneralSettings.Instance.Manager.activeLoader){
                 XRGeneralSettings.Instance.Manager.InitializeLoaderSync();
                 XRGeneralSettings.Instance.Manager.StartSubsystems();
             }
         }
 
-        void StopXR()
-        {
-            if (XRSettings.isDeviceActive)
-            {
+        void StopXR() {
+            if (XRGeneralSettings.Instance.Manager.isInitializationComplete) {
                 XRGeneralSettings.Instance.Manager.StopSubsystems();
-                XRGeneralSettings.Instance.Manager.DeinitializeLoader();
             }
+
             firstPerson.enabled = true;
+            trackedPoseDriver.enabled = false;
         }
 #endif
     }
