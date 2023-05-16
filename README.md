@@ -9,6 +9,9 @@ simpleXR (sXR) is a software package designed to facilitate rapid development of
 # Installation
 Installation is now available through the package manager.  Add from Git URL (with '.git' at the end), then right click to add sxr_prefab to your scene. For a full guide, see the wiki [Installation page](https://github.com/simpleOmnia/sXR/wiki/Installation)
 
+Once installed, "sxr." commands should be automatically available in your IDE without any further setup: 
+![ideAutofill](https://github.com/simpleOmnia/ReadmeImages/blob/main/ideAutofills.gif)
+
 # For Beginners
 While sXR makes Unity much simpler, it can still be complicated if you're just starting out. The project contains a sample experiment with a step-by-step video walkthrough [(youtube link)](https://youtu.be/NZE6ZiD2sPA). If you don't understand the ExperimentScript.cs file of the sample experiment, I recommend watching the entire video as it breaks down the entire development process. Feel free to reach out if you get stuck!
 
