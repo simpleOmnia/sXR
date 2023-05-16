@@ -32,15 +32,13 @@ namespace sxr_internal {
         public RawImage pleaseWait, finished, eyeError, emergencyStop;
         public TextMeshProUGUI textboxTop, textboxTopMiddle, textboxBottomMiddle, textboxBottom, textboxTopLeft;
         
-        private GameObject inputCanvas, submitButton, inputSlider, inputDropdown, rightLaser, leftLaser;
+        private GameObject submitButton, inputSlider, inputDropdown, rightLaser, leftLaser;
         private bool submit;
 
         public void UI_Submit()
         { HideInputUI(); submit = true; }
         
         public void DisplayInputUI() {
-            if (inputCanvas == null)
-                inputCanvas = sxr.GetObject("InputCanvas");
             if (submitButton == null)
                 submitButton = sxr.GetObject("SubmitButton");
             if (inputSlider == null)
@@ -51,13 +49,11 @@ namespace sxr_internal {
                 leftLaser = sxr.GetObject("LeftLaser");
             if (rightLaser == null)
                 rightLaser = sxr.GetObject("RightLaser");
-            inputCanvas.SetActive(true);
             rightLaser.SetActive(true);
             leftLaser.SetActive(true);
             submitButton.SetActive(true); }
 
         public void HideInputUI() {
-            inputCanvas.SetActive(false);
             rightLaser.SetActive(false);
             leftLaser.SetActive(false); }
 
@@ -274,8 +270,6 @@ namespace sxr_internal {
                     break; } }
 
         private void Start() {
-            if (inputCanvas == null)
-                inputCanvas = sxr.GetObject("InputCanvas");
             if (submitButton == null)
                 submitButton = sxr.GetObject("SubmitButton");
             if (inputSlider == null)
@@ -293,16 +287,28 @@ namespace sxr_internal {
         public static UI_Handler Instance { get; private set; }
         private void Awake() {
             // Parse all UI_Handler components from Unity names
-            var overlayComponents = gameObject.transform.Find("OutputCamera").GetComponentsInChildren<RawImage>();
+            var overlayComponents = gameObject.transform.Find("UI_Camera").GetComponentsInChildren<RawImage>();
             foreach (var component in overlayComponents) {
                 if (component.name == "Finished")
+                {
                     finished = component;
+                    finished.texture = Resources.Load<Texture2D>("GUI_Images/finished");
+                }
                 else if (component.name == "PleaseWait")
-                    pleaseWait = component; 
+                {
+                    pleaseWait = component;
+                    pleaseWait.texture = Resources.Load<Texture2D>("GUI_Images/PleaseWait");
+                }
                 else if (component.name == "EyeError")
-                    eyeError = component; 
+                {
+                    eyeError = component;
+                    eyeError.texture = Resources.Load<Texture2D>("GUI_Images/EyeError");
+                }
                 else if (component.name == "EmergencyStop")
-                    emergencyStop = component; 
+                {
+                    emergencyStop = component;
+                    emergencyStop.texture = Resources.Load<Texture2D>("GUI_Images/EmergencyStop");
+                }
                 else
                     for (int i = 0; i < Enum.GetNames(typeof(sxr_internal.UI_Position)).Length; i++) {
                         if(component.name == Enum.GetValues(typeof(sxr_internal.UI_Position)).GetValue(i).ToString()) 

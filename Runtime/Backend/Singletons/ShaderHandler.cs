@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 //TODO Update Readme in Backend/shaders
 //TODO AddShaderToObject() function
@@ -26,6 +27,8 @@ namespace sxr_internal {
     public class ShaderHandler : MonoBehaviour {
         
         private Material[] shaderMaterials;
+
+        private CommandBuffer commandBuffer; 
         
         [Header("Update either List, then click \"EditorUpdate\". Click \"ListShaders\" to output a list to the console")] 
         [SerializeField] private List<int> activePositions;
@@ -34,9 +37,7 @@ namespace sxr_internal {
         [SerializeField] private bool listShaders;
 
         [Header("List the currently active shaders (cannot edit:")]
-        public List<GameObject> shaderCameras = new List<GameObject>();
-
-        public int numCameras; 
+        
         public List<int> currentActivePositions = new List<int>(); 
         public List<string> currentActiveNames = new List<string>();
 
@@ -55,47 +56,63 @@ namespace sxr_internal {
                 ListShaders();
                 listShaders = false; } }
 
-        public void ActivateShaders(List<int> activePositions) {
+        RenderTexture temp, processed;
+        public void ActivateShaders(List<int> activePositions)
+        {
+            if (commandBuffer != null)
+            {
+                RenderTexture.ReleaseTemporary(processed);
+                sxrSettings.Instance.vrCamera.RemoveCommandBuffer(CameraEvent.AfterEverything, commandBuffer);
+                commandBuffer.Release();
+            }
+            
             Debug.Log("Activate shaders by position: " + activePositions.ToArray().ToCommaSeparatedString()); 
             this.activePositions = activePositions;
             activeNames.Clear();
             currentActiveNames.Clear();
             currentActivePositions.Clear(); 
 
-            sxrSettings.Instance.outputCamera.gameObject.SetActive(true);
-            for (int i = 1; i < shaderCameras.Count; i++)
-                Destroy(shaderCameras[i]);
-            if (activePositions.Count < 1)
-                return; 
-
-            int currentPass=0;
-            shaderCameras.Clear();
-            shaderCameras.Add(sxrSettings.Instance.vrCamera.GameObject());
-
-            foreach (int pos in activePositions) {
-                if (shaderMaterials.Length < pos + 1) {
-                    Debug.LogWarning("Attempted to activate shader #" + pos + ", but shader does not exist");
-                    break; }
-                
-                currentActivePositions.Add(pos);
-                activeNames.Add(shaderMaterials[pos].name);
-                currentActiveNames.Add(shaderMaterials[pos].name);
-                currentPass++;
-                
-                shaderCameras.Add(GameObject.Instantiate(sxrSettings.Instance.outputCamera.gameObject));
-                shaderCameras[currentPass].GetComponentInChildren<Camera>().targetTexture
-                    = RenderTexture.GetTemporary(Screen.currentResolution.width, Screen.currentResolution.height); 
-                shaderCameras[currentPass].GetComponentInChildren<RawImage>().texture 
-                    = shaderCameras[currentPass-1].GetComponentInChildren<Camera>().targetTexture;
-                shaderCameras[currentPass].GetComponentInChildren<RawImage>().material = shaderMaterials[pos];
-                shaderCameras[currentPass].name = "shadedOutput" + currentPass;
-
-                if(currentPass>1) shaderCameras[currentPass-1].GameObject().SetActive(false); }
+            // Create a new command buffer
+            commandBuffer = new CommandBuffer();
+            processed = RenderTexture.GetTemporary(Screen.width, Screen.height);
+            commandBuffer.Blit(RenderTexture.active, processed); 
             
-            sxrSettings.Instance.outputCamera.gameObject.SetActive(false);
-            shaderCameras[currentPass].tag = "MainCamera";
-            shaderCameras[currentPass].GetComponentInChildren<Camera>().targetTexture = null;
-            numCameras = shaderCameras.Count; }
+            // Apply each shader in turn
+                foreach (int currShader in activePositions)
+                {
+                    temp = processed; 
+                    currentActivePositions.Add(currShader);
+                    activeNames.Add(shaderMaterials[currShader].name);
+                    currentActiveNames.Add(shaderMaterials[currShader].name);
+                    Material shaderMaterial = shaderMaterials[currShader]; 
+                    // Set the shader material properties here if necessary
+
+                    // Apply the shader
+                    commandBuffer.Blit(temp, processed, shaderMaterial);
+                }
+
+                // Copy the final result back to the source render target
+                commandBuffer.Blit(processed, BuiltinRenderTextureType.CameraTarget);
+                
+                // Add the command buffer to the camera
+                //sxrSettings.Instance.vrCamera.AddCommandBuffer(CameraEvent.AfterEverything, commandBuffer);
+            }
+
+        private void OnRenderImage(RenderTexture src, RenderTexture dest)
+        {
+            RenderTexture.ReleaseTemporary(processed);
+            processed = RenderTexture.GetTemporary(src.width, src.height, 0 );
+            Graphics.Blit(src, processed);
+            foreach (var shaderNum in activePositions)
+            {
+                temp = processed;
+                processed = RenderTexture.GetTemporary(src.width, src.height, 0 );
+                Graphics.Blit(temp, processed, shaderMaterials[shaderNum]);
+                RenderTexture.ReleaseTemporary(temp); 
+            }
+
+            Graphics.Blit(processed, dest); 
+        }
 
         public void ActivateShaders(List<string> shaderNames) {
             Debug.Log("Activate shaders by name: " + shaderNames.ToArray().ToCommaSeparatedString()); 
