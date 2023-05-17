@@ -40,6 +40,10 @@ namespace sxr_internal {
         
         public List<int> currentActivePositions = new List<int>(); 
         public List<string> currentActiveNames = new List<string>();
+        
+        private int downscaleFactor;
+        public void SetDownscaleFactor(int downscaleFactor)
+        { this.downscaleFactor = downscaleFactor; }
 
         public Material[] GetShaderMaterials()
         { return shaderMaterials; }
