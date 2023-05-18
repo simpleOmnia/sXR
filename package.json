@@ -13,6 +13,7 @@
     "com.unity.xr.management": "4.2.1",
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.xr.core-utils": "2.1.0"
+    "com.unity.visualscripting": "1.7.8"
   },
   "samples": [
     {
