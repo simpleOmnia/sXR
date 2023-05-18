@@ -41,6 +41,10 @@ namespace sxr_internal{
         loadableSettings.use_steamVR = PlayerPrefs.GetInt("sXR_UseSteamVR", 0) ==1;
         loadableSettings.use_URP = PlayerPrefs.GetInt("sXR_UseURP", 0) ==1;
         loadableSettings.use_singlePass = PlayerPrefs.GetInt("sXR_UseSinglePass", 0) ==1; 
+        loadableSettings.overrideDimensions = PlayerPrefs.GetInt("sXR_OverrideDims") ==1;
+        loadableSettings.overrideX = PlayerPrefs.GetInt("sXR_OverrideX");
+        loadableSettings.overrideY = PlayerPrefs.GetInt("sXR_OverrideY");
+        
     }
 
     void SaveToPrefs() {
@@ -59,6 +63,9 @@ namespace sxr_internal{
         PlayerPrefs.SetInt("sXR_UseSteamVR", loadableSettings.use_steamVR ? 1:0);
         PlayerPrefs.SetInt("sXR_UseURP", loadableSettings.use_URP ? 1:0);
         PlayerPrefs.SetInt("sXR_UseSinglePass", loadableSettings.use_singlePass ? 1:0);
+        PlayerPrefs.SetInt("sXR_OverrideDims", loadableSettings.overrideDimensions ? 1:0);
+        PlayerPrefs.SetInt("sXR_OverrideX", loadableSettings.overrideX );
+        PlayerPrefs.SetInt("sXR_OverrideY", loadableSettings.overrideY );
     }
         
         void OnGUI()
@@ -159,7 +166,32 @@ namespace sxr_internal{
                 new GUIContent("   Use Single Pass Rendering",
                     "Enable to use single pass, will lose stereoscopic effect for higher performance in some scenarios."));
 
-            
+            if (loadableSettings.use_singlePass)
+            {
+                GUILayout.Space(15);
+                loadableSettings.overrideDimensions = GUILayout.Toggle(loadableSettings.overrideDimensions,
+                    new GUIContent("   Override render dimensions",
+                        "Enable to use override single pass render dimensions."));
+
+                if (loadableSettings.overrideDimensions)
+                {
+                    GUILayout.Space(15);
+                    GUILayout.Label(new GUIContent("X-dimension[" + $"{loadableSettings.overrideX:0}" + "]: ",
+                        "Sets the x dimension to be rendered to"));
+                    int overrideXInt = Mathf.RoundToInt(loadableSettings.overrideX);
+                    overrideXInt = Mathf.RoundToInt(GUILayout.HorizontalSlider(overrideXInt, 500, 2000));
+                    loadableSettings.overrideX = overrideXInt;
+
+                    GUILayout.Space(15);
+                    GUILayout.Label(new GUIContent("Y-dimension[" + $"{loadableSettings.overrideY:0}" + "]: ",
+                        "Sets the y dimension to be rendered to"));
+                    int overrideYInt = Mathf.RoundToInt(loadableSettings.overrideY);
+                    overrideYInt = Mathf.RoundToInt(GUILayout.HorizontalSlider(overrideYInt, 500, 2000));
+                    loadableSettings.overrideY = overrideYInt;
+
+                }
+            }
+
             if (EditorGUI.EndChangeCheck()){
                 if (loadableSettings.use_autosaver) 
                     EditorUtils.AddDefineIfNecessary("SXR_USE_AUTOSAVER", NamedBuildTarget.Standalone);

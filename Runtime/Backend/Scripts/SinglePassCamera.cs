@@ -10,8 +10,11 @@ namespace sxr_internal {
         public RenderTexture vrCameraTarget;
         void SetRes() {
             //sxrSettings.Instance.vrCamera.fieldOfView = sxrSettings.Instance.outputCamera.fieldOfView;
-            Debug.Log("Using resolution: " + Screen.currentResolution.width + ", " + Screen.currentResolution.height); 
-            vrCameraTarget = new RenderTexture(Screen.currentResolution.width, Screen.currentResolution.height, 32);
+            Vector2 dims = (PlayerPrefs.GetInt("sXR_OverrideDims") == 1
+                ? new Vector2(PlayerPrefs.GetInt("sXR_OverrideX"), PlayerPrefs.GetInt("sXR_OverrideY"))
+                : new Vector2(Screen.width, Screen.height)); 
+            Debug.Log("Using resolution: " + dims.x + ", " + dims.y); 
+            vrCameraTarget = new RenderTexture((int)dims.x, (int)dims.y, 32);
             sxrSettings.Instance.vrCamera.targetTexture = vrCameraTarget;
             UI_Handler.Instance.GetRawImageAtPosition(UI_Position.VRcamera).texture = vrCameraTarget;
             UI_Handler.Instance.GetRawImageAtPosition(UI_Position.VRcamera).SetNativeSize(); }

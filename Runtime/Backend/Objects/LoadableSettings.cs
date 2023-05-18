@@ -14,6 +14,10 @@ namespace sxr_internal {
         public bool use_URP = false;
         public bool use_singlePass = false; 
         
+        public bool overrideDimensions = false;
+        public int overrideX = 1200;
+        public int overrideY = 1200; 
+        
         public bool interpolateGaze = true;
         public float interpolateAmount = 18.0f;
             
