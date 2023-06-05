@@ -18,7 +18,9 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 # Tutorials
 [The Basics](https://github.com/unity-sXR/sXR/wiki/The-Basics)
 
-[Sample experiment video walkthrough (for beginners)](https://youtu.be/NZE6ZiD2sPA)
+[Storing and accessing variables](https://github.com/simpleOmnia/sXR/wiki/Storing-and-Accessing-Variables)
+
+[Sample experiment video walkthrough (for beginners, installation procedure has changed)](https://youtu.be/NZE6ZiD2sPA)
 
 [Vive Pro Eye Setup](https://github.com/unity-sXR/sXR/wiki/Vive-Pro-Eye-Setup)
 
@@ -32,6 +34,8 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 **Safety Wall** - Enabled by default, can be turned off in the sXR tab of the toolbar. Sometimes we don't want participants to see the wireframe boundary of SteamVR and need a bit more control over where the HMD will stop you.  Declare the size of your space in the sXR tab and a "Stop" message will appear when the headset reaches the border. Do not rely solely on this feature since HMD tracking can be unstable. Always have participants walk carefully when they're wearing a headset.  
 
 **Automatic position/eye-tracker recording** - Using 'sxr.StartRecordingCameraPos()' or 'sxr.StartRecordingEyeTrackerInfo()' will enable automatic recording of the position/eye-tracker info at the frequency you specify in the sXR tab of the toolbar. Synchronizes eye-tracker and position information allowing for the scene to be replayed with the participant's gaze highlighted
+
+**Variable management** - Allows you to access/change variables globally with sxr.SetInt/SetFloat/SetString/SetBool and sxr.GetInt/GetFloat/GetString/GetBool. The variables are saved to the computer and will load automatically with Unity. These variables can also be viewed/added/changed with the Unity editor in the sXR tab. 
 
 
 # Commands List
