@@ -380,5 +380,7 @@ namespace sxr_internal {
             if ( Instance == null) {Instance = this;  DontDestroyOnLoad(gameObject.transform.root);}
             else Destroy(gameObject); }
     }
-}
+
 #endif
+}
+

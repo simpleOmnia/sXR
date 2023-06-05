@@ -4,7 +4,11 @@
     "Unity.InputSystem",
     "Unity.TextMeshPro",
     "Unity.VisualScripting",
-    "Unity.VisualScripting.Core"
+    "Unity.VisualScripting.Core", 
+    "ViveSR",
+    "SteamVR",
+    "SteamVR_Actions",
+    "Unity.XR.OpenVR"
     ],
   "includePlatforms": [],
   "excludePlatforms": [],

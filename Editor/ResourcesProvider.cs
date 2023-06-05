@@ -40,7 +40,6 @@ public class ResourcesProvider : EditorWindow
                     string targetFilePath = Path.Combine(targetDirectory, Path.GetFileName(filePath));
 
                     if (File.Exists(targetFilePath)) { 
-                        Debug.Log("Resource already available at "+targetFilePath);
                         continue; }
 
                     File.Copy(filePath, targetFilePath, false); } } }

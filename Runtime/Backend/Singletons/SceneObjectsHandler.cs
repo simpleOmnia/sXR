@@ -21,7 +21,7 @@ namespace sxr_internal {
         /// <param name="name">Name of object to find</param>
         /// <returns>GameObject if found, null otherwise</returns>
         public GameObject GetObjectByName(string name) {
-            allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+            allObjects = UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
             foreach (var obj in allObjects)
                 if (obj.name == name) return obj;
             Debug.LogWarning("Search for object: \'"+name+"\' unsuccessful, check spelling and whitespace");
@@ -30,7 +30,7 @@ namespace sxr_internal {
 
         public bool ObjectExists(string name)
         {
-            allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+            allObjects = UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
             foreach (var obj in allObjects)
                 if (obj.name == name) return true;
             return false; 
@@ -76,7 +76,7 @@ namespace sxr_internal {
                 resizeObjects.Remove(obj);
         }
         
-        void Start() { allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();}
+        void Start() { allObjects = UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);}
         
         // Singleton initiated on Awake()  
         public static SceneObjectsHandler Instance;

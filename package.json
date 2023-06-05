@@ -15,6 +15,8 @@
   "com.unity.xr.core-utils": "2.1.0",
   "com.unity.visualscripting": "1.7.8"
 },
+  "optionalUnityReferences": ["com.vive.sr", "com.valvesoftware.steamvr"],
+  "defineConstraints": ["SXR_USE_SRANIPAL", "SXR_USE_STEAMVR"],
   "samples": [
     {
       "displayName": "Sample Experiment",

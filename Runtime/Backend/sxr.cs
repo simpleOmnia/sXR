@@ -12,8 +12,36 @@ using Unity.VisualScripting;
 /// to use the default value, or specify the variable to use another value. (Do not use the ":"
 /// operator for optional parameters.)
 /// </summary>
-public static class sxr {
+public static class sxr
+{
     
+// ****   VARIABLE STORAGE   ****
+    private static PlayerPrefsWrapper wrapper = new PlayerPrefsWrapper(); 
+    
+    public static bool SetPref(string prefName, object pref)
+    { Debug.Log("Setting variable "+prefName+": "+pref);
+    return wrapper.SetPlayerPref(prefName, pref); }
+
+    public static bool SetInt(string prefName, int value)
+    { return SetPref(prefName, value); }
+    public static int GetInt(string prefName)
+    { return wrapper.GetInt(prefName); }
+    
+    public static bool SetString(string prefName, string value)
+    { return SetPref(prefName, value); }
+    public static string GetString(string prefName)
+    { return wrapper.GetString(prefName); }
+    
+    public static bool SetFloat(string prefName, float value)
+    { return SetPref(prefName, value); }
+    public static float GetFloat(string prefName)
+    { return wrapper.GetFloat(prefName); }
+    
+    public static bool SetBool(string prefName, bool value)
+    { return SetPref(prefName, value); }
+    public static bool GetBool(string prefName)
+    { return wrapper.GetBool(prefName); }
+
 // ****   USER INTERFACE   ****
     /// <summary>
     /// Displays one of the "prebuilt" images that comes with sXR.

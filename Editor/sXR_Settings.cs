@@ -75,7 +75,7 @@ namespace sxr_internal{
                 initialLoad = false;
                 ResourcesProvider.CopyResourcesFromPackageToProject(); 
                 LoadFromPrefs();
-                Debug.Log("Loaded settings from PlayerPrefs"); 
+                Debug.Log("Loaded sXR settings"); 
             }
             rctOffButton = GUI.skin.button.margin;
             rctOffButton.left = 25;
@@ -203,12 +203,40 @@ namespace sxr_internal{
                 else 
                     EditorUtils.RemoveDefineIfNecessary("SXR_USE_AUTOVR", NamedBuildTarget.Standalone);  
                 
-                if (loadableSettings.use_SRanipal) 
+                if (loadableSettings.use_SRanipal)
+                {
                     EditorUtils.AddDefineIfNecessary("SXR_USE_SRANIPAL", NamedBuildTarget.Standalone);
+                    Debug.Log("SXR_USE_SRANIPAL");
+                    string viveSR_path = Application.dataPath+"/ViveSR/ViveSR.asmdef";
+                    string viveSRAssemblyDefinitionContent = @"{
+    ""name"": ""ViveSR"",
+    ""references"": [],
+    ""optionalUnityReferences"": [],
+    ""includePlatforms"": [],
+    ""excludePlatforms"": [],
+    ""allowUnsafeCode"": false,
+    ""overrideReferences"": false,
+    ""precompiledReferences"": [],
+    ""autoReferenced"": true,
+    ""defineConstraints"": [],
+    ""versionDefines"": [],
+    ""noEngineReferences"": false
+}";
+                    try {
+                        // Check if the file exists
+                        if (!System.IO.File.Exists(viveSR_path))
+                        {
+                            // If the file does not exist, write the content to a new file at the path
+                            System.IO.File.WriteAllText(viveSR_path, viveSRAssemblyDefinitionContent);
+                        }
+                    } catch (System.Exception e) {
+                        UnityEngine.Debug.LogError("sXR attempted to add ViveSR assembly file but failed, make sure you have the SRanipal SDK installed.  See the wiki for more info: https://github.com/unity-sXR/sXR/wiki/Vive-Pro-Eye-Setup\n" + e.Message);
+                    }
+                }
                 else 
                     EditorUtils.RemoveDefineIfNecessary("SXR_USE_SRANIPAL",NamedBuildTarget.Standalone); 
                 
-                if (loadableSettings.use_SRanipal) 
+                if (loadableSettings.use_steamVR) 
                     EditorUtils.AddDefineIfNecessary("SXR_USE_STEAMVR", NamedBuildTarget.Standalone);
                 else 
                     EditorUtils.RemoveDefineIfNecessary("SXR_USE_STEAMVR",NamedBuildTarget.Standalone); 

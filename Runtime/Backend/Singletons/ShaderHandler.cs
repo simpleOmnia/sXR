@@ -13,7 +13,6 @@ using UnityEngine.Rendering;
 namespace sxr_internal {
     /// <summary>
     /// [Singleton] Handles shaders, actively listens for shader changes in editor mode (through Inspector)
-    /// Should be attached to InspectorInteractables.  See ReadMe in sxr/Backend/Shaders
     ///     void ActivateShaders(List<int> activePositions)
     ///     void ActivateShaders(List<string> activeNames)
     ///     void ListShaders()
