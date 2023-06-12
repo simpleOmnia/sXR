@@ -14,7 +14,7 @@ Once installed, "sxr." commands should be automatically available in your IDE wi
 
 # Reporting Bugs, Contributing, and Requesting Features
 While every attempt has been made to ensure sXR is compatible with all devices/Unity projects and bug free, there is the chance of encountering problems when using sXR. Please make a new issue on Github if you run into anything that doesn't seem to work how it should, or if there's a new feature you would like to see:
-![sxr_issues](https://github.com/simpleOmnia/ReadmeImages/blob/main/sxr_issues.png)
+![sxr_issue](https://github.com/simpleOmnia/ReadmeImages/blob/main/sxr_issue.png)
 
 simpleXR is open-source, meaning the community is free to contribute. If you have a forked repository and have added a feature you'd like to contribute, please make sure your code can be merged with the main repository before submitting a pull request. If it cannot merge, please include detailed comments on what has been changed in the main repository that is causing a conflict. To avoid conflicts, it's best to frequently update your working repository to the most up to date version of the package. 
 
