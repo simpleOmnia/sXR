@@ -208,13 +208,13 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 # Coming Very Soon...
 ~~Camera passthrough for augmented reality (on supported headsets)~~ Augmented Reality sample scene available, requires SteamVR for now
 
+~~Playback mode - Replay the participants view and highlight their gaze)~~ Playback mode is available, look at the Github wiki for more info
+
 Eye-tracking/shader tutorial + sxr.commands for assigning shaders to objects
 
 Gaze-ray objects - record when the user looks at certain objects
 
 Command Recorder - record when the user presses buttons (for replaying scene)
-
-Playback mode - Replay the participants view and highlight their gaze
 
 VR Controller "Touch" option for buttons (i.e. when the controller button is  touched but not pressed)
 
