@@ -97,7 +97,7 @@ namespace sxr_internal {
         
         public void WriteToTaggedFile(string tag, string toWrite, bool includeTimeStepInfo=true) {
             if (subjectFile == "") { ParseFileNames();}
-            toWrite = includeTimeStepInfo ? timeStepToWriteInfo() : "" + toWrite;
+            toWrite = (includeTimeStepInfo ? timeStepToWriteInfo() : "") + toWrite;
             fh.AppendLine(subjectFile + "_" + tag + ".csv", toWrite);
             if (backupFile != "") fh.AppendLine(backupFile + "_" + tag + ".csv", toWrite); }
 
