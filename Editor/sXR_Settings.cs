@@ -7,11 +7,7 @@ using UnityEditor.Build;
 namespace sxr_internal{
     public class sXR_Settings : EditorWindow 
     {
-        
-        private string savedSettingsPath = Application.dataPath + Path.DirectorySeparatorChar +
-                                          "sxr" + Path.DirectorySeparatorChar + "Editor" +
-                                          Path.DirectorySeparatorChar + "sxrSettings.json";
-        private RectOffset rctOffButton, rctOffTextField, rctOffToggle, rctOffSlider;
+       private RectOffset rctOffButton, rctOffTextField, rctOffToggle, rctOffSlider;
 
         private GUIStyle myStyle;
         
@@ -74,7 +70,7 @@ namespace sxr_internal{
             {
                 initialLoad = false;
                 ResourcesProvider.CopyResourcesFromPackageToProject(); 
-                LoadFromPrefs();
+                loadableSettings.LoadFromPrefs();
                 Debug.Log("Loaded sXR settings"); 
             }
             rctOffButton = GUI.skin.button.margin;

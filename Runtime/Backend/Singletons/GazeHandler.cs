@@ -25,10 +25,11 @@ namespace sxr_internal {
 
         public void WriteEyeTrackerHeader() {
             ExperimentHandler.Instance.WriteToTaggedFile("eyetracker",
-                "screenFixationX,screenFixationY,gazeFixationX,gazeFixationY,gazeFixationZ,leftEyePositionX,"+
+                "SubjectID,Phase,Block,Trial,Step,TimeInTrial,screenFixationX,screenFixationY,gazeFixationX,gazeFixationY," +
+                "gazeFixationZ,localGazeX,localGazeY,localGazeZ,leftEyePositionX,"+
                 "leftEyePositionY,leftEyePositionZ,rightEyePositionX,rightEyePositionY,rightEyePositionZ," +
                 "leftEyeRotationX,leftEyeRotationY,leftEyeRotationZ,rightEyeRotationX,rightEyeRotationY," +
-                "rightEyeRotationZ,leftEyePupilSize,rightEyePupilSize,leftEyeOpenAmount,rightEyeOpenAmount");
+                "rightEyeRotationZ,leftEyePupilSize,rightEyePupilSize,leftEyeOpenAmount,rightEyeOpenAmount", includeTimeStepInfo:false);
             headerPrinted=true;}
         
         public void StartRecording() {
@@ -38,7 +39,7 @@ namespace sxr_internal {
         public void PauseRecording()
         {
             recordEyeTracker = false;
-            if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite, includeTimeStepInfo:false);
+            if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite);
             toWrite = ""; 
         }
 
@@ -53,14 +54,16 @@ namespace sxr_internal {
         }
 
         public string GetFullGazeInfo(){
-            return (GetScreenFixationPoint() +","+ GazeFixation() +","+ LeftEyePosition() +","+ RightEyePosition() +","+
+            return (GetScreenFixationPoint() +","+ GazeFixation() +"," + GetGazeCombinedGazeRayLocal() + "," 
+                    + LeftEyePosition() +","+ RightEyePosition() +","+
                     LeftEyeRotation() +","+ RightEyeRotation() +","+ LeftEyePupilSize() +","+ RightEyePupilSize() + ","+
                     LeftEyeOpenAmount() +","+ RightEyeOpenAmount()).Replace("(","").Replace(")","");
         }
 
         public void Update() {
             if (sxrSettings.Instance.RecordThisFrame() & recordEyeTracker)
-                toWrite += GetFullGazeInfo() + "\n"; }
+                toWrite += ExperimentHandler.Instance.subjectID+","+sxr.GetPhase()+","+sxr.GetBlock()+","+sxr.GetTrial()+
+                           ","+sxr.GetStepInTrial()+","+sxr.TimePassed()+","+GetFullGazeInfo() + "\n"; }
 
         void UpdateGaze() {
             if (lastUpdate != sxrSettings.Instance.GetCurrentFrame()) {
@@ -68,13 +71,13 @@ namespace sxr_internal {
                 if (SRanipal_Eye.GetGazeRay(GazeIndex.COMBINE, out gazeOriginCombinedLocal, out gazeDirectionCombinedLocal)) { }
                 else if (SRanipal_Eye.GetGazeRay(GazeIndex.LEFT, out gazeOriginCombinedLocal, out gazeDirectionCombinedLocal)) { }
                 else if (SRanipal_Eye.GetGazeRay(GazeIndex.RIGHT, out gazeOriginCombinedLocal, out gazeDirectionCombinedLocal)) { }
-                else if (SRanipal_Eye_v2.GetGazeRay(GazeIndex.COMBINE, out gazeOriginCombinedLocal,
-                    out gazeDirectionCombinedLocal)) { }
-                else if (SRanipal_Eye_v2.GetGazeRay(GazeIndex.LEFT, out gazeOriginCombinedLocal,
-                    out gazeDirectionCombinedLocal)) { }
-                else if (SRanipal_Eye_v2.GetGazeRay(GazeIndex.RIGHT, out gazeOriginCombinedLocal,
-                    out gazeDirectionCombinedLocal)) { }
-                else { Debug.LogWarning("Failed to find SRanipal Framework (combinedGazeRayLocal), do you have the SDK installed?"); }
+                // else if (SRanipal_Eye_v2.GetGazeRay(GazeIndex.COMBINE, out gazeOriginCombinedLocal,
+                //     out gazeDirectionCombinedLocal)) { }
+                // else if (SRanipal_Eye_v2.GetGazeRay(GazeIndex.LEFT, out gazeOriginCombinedLocal,
+                //     out gazeDirectionCombinedLocal)) { }
+                // else if (SRanipal_Eye_v2.GetGazeRay(GazeIndex.RIGHT, out gazeOriginCombinedLocal,
+                //     out gazeDirectionCombinedLocal)) { }
+                else { Debug.LogWarning("Failed to find SRanipal Framework V1 (combinedGazeRayLocal), do you have the SDK installed (and the headset on)?"); }
                 
                 var interpolatedGazeDirection = UnityEngine.Vector3.Lerp(previousGazeDirectionCombinedLocal, gazeDirectionCombinedLocal,
                     sxrSettings.Instance.interpolateAmount * Time.unscaledDeltaTime);
@@ -83,8 +86,7 @@ namespace sxr_internal {
                     : gazeDirectionCombinedLocal.normalized;
 
                 if (SRanipal_Eye.GetVerboseData(out verboseData)) { }
-                else if (SRanipal_Eye_v2.GetVerboseData(out verboseData)) { }
-                else { /*Debug.LogWarning("Failed to find SRanipal Framework (verboseData), do you have the SDK installed?");*/ }
+                else { Debug.LogWarning("Failed to find SRanipal Framework V1 (verboseData), do you have the SDK installed?"); }
             
 
                 sxr.DebugLog(gazeOriginCombinedLocal.ToString());
@@ -104,23 +106,18 @@ namespace sxr_internal {
             UpdateGaze();
             Camera vrCamera = sxrSettings.Instance.vrCamera;
             var screenPos =
-                vrCamera.WorldToScreenPoint(vrCamera.transform.position + gazeOriginCombinedLocal +
-                                                vrCamera.transform.rotation * gazeDirectionCombinedLocal);
+                vrCamera.WorldToScreenPoint( GazeFixation());
 
-            float gazeX = screenPos.x / Screen.currentResolution.width;
-            float gazeY = screenPos.y / Screen.currentResolution.height;
+            float gazeX = screenPos.x / vrCamera.pixelWidth;
+            float gazeY = screenPos.y / vrCamera.pixelHeight; 
             sxr.DebugLog("Gaze: " + gazeX + "," + gazeY);
+            sxr.DebugLog(Screen.currentResolution.width.ToString());
+            sxr.DebugLog(Screen.currentResolution.height.ToString());
             return new Vector2(gazeX, gazeY); }
-
-        public float GetCombinedEyeConvergenceDistance(){
-            if (verboseData.combined.convergence_distance_validity)
-                return verboseData.combined.convergence_distance_mm; 
-            sxr.DebugLog("Failed to find combined convergence distance");
-            return 0; }
 
         public Vector3 GazeFixation()
         {
-            return vrCamera.transform.position + (GetCombinedEyeConvergenceDistance() * GetGazeCombinedGazeRayLocal()); 
+            return gazeOriginCombinedLocal + gazeDirectionCombinedLocal; 
         }
         
         public Vector3 LeftEyePosition() {
