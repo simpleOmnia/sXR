@@ -19,19 +19,25 @@ namespace sxr_internal {
         private FileHandler fh = new FileHandler();
 
         private float lastTriggerPress;
+        private int lastTrueFrame; 
         
         /// <summary>
         /// Offers a combined "Trigger" across joystick trigger, vr controller trigger, left mouse click, and keyboard spacebar
         /// </summary>
         /// <param name="frequency">Pause between returning true when trigger/spacebar/mouse is held</param>
         /// <returns>true if [frequency] seconds has passed since last trigger and trigger/space/mouse is pressed</returns>
-        public bool GetTrigger(float frequency){
+        public bool GetTrigger(float frequency) {
+            if (sxrSettings.Instance.GetCurrentFrame() == lastTrueFrame)
+                return true; 
+            
             if((sxr.CheckController( sxr_internal.ControllerButton.Trigger) || 
                 Input.GetKey(KeyCode.Space) || Input.GetAxis("Fire1")>0 || Input.GetMouseButton((int) MouseButton.Left))
                && Time.time-lastTriggerPress > frequency) {
                 sxr.DebugLog("Valid trigger press detected: " + Time.time); 
                 lastTriggerPress = Time.time;
+                lastTrueFrame = sxrSettings.Instance.GetCurrentFrame(); 
                 return true; }
+            
             return false; }
 
 
@@ -97,6 +103,7 @@ namespace sxr_internal {
         
         public void WriteToTaggedFile(string tag, string toWrite, bool includeTimeStepInfo=true) {
             if (subjectFile == "") { ParseFileNames();}
+            
             toWrite = (includeTimeStepInfo ? timeStepToWriteInfo() : "") + toWrite;
             fh.AppendLine(subjectFile + "_" + tag + ".csv", toWrite);
             if (backupFile != "") fh.AppendLine(backupFile + "_" + tag + ".csv", toWrite); }

@@ -638,7 +638,6 @@ public static class sxr
         if (obj.TryGetComponent(out SkinnedMeshRenderer mesh2)) mesh2.enabled = visible;
         foreach (Transform child in obj.transform)
         {
-            Debug.Log(child.gameObject.name); 
             ObjectVisibility(child.gameObject, visible); 
         }}
 
@@ -741,8 +740,13 @@ public static class sxr
     /// <returns></returns>
     public static bool CheckCollision(GameObject obj1, GameObject obj2)
         { return CollisionHandler.Instance.ObjectsCollidersTouching(obj1, obj2);}
+
     public static bool CheckCollision(string obj1, string obj2)
-        { return CheckCollision(GetObject(obj1), GetObject(obj2));}
+    {
+        if (!sxr.ObjectExists(obj1) || !sxr.ObjectExists(obj2))
+            return false;
+        return CheckCollision(GetObject(obj1), GetObject(obj2));
+    }
     
 // *****   Extras   **** 
 
@@ -750,7 +754,9 @@ public static class sxr
     /// Plays one of the sounds provided by sXR. Use sxr.ProvidedSounds (.Beep, .Buzz, .Ding, .Stop)
     /// </summary>
     /// <param name="sound"></param>
-    public static void PlaySound(ProvidedSounds sound){}
+    public static void PlaySound(ProvidedSounds sound)
+    {
+        SoundHandler.Instance.PlayBuiltinSound(sound);}
     
     /// <summary>
     /// Searches all 'Resources' folders to find the sound with the specified filename.
