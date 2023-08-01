@@ -40,7 +40,7 @@ namespace sxr_internal {
         public List<int> currentActivePositions = new List<int>(); 
         public List<string> currentActiveNames = new List<string>();
         
-        private int downscaleFactor;
+        private int downscaleFactor=1;
         public void SetDownscaleFactor(int downscaleFactor)
         { this.downscaleFactor = downscaleFactor; }
 

@@ -43,7 +43,7 @@
             
             float4 frag (v2f i) : SV_Target
             {
-                if(i.uv.x <gazeX)
+                if(((i.uv.x - gazeX) * (i.uv.x - gazeX) + (i.uv.y - gazeY)*(i.uv.y - gazeY))<.01)
                 {
                     return fixed4(0,0,0,0); 
                 } 
