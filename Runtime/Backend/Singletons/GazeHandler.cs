@@ -110,14 +110,13 @@ namespace sxr_internal {
 
             float gazeX = screenPos.x / vrCamera.pixelWidth;
             float gazeY = screenPos.y / vrCamera.pixelHeight; 
-            sxr.DebugLog("Gaze: " + gazeX + "," + gazeY);
-            sxr.DebugLog(Screen.currentResolution.width.ToString());
-            sxr.DebugLog(Screen.currentResolution.height.ToString());
+
             return new Vector2(gazeX, gazeY); }
 
         public Vector3 GazeFixation()
         {
-            return gazeOriginCombinedLocal + gazeDirectionCombinedLocal; 
+            var trans = sxrSettings.Instance.vrCamera.transform; 
+            return trans.position + (trans.rotation.eulerAngles.normalized + gazeDirectionCombinedLocal); 
         }
         
         public Vector3 LeftEyePosition() {
