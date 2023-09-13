@@ -51,7 +51,7 @@ namespace sxr_internal {
         }
 
         void StopXR() {
-            if (XRGeneralSettings.Instance.Manager.isInitializationComplete) {
+            if (XRGeneralSettings.Instance !=null && XRGeneralSettings.Instance.Manager.isInitializationComplete) {
                 XRGeneralSettings.Instance.Manager.StopSubsystems();
             }
 
