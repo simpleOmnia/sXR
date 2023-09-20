@@ -14,10 +14,10 @@ namespace sxr_internal {
         void Update() {
             var pos = sxrSettings.Instance.vrCamera.gameObject.transform.position; 
             if (displayEmergency 
-                || pos.x > sxrSettings.Instance.distanceBetweenEastWest/2 
-                || pos.x < -sxrSettings.Instance.distanceBetweenEastWest/2  
-                || pos.z > sxrSettings.Instance.distanceBetweenNorthSouth/2 
-                || pos.z < - sxrSettings.Instance.distanceBetweenNorthSouth/2){
+                & (pos.x > sxrSettings.Instance.distanceBetweenEastWest / 2
+                   || pos.x < -sxrSettings.Instance.distanceBetweenEastWest / 2
+                   || pos.z > sxrSettings.Instance.distanceBetweenNorthSouth / 2
+                   || pos.z < -sxrSettings.Instance.distanceBetweenNorthSouth / 2)){
                 SoundHandler.Instance.Stop();
                 UI_Handler.Instance.emergencyStop.enabled = true; }
             else { UI_Handler.Instance.emergencyStop.enabled =  false; }
