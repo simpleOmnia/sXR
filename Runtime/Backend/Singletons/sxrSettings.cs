@@ -92,7 +92,9 @@ namespace sxr_internal {
 
             subjectDataDirectory = loadableSettings.dataPath;
             backupDataDirectory = loadableSettings.backupPath; }
-            
+
+        private void Start()
+        { SafetyHandler.Instance.SafetyMessage(safetyMessage); }
 
         // Singleton initiated on Awake()
         public static sxrSettings Instance; 
