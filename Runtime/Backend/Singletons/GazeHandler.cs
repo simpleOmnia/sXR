@@ -115,6 +115,7 @@ namespace sxr_internal {
 
         public Vector3 GazeFixation()
         {
+            UpdateGaze(); 
             var trans = sxrSettings.Instance.vrCamera.transform; 
             return trans.position + (trans.rotation.eulerAngles.normalized + gazeDirectionCombinedLocal); 
         }
