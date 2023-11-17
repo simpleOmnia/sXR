@@ -213,8 +213,8 @@ public static class sxr
         ControllerVR controller = SteamControllerVR.Instance; 
         #else
         ControllerVR controller = UnityXR_Controller.Instance; 
-        #endif 
-        
+        #endif
+        Debug.Log("Check"); 
         if (controller.buttonPressed[(int) whichButton]) {
             if (Time.time - controller.buttonTimers[(int) whichButton] > frequency) {
                 DebugLog("Controller Button: " + whichButton + " pressed after delay of: " + frequency, 5000);

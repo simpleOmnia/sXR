@@ -651,7 +651,7 @@ MonoBehaviour:
   - 0
   - 0
   buttonPressed: 000000000000000000000000000000000000000000000000
-  useController: 0
+  useController: 1
 --- !u!114 &1340924197316144628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8041,7 +8041,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3362610532723254087, guid: 4156b264b0542d845970bdfb977ce5b0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3736262880275225570, guid: 4156b264b0542d845970bdfb977ce5b0, type: 3}
       propertyPath: m_Layer

@@ -20,10 +20,14 @@ namespace sxr_internal {
                     Debug.Log("Impulse not supported by controller");
             }
             else
+            {
                 Debug.Log("Unable to detect controller capabilities");
+                Debug.Log(rightController); 
+            }
         }
         
         private void Update() {
+
             if(useController){
                 leftController = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
                 rightController = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
@@ -32,7 +36,7 @@ namespace sxr_internal {
                     rightController = InputDevices.GetDeviceAtXRNode(XRNode.GameController); }
 
                 if (!rightController.isValid && !leftController.isValid )
-                    sxr.DebugLog("Failed to find VR controller", 5000); 
+                    sxr.DebugLog("Failed to find VR controller", 5000);
 
                 InputDevice[] controllers = {rightController, leftController}; 
                 foreach (var controller in controllers) 
