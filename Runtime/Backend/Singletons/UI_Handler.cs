@@ -48,6 +48,10 @@ namespace sxr_internal {
                 
                 inputWindow.SetActive(inputDropdown.activeSelf || inputSlider.activeSelf);
             }
+            else
+            {
+                sxrSettings.Instance.vrCamera.cullingMask = ~(1 << LayerMask.NameToLayer("InteractiveUI"));
+            }
         }
 
         public void UI_Submit()

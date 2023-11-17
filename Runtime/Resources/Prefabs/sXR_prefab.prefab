@@ -10867,7 +10867,7 @@ MonoBehaviour:
   scrollText: {fileID: 0}
   inputText: {fileID: 0}
   buttonText: {fileID: 0}
-  activeUpdate: 1
+  activeUpdate: 0
 --- !u!1 &5284990571423112021
 GameObject:
   m_ObjectHideFlags: 0
