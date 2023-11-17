@@ -8282,7 +8282,6 @@ GameObject:
   - component: {fileID: 2163437744569736422}
   - component: {fileID: 3911132589537141107}
   - component: {fileID: 7703960089996138296}
-  - component: {fileID: 6926936253192911384}
   m_Layer: 0
   m_Name: Right Controller
   m_TagString: Untagged
@@ -8559,31 +8558,6 @@ MonoBehaviour:
   - groupMember: {fileID: 3170408832834098237}
     overrideGroupMembers:
     - {fileID: 7323696836348167507}
---- !u!114 &6926936253192911384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3911132589537141111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15a213340f3c1994195f8b4d66cd3c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ManipulationInteractionGroup: {fileID: 0}
-  m_DirectInteractor: {fileID: 0}
-  m_RayInteractor: {fileID: 0}
-  m_TeleportInteractor: {fileID: 0}
-  m_TeleportModeActivate: {fileID: 0}
-  m_TeleportModeCancel: {fileID: 0}
-  m_Turn: {fileID: 0}
-  m_SnapTurn: {fileID: 0}
-  m_Move: {fileID: 0}
-  m_UIScroll: {fileID: 0}
-  m_SmoothMotionEnabled: 0
-  m_SmoothTurnEnabled: 0
-  m_UIScrollingEnabled: 0
 --- !u!1 &3911132589914677640
 GameObject:
   m_ObjectHideFlags: 0
