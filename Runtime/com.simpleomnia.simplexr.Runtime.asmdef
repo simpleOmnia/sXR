@@ -1,22 +1,22 @@
 {
-  "name": "com.simpleomnia.simplexr.Runtime",
-  "references": ["Unity.XR.Management",
-    "Unity.InputSystem",
-    "Unity.TextMeshPro",
-    "Unity.VisualScripting",
-    "Unity.VisualScripting.Core", 
-    "ViveSR",
-    "SteamVR",
-    "SteamVR_Actions",
-    "Unity.XR.OpenVR"
+    "name": "com.simpleomnia.simplexr.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "Unity.XR.Management",
+        "Unity.InputSystem",
+        "Unity.TextMeshPro",
+        "Unity.VisualScripting.Core",
+        "ViveSR",
+        "Unity.XR.OpenVR",
+        "Unity.XR.Interaction.Toolkit"
     ],
-  "includePlatforms": [],
-  "excludePlatforms": [],
-  "allowUnsafeCode": false,
-  "overrideReferences": false,
-  "precompiledReferences": [],
-  "autoReferenced": true,
-  "defineConstraints": [],
-  "versionDefines": [],
-  "noEngineReferences": false
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

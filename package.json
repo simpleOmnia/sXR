@@ -8,15 +8,22 @@
   "documentationUrl": "https://github.com/unity-sXR/sXR/blob/master/README.md",
   "changelogUrl": "https://github.com/unity-sXR/sXR/blob/master/CHANGELOG.md",
   "licensesUrl": "https://github.com/unity-sXR/sXR/blob/master/LICENSE.md",
- "dependencies": {
-  "com.unity.inputsystem": "1.4.4",
-  "com.unity.xr.management": "4.2.1",
-  "com.unity.textmeshpro": "3.0.6",
-  "com.unity.xr.core-utils": "2.1.0",
-  "com.unity.visualscripting": "1.7.8"
-},
-  "optionalUnityReferences": ["com.vive.sr", "com.valvesoftware.steamvr"],
-  "defineConstraints": ["SXR_USE_SRANIPAL", "SXR_USE_STEAMVR"],
+  "dependencies": {
+    "com.unity.inputsystem": "1.4.4",
+    "com.unity.xr.management": "4.2.1",
+    "com.unity.textmeshpro": "3.0.6",
+    "com.unity.xr.core-utils": "2.1.0",
+    "com.unity.visualscripting": "1.7.8",
+    "com.unity.xr.interaction.toolkit": "2.4.3"
+  },
+  "optionalUnityReferences": [
+    "com.vive.sr",
+    "com.valvesoftware.steamvr"
+  ],
+  "defineConstraints": [
+    "SXR_USE_SRANIPAL",
+    "SXR_USE_STEAMVR"
+  ],
   "samples": [
     {
       "displayName": "Sample Experiment",
