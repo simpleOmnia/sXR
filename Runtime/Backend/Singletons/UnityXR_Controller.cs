@@ -10,7 +10,7 @@ namespace sxr_internal {
 
         public void SendHaptic(uint chan, float amp, float dur, bool rightHand)
         {
-            HapticCapabilities capabilities
+            HapticCapabilities capabilities;
             if ((rightHand & rightController.TryGetHapticCapabilities(out capabilities)) |
                 (!rightHand & leftController.TryGetHapticCapabilities(out capabilities)))
             {
