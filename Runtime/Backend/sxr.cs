@@ -212,7 +212,7 @@ public static class sxr
         #if SXR_USE_STEAMVR
         ControllerVR controller = SteamControllerVR.Instance; 
         #else
-        ControllerVR controller = OpenXR_Controller.Instance; 
+        ControllerVR controller = UnityXR_Controller.Instance; 
         #endif 
         controller.EnableControllers();
         
@@ -809,10 +809,29 @@ public static class sxr
         #endif
         return false; }
 
+    public static void ActiveLaser(bool active, bool rightHand)
+    {
+        sxr.GetObject(rightHand ? "RightLaser" : "LeftLaser").SetActive(active); 
+    }
+    
     public static string GetFullGazeInfo() { return GazeHandler.Instance.GetFullGazeInfo(); }
 
     public static Vector2 GetGazeScreenPos() { return GazeHandler.Instance.GetScreenFixationPoint(); }
-    
+
+    public static bool SetIfNull(ref GameObject gameObj, string objectName)
+    {
+        if (gameObj == null)
+        {
+            if (ObjectExists(objectName))
+                gameObj = sxr.GetObject(objectName);
+            else
+            {
+                gameObj = null; 
+                return false; 
+            }
+        }
+        return true; 
+    }
 // *****   DEBUG COMMANDS   **** 4
     /// <summary>
     /// Displays a debug message every [frameFrequency] frames if sxrSettings.debugMode==Frequent or every

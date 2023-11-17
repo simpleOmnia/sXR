@@ -24,8 +24,8 @@ namespace sxr_internal{
     void LoadFromPrefs(){
         loadableSettings.dataPath = PlayerPrefs.GetString("sXR_DataPath", "");
         loadableSettings.backupPath = PlayerPrefs.GetString("sXR_BackupPath", "");
-        loadableSettings.use_autosaver = PlayerPrefs.GetInt("sXR_UseAutosaver", 0) ==1;
-        loadableSettings.use_autoVR = PlayerPrefs.GetInt("sXR_UseAutoVR", 0) ==1;
+        loadableSettings.use_autosaver = PlayerPrefs.GetInt("sXR_UseAutosaver", 1) ==1;
+        loadableSettings.use_autoVR = PlayerPrefs.GetInt("sXR_UseAutoVR", 1) ==1;
         loadableSettings.use_safetyWalls = PlayerPrefs.GetInt("sXR_UseSafetyWalls", 0) ==1;
         loadableSettings.safetyWallBoundsNS = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsNS", 5f);
         loadableSettings.safetyWallBoundsEW = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsEW", 5f);
@@ -232,8 +232,11 @@ namespace sxr_internal{
                 else 
                     EditorUtils.RemoveDefineIfNecessary("SXR_USE_SRANIPAL",NamedBuildTarget.Standalone); 
                 
-                if (loadableSettings.use_steamVR) 
+                if (loadableSettings.use_steamVR)
+                {
                     EditorUtils.AddDefineIfNecessary("SXR_USE_STEAMVR", NamedBuildTarget.Standalone);
+                    Debug.LogWarning("SteamControllerVR is deprecated, should only use with projects previously designed with SteamVR controls.");
+                }
                 else 
                     EditorUtils.RemoveDefineIfNecessary("SXR_USE_STEAMVR",NamedBuildTarget.Standalone); 
 

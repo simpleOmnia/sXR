@@ -1,3 +1,5 @@
+using System;
+
 namespace sxr_internal{
 #if SXR_USE_STEAMVR
     using UnityEngine;
@@ -5,6 +7,8 @@ namespace sxr_internal{
 
 
     /// <summary>
+    /// Deprecated, requires Valve.VR... Should only be used on projects that have been previously configured
+    /// to use SteamVR controls
     /// [Singleton] Easy boolean access to SteamVR controller buttons
     /// Can be attached to any GameObject but the parent object of SteamVR
     /// controllers is recommended. Custom button configurations require SteamVR actions to be properly
@@ -17,6 +21,7 @@ namespace sxr_internal{
     /// On Update:
     ///     N/A
     /// </summary>
+    [Obsolete("SteamControllerVR is deprecated, please use UnityXR_Controller instead.")]
     public class SteamControllerVR : ControllerVR {
 
         [SerializeField] SteamVR_Action_Boolean 

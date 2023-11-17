@@ -31,51 +31,52 @@ namespace sxr_internal {
         public RawImage[] UI_overlays = new RawImage[18];
         public RawImage pleaseWait, finished, eyeError, emergencyStop;
         public TextMeshProUGUI textboxTop, textboxTopMiddle, textboxBottomMiddle, textboxBottom, textboxTopLeft;
+
+        [SerializeField]  GameObject scrollObject, submitButton, inputWindow, inputSlider, inputDropdown;
+        [SerializeField]  GameObject scrollTitle, scrollText, inputText, buttonText;
         
-        private GameObject submitButton, inputSlider, inputDropdown, rightLaser, leftLaser;
+        public bool activeUpdate = true; 
         private bool submit;
+
+        public void Update()
+        {
+            if (activeUpdate)
+            {
+                sxrSettings.Instance.vrCamera.cullingMask = submitButton.activeSelf
+                    ? LayerMask.GetMask("InteractiveUI")
+                    : ~(1 << LayerMask.NameToLayer("InteractiveUI"));
+                
+                inputWindow.SetActive(inputDropdown.activeSelf || inputSlider.activeSelf);
+            }
+        }
 
         public void UI_Submit()
         { HideInputUI(); submit = true; }
-        
-        public void DisplayInputUI() {
-            if (submitButton == null)
-                submitButton = sxr.GetObject("SubmitButton");
-            if (inputSlider == null)
-                inputSlider = sxr.GetObject("InputSlider");
-            if (inputDropdown == null)
-                inputDropdown = sxr.GetObject("InputDropdown");
-            if (leftLaser == null)
-                leftLaser = sxr.GetObject("LeftLaser");
-            if (rightLaser == null)
-                rightLaser = sxr.GetObject("RightLaser");
-            rightLaser.SetActive(true);
-            leftLaser.SetActive(true);
-            submitButton.SetActive(true); }
 
         public void HideInputUI()
         {
+            scrollObject.SetActive(false);
+            scrollTitle.GetComponent<Text>().text = "";
+            scrollText.GetComponent<Text>().text = "";
             inputDropdown.SetActive(false);
             inputSlider.SetActive(false);
             submitButton.SetActive(false); 
-            rightLaser.SetActive(false);
-            leftLaser.SetActive(false); }
+        }
 
         public void InputSlider(int sliderMin, int sliderMax, string questionText, bool wholeNumbers) {
-            DisplayInputUI();
             var slider = inputSlider.GetComponent<Slider>();
             slider.minValue = sliderMin;
             slider.maxValue = sliderMax;
             slider.wholeNumbers = wholeNumbers; 
-            var text = inputSlider.GetComponentInChildren<TextMeshProUGUI>();
-            text.text = questionText;
+            SetText(inputText, questionText);
             inputSlider.SetActive(true);
-
             inputDropdown.SetActive(false); }
         public void InputSlider(int sliderMin, int sliderMax, string questionText)
         { InputSlider(sliderMin, sliderMax, questionText, true); }
 
-        public void InputDropdown(string[] options, string labelText) {
+        public void InputDropdown(string[] options, string questionText)
+        {
+            SetText(inputText, questionText);
             var dropdown = inputDropdown.GetComponent<TMP_Dropdown>();
             var optionsList = new List<TMP_Dropdown.OptionData>(); 
             foreach (var option in options)
@@ -273,25 +274,37 @@ namespace sxr_internal {
                     UI_Handler.Instance.eyeError.enabled = true;
                     break; } }
 
-        private void Start() {
-            if (submitButton == null)
-                submitButton = sxr.GetObject("SubmitButton");
-            if (inputSlider == null)
-                inputSlider = sxr.GetObject("InputSlider");
-            if (inputDropdown == null)
-                inputDropdown = sxr.GetObject("InputDropdown");
-            if (leftLaser == null)
-                leftLaser = sxr.GetObject("LeftLaser");
-            if (rightLaser == null)
-                rightLaser = sxr.GetObject("RightLaser"); 
-            HideInputUI(); }
+        private void Start()
+        {
+            sxr.SetIfNull(ref submitButton , "SubmitButton");
+            sxr.SetIfNull(ref inputSlider, "Slider");
+            sxr.SetIfNull(ref inputDropdown , "Dropdown");
+            sxr.SetIfNull(ref scrollTitle , "ScrollTitle");
+            sxr.SetIfNull(ref scrollObject, "ScrollObject");
+            sxr.SetIfNull(ref scrollText, "ScrollText");
+            sxr.SetIfNull(ref buttonText, "ButtonText");
+            sxr.SetIfNull(ref inputWindow, "InputWindow"); 
 
+            inputSlider.SetActive(false);
+            inputDropdown.SetActive(false);
+            SetText(scrollTitle, "Instructions");
+            SetText(scrollText, "Wait for the experimenter to start.");
+            SetText(buttonText, "Start"); 
+        }
+
+        bool SetText(GameObject gameObj, string text)
+        {
+            if (!gameObj) return false;
+            gameObj.GetComponent<Text>().text = text;
+            return true; 
+        }
 
         // Singleton initiated on Awake()
         public static UI_Handler Instance { get; private set; }
         private void Awake() {
             // Parse all UI_Handler components from Unity names
             var overlayComponents = gameObject.transform.Find("MainCanvas").GetComponentsInChildren<RawImage>();
+
             foreach (var component in overlayComponents) {
                 if (component.name == "Finished")
                 {

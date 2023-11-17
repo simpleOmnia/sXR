@@ -103,7 +103,7 @@ namespace sxr_internal {
             else Destroy(gameObject); 
             
             if (!vrCamera)
-                vrCamera = gameObject.transform.Find("vrCameraAssembly").GameObject().GetComponentInChildren<Camera>(); 
+                vrCamera = sxr.GetObject("Camera Offset").GetComponentInChildren<Camera>(); 
             if(usePreviousSettings)
                 LoadFromPreferences(); }
     }

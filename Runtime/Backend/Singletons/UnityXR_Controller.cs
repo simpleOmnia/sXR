@@ -5,7 +5,7 @@ using InputDevice = UnityEngine.XR.InputDevice;
 
 
 namespace sxr_internal {
-    public class OpenXR_Controller : ControllerVR {
+    public class UnityXR_Controller : ControllerVR {
         private InputDevice leftController, rightController;
 
         private void Update() {
@@ -95,7 +95,7 @@ namespace sxr_internal {
         }
 
         // Singleton initiated on Awake()
-        public static OpenXR_Controller Instance;
+        public static UnityXR_Controller Instance;
         private void Awake() {  if ( Instance == null) {Instance = this; DontDestroyOnLoad(gameObject.transform.root);} 
             else Destroy(gameObject);  }
     }
