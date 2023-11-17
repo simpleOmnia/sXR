@@ -813,6 +813,11 @@ public static class sxr
     {
         sxr.GetObject(rightHand ? "RightLaser" : "LeftLaser").SetActive(active); 
     }
+
+    public static void SendHaptic(uint chan, float amp, float dur, bool rightHand)
+    {
+        UnityXR_Controller.Instance.SendHaptic(chan, float, amp, rightHand); 
+    }
     
     public static string GetFullGazeInfo() { return GazeHandler.Instance.GetFullGazeInfo(); }
 

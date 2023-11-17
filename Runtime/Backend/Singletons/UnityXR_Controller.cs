@@ -8,6 +8,21 @@ namespace sxr_internal {
     public class UnityXR_Controller : ControllerVR {
         private InputDevice leftController, rightController;
 
+        public void SendHaptic(uint chan, float amp, float dur, bool rightHand)
+        {
+            HapticCapabilities capabilities
+            if ((rightHand & rightController.TryGetHapticCapabilities(out capabilities)) |
+                (!rightHand & leftController.TryGetHapticCapabilities(out capabilities)))
+            {
+                if (capabilities.supportsImpulse)
+                    (rightHand ? rightController : leftController).SendHapticImpulse(chan, amp, dur);
+                else
+                    Debug.Log("Impulse not supported by controller");
+            }
+            else
+                Debug.Log("Unable to detect controller capabilities");
+        }
+        
         private void Update() {
             if(useController){
                 leftController = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);

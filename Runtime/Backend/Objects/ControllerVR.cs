@@ -11,9 +11,9 @@ namespace sxr_internal
         public float[] buttonTimers = new float[Enum.GetNames(typeof(sxr_internal.ControllerButton)).Length];
         public bool[] buttonPressed = new bool[Enum.GetNames(typeof(sxr_internal.ControllerButton)).Length];
 
-        public bool useController;
+        public bool useController=true;
 
-        public void EnableControllers()
-        { useController = true; } 
+        public void DisableControllers()
+        { useController = false; } 
     }
 }
