@@ -8,7 +8,8 @@
         "Unity.VisualScripting.Core",
         "ViveSR",
         "Unity.XR.OpenVR",
-        "Unity.XR.Interaction.Toolkit"
+        "Unity.XR.Interaction.Toolkit",
+        "Unity.XR.CoreUtils"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
