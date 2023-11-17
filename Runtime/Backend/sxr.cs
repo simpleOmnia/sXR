@@ -214,7 +214,6 @@ public static class sxr
         #else
         ControllerVR controller = UnityXR_Controller.Instance; 
         #endif 
-        controller.EnableControllers();
         
         if (controller.buttonPressed[(int) whichButton]) {
             if (Time.time - controller.buttonTimers[(int) whichButton] > frequency) {
