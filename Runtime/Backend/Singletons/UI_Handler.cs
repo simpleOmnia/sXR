@@ -32,7 +32,7 @@ namespace sxr_internal {
         public RawImage pleaseWait, finished, eyeError, emergencyStop;
         public TextMeshProUGUI textboxTop, textboxTopMiddle, textboxBottomMiddle, textboxBottom, textboxTopLeft;
 
-        [SerializeField]  GameObject scrollObject, submitButton, inputWindow, inputSlider, inputDropdown;
+        [SerializeField]  GameObject interactiveUI, scrollObject, submitButton, inputWindow, inputSlider, inputDropdown;
         [SerializeField]  GameObject scrollTitle, scrollText, inputText, buttonText;
         
         public bool activeUpdate = true; 
@@ -276,6 +276,7 @@ namespace sxr_internal {
 
         private void Start()
         {
+            sxr.SetIfNull(ref interactiveUI, "InteractiveUI"); 
             sxr.SetIfNull(ref submitButton , "SubmitButton");
             sxr.SetIfNull(ref inputSlider, "Slider");
             sxr.SetIfNull(ref inputDropdown , "Dropdown");
@@ -289,19 +290,32 @@ namespace sxr_internal {
             inputDropdown.SetActive(false);
             SetText(scrollTitle, "Instructions");
             SetText(scrollText, "Wait for the experimenter to start.");
-            SetText(buttonText, "Start"); 
+            SetText(buttonText, "Start");
+
+            if (!TagsAndLayers.LayerExists("InteractiveUI"))
+                TagsAndLayers.CreateLayer("InteractiveUI");
+            TagsAndLayers.SetLayerRecursively(interactiveUI, LayerMask.NameToLayer("InteractiveUI")); 
+
         }
 
         bool SetText(GameObject gameObj, string text)
         {
             if (!gameObj) return false;
-            gameObj.GetComponent<Text>().text = text;
+            
+            if (gameObj.GetComponent<Text>() != null)
+                gameObj.GetComponent<Text>().text = text;
+            else if (gameObj.GetComponent<TextMeshProUGUI>() != null)
+                gameObj.GetComponent<TextMeshProUGUI>().text = text;
+            else
+                return false;
+            
             return true; 
         }
 
         // Singleton initiated on Awake()
         public static UI_Handler Instance { get; private set; }
         private void Awake() {
+
             // Parse all UI_Handler components from Unity names
             var overlayComponents = gameObject.transform.Find("MainCanvas").GetComponentsInChildren<RawImage>();
 
