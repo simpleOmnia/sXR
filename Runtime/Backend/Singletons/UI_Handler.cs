@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace sxr_internal {
     /// <summary>
@@ -32,19 +33,19 @@ namespace sxr_internal {
         public RawImage pleaseWait, finished, eyeError, emergencyStop;
         public TextMeshProUGUI textboxTop, textboxTopMiddle, textboxBottomMiddle, textboxBottom, textboxTopLeft;
 
-        [SerializeField]  GameObject interactiveUI, scrollObject, submitButton, inputWindow, inputSlider, inputDropdown;
+        [SerializeField]  GameObject leftLaser, rightLaser, interactiveUI, scrollObject, submitButton, inputWindow, inputSlider, inputDropdown;
         [SerializeField]  GameObject scrollTitle, scrollText, inputText, buttonText;
         
         public bool activeUpdate = false; 
-        private bool submit;
+        private bool activeLasers, submit;
 
         public void Update()
         {
             if (activeUpdate)
             {
-                sxrSettings.Instance.vrCamera.cullingMask = submitButton.activeSelf
+                sxrSettings.Instance.vrCamera.cullingMask = (submitButton.activeSelf
                     ? LayerMask.GetMask("InteractiveUI")
-                    : ~(1 << LayerMask.NameToLayer("InteractiveUI"));
+                    : ~(1 << LayerMask.NameToLayer("InteractiveUI")));
                 
                 inputWindow.SetActive(inputDropdown.activeSelf || inputSlider.activeSelf);
             }
@@ -52,10 +53,27 @@ namespace sxr_internal {
             {
                 sxrSettings.Instance.vrCamera.cullingMask = ~(1 << LayerMask.NameToLayer("InteractiveUI"));
             }
+
+            if (!activeLasers) 
+                ActivateLaserRayInteractor();
         }
 
         public void UI_Submit()
         { HideInputUI(); submit = true; }
+
+        private void ActivateLaserRayInteractor()
+        {
+            if (rightLaser == null)
+            {
+                Debug.Log("Laser unavailabe to update raycast layers");
+                return;
+            }
+
+            activeLasers = true; 
+            rightLaser.GetComponent<XRRayInteractor>().raycastMask |= (1 << LayerMask.NameToLayer("InteractiveUI")); 
+           leftLaser.GetComponent<XRRayInteractor>().raycastMask |= (1 << LayerMask.NameToLayer("InteractiveUI"));
+
+        }
 
         public void HideInputUI()
         {
@@ -280,6 +298,8 @@ namespace sxr_internal {
 
         private void Start()
         {
+            sxr.SetIfNull(ref rightLaser, "RightLaser");
+            sxr.SetIfNull(ref leftLaser, "LeftLaser");
             sxr.SetIfNull(ref interactiveUI, "InteractiveUI"); 
             sxr.SetIfNull(ref submitButton , "SubmitButton");
             sxr.SetIfNull(ref inputSlider, "Slider");
@@ -288,7 +308,7 @@ namespace sxr_internal {
             sxr.SetIfNull(ref scrollObject, "ScrollObject");
             sxr.SetIfNull(ref scrollText, "ScrollText");
             sxr.SetIfNull(ref buttonText, "ButtonText");
-            sxr.SetIfNull(ref inputWindow, "InputWindow"); 
+            sxr.SetIfNull(ref inputWindow, "InputWindow");
 
             inputSlider.SetActive(false);
             inputDropdown.SetActive(false);
@@ -298,7 +318,7 @@ namespace sxr_internal {
 
             if (!TagsAndLayers.LayerExists("InteractiveUI"))
                 TagsAndLayers.CreateLayer("InteractiveUI");
-            TagsAndLayers.SetLayerRecursively(interactiveUI, LayerMask.NameToLayer("InteractiveUI")); 
+            TagsAndLayers.SetLayerRecursively(interactiveUI, LayerMask.NameToLayer("InteractiveUI"));
 
         }
 

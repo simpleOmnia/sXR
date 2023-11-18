@@ -14,14 +14,19 @@ namespace sxr_internal{
             if (!headerPrinted) {
                 sxr.WriteHeaderToTaggedFile(gameObject.name+"_tracker", "PosX,PosY,PosZ,RotX,RotY,RotZ");
                 headerPrinted = true; }
-            trackerActive = true; }
+            trackerActive = true;
+            Debug.Log("STARTTRACKER");
+        }
 
         public void StopTracker() {
-            if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile(gameObject.name+"_tracker", toWrite, includeTimeStepInfo:false);
+            if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile(gameObject.name+"_tracker", ExperimentHandler.Instance.timeStepToWriteInfo()+toWrite, includeTimeStepInfo:false);
             toWrite = ""; }
      
         void Update() {
-            if (sxrSettings.Instance.RecordThisFrame() && trackerActive) {
+            Debug.Log(trackerActive);
+            if (sxrSettings.Instance.RecordThisFrame() && trackerActive)
+            {
+                Debug.Log("INSIDE"); 
                 var trans = transform; 
                 var pos = trans.position;
                 var rot = trans.rotation; 

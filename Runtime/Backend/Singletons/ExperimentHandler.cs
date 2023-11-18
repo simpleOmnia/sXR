@@ -96,7 +96,6 @@ namespace sxr_internal {
 
         public void WriteHeaderToTaggedFile(string tag, string headerInfo) {
             if (subjectFile == "") { ParseFileNames();}
-            
             headerInfo = "SubjectID,Date,LocalTime,UnityTime,Phase,BlockNumber,TrialNumber,Step,TrialTime," + headerInfo;
             fh.AppendLine(subjectFile + "_" + tag + ".csv", headerInfo);
             if (backupFile != "") fh.AppendLine(backupFile + "_" + tag + ".csv", headerInfo); }

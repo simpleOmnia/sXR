@@ -11,8 +11,8 @@ namespace sxr_internal {
 
         public void WriteCameraTrackerHeader(bool recordingGaze) {
             ExperimentHandler.Instance.WriteHeaderToTaggedFile("camera_tracker", recordingGaze ?
-                "SubjectID,Phase,Block,Trial,Step,TimeInTrial,xPos,yPos,zPos,xRot,yRot,zRot,gazeScreenPosX,gazeScreenPosY" 
-                : "SubjectID,Phase,Block,Trial,Step,TimeInTrial,xPos,yPos,zPos,xRot,yRot,zRot");
+                "xPos,yPos,zPos,xRot,yRot,zRot,gazeScreenPosX,gazeScreenPosY" 
+                : "xPos,yPos,zPos,xRot,yRot,zRot");
             headerPrinted = true; 
         }
         
@@ -38,8 +38,7 @@ namespace sxr_internal {
             var pos = trans.position;
             var rot = trans.rotation;
             if (sxrSettings.Instance.RecordThisFrame() & recordCamera) {
-                toWrite += ExperimentHandler.Instance.subjectID+","+sxr.GetPhase()+","+sxr.GetBlock()+","+sxr.GetTrial()+
-                           ","+sxr.GetStepInTrial()+","+sxr.TimePassed()+","+ExperimentHandler.Instance.timeStepToWriteInfo() +
+                toWrite += ExperimentHandler.Instance.timeStepToWriteInfo() +
                            (
                                pos.x + "," +
                                pos.y + "," +

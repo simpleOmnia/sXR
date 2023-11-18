@@ -417,7 +417,7 @@ public static class sxr
     /// Used with StartRecordingEyeTrackerInfo. Used to pause recording between trials or during rest periods
     /// </summary>
     public static void PauseRecordingEyeTrackerInfo() {GazeHandler.Instance.PauseRecording();}
-    
+
     /// <summary>
     /// *In progress* Adds a tracker to an object to record it's location every time sxrSettings.recordFrame==currentFrame.
     /// Updates automatically based on sxrSettings.recordFrequency or can be manually called by setting
@@ -429,8 +429,14 @@ public static class sxr
     public static void StartTrackingObject(GameObject gameObj)
     {
         if (gameObj.TryGetComponent(out ObjectTracker objTracker)) objTracker.trackerActive = true;
-        else gameObj.transform.AddComponent<ObjectTracker>(); 
-    } 
+        else
+        {
+            var objectTracker = gameObj.transform.AddComponent<ObjectTracker>();
+            objectTracker.StartTracker();
+            Debug.Log("Adding tracker: "+gameObj.name);
+        }
+    }
+
     
     /// <summary>
     /// Used with StartTrackingObject. Used to pause recording between trials or during rest periods

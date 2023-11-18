@@ -24,8 +24,8 @@ namespace sxr_internal {
         private bool headerPrinted;
 
         public void WriteEyeTrackerHeader() {
-            ExperimentHandler.Instance.WriteToTaggedFile("eyetracker",
-                "SubjectID,Phase,Block,Trial,Step,TimeInTrial,screenFixationX,screenFixationY,gazeFixationX,gazeFixationY," +
+            ExperimentHandler.Instance.WriteHeaderToTaggedFile("eyetracker",
+                "screenFixationX,screenFixationY,gazeFixationX,gazeFixationY," +
                 "gazeFixationZ,localGazeX,localGazeY,localGazeZ,leftEyePositionX,"+
                 "leftEyePositionY,leftEyePositionZ,rightEyePositionX,rightEyePositionY,rightEyePositionZ," +
                 "leftEyeRotationX,leftEyeRotationY,leftEyeRotationZ,rightEyeRotationX,rightEyeRotationY," +
@@ -62,8 +62,7 @@ namespace sxr_internal {
 
         public void Update() {
             if (sxrSettings.Instance.RecordThisFrame() & recordEyeTracker)
-                toWrite += ExperimentHandler.Instance.subjectID+","+sxr.GetPhase()+","+sxr.GetBlock()+","+sxr.GetTrial()+
-                           ","+sxr.GetStepInTrial()+","+sxr.TimePassed()+","+GetFullGazeInfo() + "\n"; }
+                toWrite += ExperimentHandler.Instance.timeStepToWriteInfo()+GetFullGazeInfo() + "\n"; }
 
         void UpdateGaze() {
             if (lastUpdate != sxrSettings.Instance.GetCurrentFrame()) {
@@ -177,7 +176,7 @@ namespace sxr_internal {
         private bool headerPrinted;
 
         public void WriteEyeTrackerHeader() {
-            ExperimentHandler.Instance.WriteToTaggedFile("eyetracker",
+            ExperimentHandler.Instance.WriteHeaderToTaggedFile("eyetracker",
                 "screenFixationX,screenFixationY,gazeFixationX,gazeFixationY,gazeFixationZ,leftEyePositionX,"+
                 "leftEyePositionY,leftEyePositionZ,rightEyePositionX,rightEyePositionY,rightEyePositionZ," +
                 "leftEyeRotationX,leftEyeRotationY,leftEyeRotationZ,rightEyeRotationX,rightEyeRotationY," +
@@ -203,7 +202,7 @@ namespace sxr_internal {
 
         public void Update() {
             if (sxrSettings.Instance.RecordThisFrame() & recordEyeTracker)
-                toWrite += GetFullGazeInfo() + "\n"; }
+                toWrite += ExperimentHandler.Instance.timeStepToWriteInfo() + GetFullGazeInfo() + "\n"; }
        
         /// <summary>
         /// Updates eyeData once per frame for use in all methods that can use eyeData.
