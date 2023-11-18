@@ -36,7 +36,7 @@ namespace sxr_internal {
         [SerializeField]  GameObject leftLaser, rightLaser, interactiveUI, scrollObject, submitButton, inputWindow, inputSlider, inputDropdown;
         [SerializeField]  GameObject scrollTitle, scrollText, inputText, buttonText;
         
-        public bool activeUpdate = false; 
+        public bool activeUpdate = true; 
         private bool activeLasers, submit;
 
         public void Update()
