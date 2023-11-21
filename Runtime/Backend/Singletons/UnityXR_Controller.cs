@@ -44,19 +44,19 @@ namespace sxr_internal {
                         bool rightSide = controller == rightController;
                         if (!controller.TryGetFeatureValue(CommonUsages.triggerButton, out buttonPressed[
                             (int) (rightSide ? sxr_internal.ControllerButton.RH_Trigger : sxr_internal.ControllerButton.LH_Trigger)]))
-                            sxr.DebugLog("No trigger found for device: " + controller.name);
+                            sxr.DebugLog("No trigger found for device: " + controller.name, 10000);
 
                         if (!controller.TryGetFeatureValue(CommonUsages.gripButton, out buttonPressed[
                             (int) (rightSide ? sxr_internal.ControllerButton.RH_SideButton: sxr_internal.ControllerButton.LH_SideButton)]))
-                            sxr.DebugLog("No side button found for device: " + controller.name);
+                            sxr.DebugLog("No side button found for device: " + controller.name, 10000);
                         
                         if (!controller.TryGetFeatureValue(CommonUsages.primaryButton, out buttonPressed[
                             (int) (rightSide ? sxr_internal.ControllerButton.RH_ButtonA : sxr_internal.ControllerButton.LH_ButtonA)]))
-                            sxr.DebugLog("No primary button found for device: " + controller.name);
+                            sxr.DebugLog("No primary button found for device: " + controller.name, 10000);
                         
                         if (!controller.TryGetFeatureValue(CommonUsages.secondaryButton, out buttonPressed[
                             (int) (rightSide ? sxr_internal.ControllerButton.RH_ButtonB : sxr_internal.ControllerButton.LH_ButtonB)]))
-                            sxr.DebugLog("No secondary button found for device: " + controller.name);
+                            sxr.DebugLog("No secondary button found for device: " + controller.name, 10000);
 
                         if (controller.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out bool trackPadClicked)) {
                             if (trackPadClicked) {

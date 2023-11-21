@@ -23,10 +23,8 @@ namespace sxr_internal{
             toWrite = ""; }
      
         void Update() {
-            Debug.Log(trackerActive);
             if (sxrSettings.Instance.RecordThisFrame() && trackerActive)
             {
-                Debug.Log("INSIDE"); 
                 var trans = transform; 
                 var pos = trans.position;
                 var rot = trans.rotation; 

@@ -234,7 +234,7 @@ namespace sxr_internal {
         /// <param name="enabled">Whether or not to enable image at whichPosition</param>
         public void EnableComponentUI(sxr_internal.UI_Position whichPosition, bool enabled) {
             foreach (var component in UI_overlays)
-                if (component.name == whichPosition.ToString())
+                if (component != null && component.name == whichPosition.ToString())
                     component.enabled = enabled; } 
         
         /// <summary>
