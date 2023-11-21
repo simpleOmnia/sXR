@@ -29,7 +29,7 @@ namespace sxr_internal {
                 "gazeFixationZ,localGazeX,localGazeY,localGazeZ,leftEyePositionX,"+
                 "leftEyePositionY,leftEyePositionZ,rightEyePositionX,rightEyePositionY,rightEyePositionZ," +
                 "leftEyeRotationX,leftEyeRotationY,leftEyeRotationZ,rightEyeRotationX,rightEyeRotationY," +
-                "rightEyeRotationZ,leftEyePupilSize,rightEyePupilSize,leftEyeOpenAmount,rightEyeOpenAmount", includeTimeStepInfo:false);
+                "rightEyeRotationZ,leftEyePupilSize,rightEyePupilSize,leftEyeOpenAmount,rightEyeOpenAmount");
             headerPrinted=true;}
         
         public void StartRecording() {
@@ -39,7 +39,7 @@ namespace sxr_internal {
         public void PauseRecording()
         {
             recordEyeTracker = false;
-            if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite);
+            if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile("eyetracker", toWrite, includeTimeStepInfo:false);
             toWrite = ""; 
         }
 
