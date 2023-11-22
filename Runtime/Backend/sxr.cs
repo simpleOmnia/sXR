@@ -803,7 +803,7 @@ public static class sxr
     /// <param name="obj1"></param>
     /// <param name="obj2"></param>
     /// <returns></returns>
-    public float DistanceBetween(GameObject obj1, GameObject obj2)
+    public static float DistanceBetween(GameObject obj1, GameObject obj2)
     { return Vector3.Distance(obj1.transform.position, obj2.transform.position); }
     
 // *****   Extras   **** 
