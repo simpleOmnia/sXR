@@ -331,6 +331,9 @@ namespace sxr_internal {
                 TagsAndLayers.CreateLayer("InteractiveUI");
             TagsAndLayers.SetLayerRecursively(interactiveUI, LayerMask.NameToLayer("InteractiveUI"));
 
+            rightLaser.layer = LayerMask.NameToLayer("InteractiveUI");
+            leftLaser.layer = LayerMask.NameToLayer("InteractiveUI");
+
             ActivateLaserRayInteractor();
 
         }
