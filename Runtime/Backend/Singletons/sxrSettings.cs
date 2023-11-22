@@ -66,6 +66,7 @@ namespace sxr_internal {
             loadableSettings.backupPath = PlayerPrefs.GetString("sXR_BackupPath", "");
             loadableSettings.use_autosaver = PlayerPrefs.GetInt("sXR_UseAutosaver", 0) ==1;
             loadableSettings.use_autoVR = PlayerPrefs.GetInt("sXR_UseAutoVR", 0) ==1;
+            loadableSettings.use_startscreen = PlayerPrefs.GetInt("sxr_UseStartScreen", 1) == 1; 
             loadableSettings.use_safetyWalls = PlayerPrefs.GetInt("sXR_UseSafetyWalls", 0) ==1;
             loadableSettings.safetyWallBoundsNS = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsNS", 5f);
             loadableSettings.safetyWallBoundsEW = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsEW", 5f);

@@ -43,7 +43,9 @@ namespace sxr_internal {
 
         public void StartTimer(float duration = 99999) {
             trialTimer = TimerHandler.Instance.StartTimer("TRIAL_TIMER", duration:duration);  }
-        private void Start() { StartTimer(); }
+
+        private void Start()
+        { StartTimer(); }
 
         public void PauseTimer()
         { trialTimer.PauseTimer(); }

@@ -298,8 +298,8 @@ namespace sxr_internal {
 
         private void Start()
         {
-            sxr.SetIfNull(ref rightLaser, "RightLaser");
-            sxr.SetIfNull(ref leftLaser, "LeftLaser");
+            sxr.SetIfNull(ref rightLaser, "LaserRightUI");
+            sxr.SetIfNull(ref leftLaser, "LaserLeftUI");
             sxr.SetIfNull(ref interactiveUI, "InteractiveUI"); 
             sxr.SetIfNull(ref submitButton , "SubmitButton");
             sxr.SetIfNull(ref inputSlider, "Slider");

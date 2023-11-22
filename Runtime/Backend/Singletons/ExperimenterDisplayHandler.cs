@@ -106,8 +106,16 @@ namespace sxr_internal {
             eh = ExperimentHandler.Instance;
             
             displayText4.text = "'Textbox4'";
-            displayText5.text = "'Textbox5'"; }
-
+            displayText5.text = "'Textbox5'"; 
+            
+            #if SXR_USE_STARTSCREEN
+            #else
+            StartButton();
+            UI_Handler.Instance.UI_Submit();
+            #endif
+        }
+        
+        
         // Singleton initiated on Awake()
         public static ExperimenterDisplayHandler Instance;
         void Awake() {

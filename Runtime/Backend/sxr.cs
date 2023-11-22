@@ -18,25 +18,56 @@ public static class sxr
 // ****   VARIABLE STORAGE   ****
     private static PlayerPrefsWrapper wrapper = new PlayerPrefsWrapper(); 
     
+    /// <summary>
+    /// Allows setting unity PlayerPrefs, variables that persist through program restart (See https://docs.unity3d.com/ScriptReference/PlayerPrefs.html)
+    /// Most likely usage will be through calls of SetString(), SetInt(), SetFloat(), and SetBool()
+    /// </summary>
+    /// <param name="prefName"></param>
+    /// <param name="pref"></param>
+    /// <returns></returns>
     public static bool SetPref(string prefName, object pref)
     { Debug.Log("Setting variable "+prefName+": "+pref);
     return wrapper.SetPlayerPref(prefName, pref); }
 
+    /// <summary>
+    /// Sets an integer that persists through program restart
+    /// </summary>
+    /// <param name="prefName"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public static bool SetInt(string prefName, int value)
     { return SetPref(prefName, value); }
     public static int GetInt(string prefName)
     { return wrapper.GetInt(prefName); }
     
+    /// <summary>
+    /// Sets a string that persists through program restart
+    /// </summary>
+    /// <param name="prefName"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public static bool SetString(string prefName, string value)
     { return SetPref(prefName, value); }
     public static string GetString(string prefName)
     { return wrapper.GetString(prefName); }
     
+    /// <summary>
+    /// Sets a float that persists through program restart
+    /// </summary>
+    /// <param name="prefName"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public static bool SetFloat(string prefName, float value)
     { return SetPref(prefName, value); }
     public static float GetFloat(string prefName)
     { return wrapper.GetFloat(prefName); }
     
+    /// <summary>
+    /// Sets a bool that persists through program restart
+    /// </summary>
+    /// <param name="prefName"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public static bool SetBool(string prefName, bool value)
     { return SetPref(prefName, value); }
     public static bool GetBool(string prefName)
@@ -156,6 +187,10 @@ public static class sxr
     public static void DisplayImage(Texture2D image, UI_Position position)
     {UI_Handler.Instance.DisplayImage(image.name, position, true);}
     
+    /// <summary>
+    /// Hides image at specified position
+    /// </summary>
+    /// <param name="position"></param>
     public static void HideImageUI(UI_Position position){UI_Handler.Instance.DisableComponentUI(position);}
     public static void HideImagesUI(){UI_Handler.Instance.DisableAllComponentsUI();}
     
@@ -381,7 +416,11 @@ public static class sxr
     public static void DefaultExperimenterTextboxes(bool useDefaults)
     { ExperimenterDisplayHandler.Instance.defaultDisplayTexts = useDefaults; }
 
-    public static void ExperimenterTextboxesEnabled(bool enabled)
+    /// <summary>
+    /// Resets all experimenter textboxes to be blank, overwrites default values (like phase/block/trial, position, etc)
+    /// </summary>
+    /// <param name="enabled"></param>
+    public static void ClearExperimenterTextboxes(bool enabled)
     {
         DefaultExperimenterTextboxes(false);
         ChangeExperimenterTextbox(1, "");
@@ -598,6 +637,11 @@ public static class sxr
         gameObj.transform.position += speed * Time.deltaTime * gameObj.transform.forward ; // move forward 
     }
 
+    /// <summary>
+    /// Checks if the specified object is in the process  of completing an sxr movement command
+    /// </summary>
+    /// <param name="gameObj"></param>
+    /// <returns></returns>
     public static bool ObjectMoving(GameObject gameObj)
     { return SceneObjectsHandler.Instance.CheckForObjectInMotion(gameObj);}
     
@@ -752,6 +796,15 @@ public static class sxr
             return false;
         return CheckCollision(GetObject(obj1), GetObject(obj2));
     }
+
+    /// <summary>
+    /// Returns the distance between two objects
+    /// </summary>
+    /// <param name="obj1"></param>
+    /// <param name="obj2"></param>
+    /// <returns></returns>
+    public float DistanceBetween(GameObject obj1, GameObject obj2)
+    { return Vector3.Distance(obj1.transform.position, obj2.transform.position); }
     
 // *****   Extras   **** 
 
@@ -814,20 +867,46 @@ public static class sxr
         #endif
         return false; }
 
-    public static void ActiveLaser(bool active, bool rightHand)
+    public enum ControlVisualType
     {
-        sxr.GetObject(rightHand ? "RightLaser" : "LeftLaser").SetActive(active); 
+        LeftControllerCapsule, RightControllerCapsule, LeftUI, RightUI, LeftEnvironment, RightEnvironment
+    }
+    public static void ControllerVisual(bool active, ControlVisualType visualization)
+    {
+        sxr.GetObject(visualization switch
+        {
+            ControlVisualType.LeftUI => "LaserLeftUI",
+            ControlVisualType.LeftEnvironment => "LaserLeftEnvironment",
+            ControlVisualType.RightUI => "LaserRightUI",
+            ControlVisualType.RightEnvironment => "LaserRightEnvironment",
+            ControlVisualType.LeftControllerCapsule => "LeftControllerCapsule",
+            ControlVisualType.RightControllerCapsule => "RightControllerCapsule",
+            _ => "N/A"
+        }).SetActive(active); 
     }
 
-    public static void SendHaptic(uint chan, float amp, float dur, bool rightHand)
+    /// <summary>
+    /// Sends a haptic pulse to the specified hand. 
+    /// </summary>
+    /// <param name="amp"></param>
+    /// <param name="dur"></param>
+    /// <param name="rightHand"></param>
+    /// <param name="chan">Most likely 0, override with 'chan:##'</param>;
+    public static void SendHaptic(float amp, float dur, bool rightHand, uint chan=0)
     {
-        UnityXR_Controller.Instance.SendHaptic(chan, dur, amp, rightHand); 
+        UnityXR_Controller.Instance.SendHaptic(chan, amp, dur, rightHand); 
     }
     
     public static string GetFullGazeInfo() { return GazeHandler.Instance.GetFullGazeInfo(); }
 
     public static Vector2 GetGazeScreenPos() { return GazeHandler.Instance.GetScreenFixationPoint(); }
 
+    /// <summary>
+    /// If the referenced GameObject is null, will set it to be the game object with the specified name
+    /// </summary>
+    /// <param name="gameObj"></param>
+    /// <param name="objectName"></param>
+    /// <returns></returns>
     public static bool SetIfNull(ref GameObject gameObj, string objectName)
     {
         if (gameObj == null)

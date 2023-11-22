@@ -21,33 +21,37 @@ namespace sxr_internal{
             window.Show(); }
 
         
-    void LoadFromPrefs(){
-        loadableSettings.dataPath = PlayerPrefs.GetString("sXR_DataPath", "");
-        loadableSettings.backupPath = PlayerPrefs.GetString("sXR_BackupPath", "");
-        loadableSettings.use_autosaver = PlayerPrefs.GetInt("sXR_UseAutosaver", 1) ==1;
-        loadableSettings.use_autoVR = PlayerPrefs.GetInt("sXR_UseAutoVR", 1) ==1;
-        loadableSettings.use_safetyWalls = PlayerPrefs.GetInt("sXR_UseSafetyWalls", 0) ==1;
-        loadableSettings.safetyWallBoundsNS = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsNS", 5f);
-        loadableSettings.safetyWallBoundsEW = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsEW", 5f);
-        loadableSettings.debugSetting = PlayerPrefs.GetInt("sXR_DebugSetting", 2);
-        loadableSettings.recordFrequency = PlayerPrefs.GetFloat("sXR_RecordFrequency", 1f);
-        loadableSettings.use_SRanipal =PlayerPrefs.GetInt("sXR_UseSRanipal", 0) ==1;
-        loadableSettings.interpolateGaze = PlayerPrefs.GetInt("sXR_InterpolateGaze", 0) ==1;
-        loadableSettings.interpolateAmount = PlayerPrefs.GetFloat("sXR_InterpolateAmount", 5f);
-        loadableSettings.use_steamVR = PlayerPrefs.GetInt("sXR_UseSteamVR", 0) ==1;
-        loadableSettings.use_URP = PlayerPrefs.GetInt("sXR_UseURP", 0) ==1;
-        loadableSettings.use_singlePass = PlayerPrefs.GetInt("sXR_UseSinglePass", 0) ==1; 
-        loadableSettings.overrideDimensions = PlayerPrefs.GetInt("sXR_OverrideDims") ==1;
-        loadableSettings.overrideX = PlayerPrefs.GetInt("sXR_OverrideX");
-        loadableSettings.overrideY = PlayerPrefs.GetInt("sXR_OverrideY");
-        
-    }
+    // void LoadFromPrefs(){
+    //     loadableSettings.dataPath = PlayerPrefs.GetString("sXR_DataPath", "");
+    //     loadableSettings.backupPath = PlayerPrefs.GetString("sXR_BackupPath", "");
+    //     loadableSettings.use_autosaver = PlayerPrefs.GetInt("sXR_UseAutosaver", 1) ==1;
+    //     loadableSettings.use_autoVR = PlayerPrefs.GetInt("sXR_UseAutoVR", 1) ==1;
+    //     Debug.Log(loadableSettings.use_startscreen);
+    //     loadableSettings.use_startscreen = PlayerPrefs.GetInt("sxr_UseStartScreen", 1) == 1; 
+    //     Debug.Log(loadableSettings.use_startscreen);
+    //     loadableSettings.use_safetyWalls = PlayerPrefs.GetInt("sXR_UseSafetyWalls", 0) ==1;
+    //     loadableSettings.safetyWallBoundsNS = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsNS", 5f);
+    //     loadableSettings.safetyWallBoundsEW = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsEW", 5f);
+    //     loadableSettings.debugSetting = PlayerPrefs.GetInt("sXR_DebugSetting", 2);
+    //     loadableSettings.recordFrequency = PlayerPrefs.GetFloat("sXR_RecordFrequency", 1f);
+    //     loadableSettings.use_SRanipal =PlayerPrefs.GetInt("sXR_UseSRanipal", 0) ==1;
+    //     loadableSettings.interpolateGaze = PlayerPrefs.GetInt("sXR_InterpolateGaze", 0) ==1;
+    //     loadableSettings.interpolateAmount = PlayerPrefs.GetFloat("sXR_InterpolateAmount", 5f);
+    //     loadableSettings.use_steamVR = PlayerPrefs.GetInt("sXR_UseSteamVR", 0) ==1;
+    //     loadableSettings.use_URP = PlayerPrefs.GetInt("sXR_UseURP", 0) ==1;
+    //     loadableSettings.use_singlePass = PlayerPrefs.GetInt("sXR_UseSinglePass", 0) ==1; 
+    //     loadableSettings.overrideDimensions = PlayerPrefs.GetInt("sXR_OverrideDims") ==1;
+    //     loadableSettings.overrideX = PlayerPrefs.GetInt("sXR_OverrideX");
+    //     loadableSettings.overrideY = PlayerPrefs.GetInt("sXR_OverrideY");
+    //     
+    // }
 
     void SaveToPrefs() {
         PlayerPrefs.SetString("sXR_DataPath", loadableSettings.dataPath);
         PlayerPrefs.SetString("sXR_BackupPath", loadableSettings.backupPath);
         PlayerPrefs.SetInt("sXR_UseAutosaver", loadableSettings.use_autosaver ? 1:0);
         PlayerPrefs.SetInt("sXR_UseAutoVR", loadableSettings.use_autoVR ? 1:0);
+        PlayerPrefs.SetInt("sXR_UseStartScreen", loadableSettings.use_startscreen ? 1:0);
         PlayerPrefs.SetInt("sXR_UseSafetyWalls", loadableSettings.use_safetyWalls ? 1:0);
         PlayerPrefs.SetFloat("sXR_SafetyWallBoundsNS", loadableSettings.safetyWallBoundsNS);
         PlayerPrefs.SetFloat("sXR_SafetyWallBoundsEW", loadableSettings.safetyWallBoundsEW);
@@ -71,6 +75,7 @@ namespace sxr_internal{
                 initialLoad = false;
                 ResourcesProvider.CopyResourcesFromPackageToProject(); 
                 loadableSettings.LoadFromPrefs();
+                AddDefines();
                 Debug.Log("Loaded sXR settings"); 
             }
             rctOffButton = GUI.skin.button.margin;
@@ -114,6 +119,11 @@ namespace sxr_internal{
                     "Automatically switches to a device with head-tracking if one is available"));
             
             GUILayout.Space(10);
+            loadableSettings.use_startscreen = GUILayout.Toggle(loadableSettings.use_startscreen,
+                new GUIContent("   Use Start Screen",
+                    "When unselected, will automatically start with subject/phase/block/trial as 0"));
+            
+            GUILayout.Space(10);
             loadableSettings.use_safetyWalls = GUILayout.Toggle(loadableSettings.use_safetyWalls,
                 new GUIContent("   Display \"Stop\" message when close to border",
                     "Plays a sound and displays a full-screen red page telling participant to stop"));
@@ -149,8 +159,8 @@ namespace sxr_internal{
            
             GUILayout.Space(20);
             loadableSettings.use_steamVR = GUILayout.Toggle(loadableSettings.use_steamVR,
-                new GUIContent("   Use SteamVR",
-                    "Enable to use SteamVR controller bindings, can make some devices unreachable"));
+                new GUIContent("   Use SteamVR Controller Bindings",
+                    "DEPRECATED. Enable to use SteamVR controller bindings, can make some devices unreachable"));
             
             GUILayout.Space(20);
             loadableSettings.use_URP = GUILayout.Toggle(loadableSettings.use_URP,
@@ -189,69 +199,79 @@ namespace sxr_internal{
             }
 
             if (EditorGUI.EndChangeCheck()){
-                if (loadableSettings.use_autosaver) 
-                    EditorUtils.AddDefineIfNecessary("SXR_USE_AUTOSAVER", NamedBuildTarget.Standalone);
-                else 
-                    EditorUtils.RemoveDefineIfNecessary("SXR_USE_AUTOSAVER", NamedBuildTarget.Standalone);  
-                
-                if (loadableSettings.use_autoVR) 
-                    EditorUtils.AddDefineIfNecessary("SXR_USE_AUTOVR", NamedBuildTarget.Standalone);
-                else 
-                    EditorUtils.RemoveDefineIfNecessary("SXR_USE_AUTOVR", NamedBuildTarget.Standalone);  
-                
-                if (loadableSettings.use_SRanipal)
-                {
-                    EditorUtils.AddDefineIfNecessary("SXR_USE_SRANIPAL", NamedBuildTarget.Standalone);
-                    Debug.Log("SXR_USE_SRANIPAL");
-                    string viveSR_path = Application.dataPath+"/ViveSR/ViveSR.asmdef";
-                    string viveSRAssemblyDefinitionContent = @"{
-    ""name"": ""ViveSR"",
-    ""references"": [],
-    ""optionalUnityReferences"": [],
-    ""includePlatforms"": [],
-    ""excludePlatforms"": [],
-    ""allowUnsafeCode"": false,
-    ""overrideReferences"": false,
-    ""precompiledReferences"": [],
-    ""autoReferenced"": true,
-    ""defineConstraints"": [],
-    ""versionDefines"": [],
-    ""noEngineReferences"": false
-}";
-                    try {
-                        // Check if the file exists
-                        if (!System.IO.File.Exists(viveSR_path))
-                        {
-                            // If the file does not exist, write the content to a new file at the path
-                            System.IO.File.WriteAllText(viveSR_path, viveSRAssemblyDefinitionContent);
-                        }
-                    } catch (System.Exception e) {
-                        UnityEngine.Debug.LogError("sXR attempted to add ViveSR assembly file but failed, make sure you have the SRanipal SDK installed.  See the wiki for more info: https://github.com/unity-sXR/sXR/wiki/Vive-Pro-Eye-Setup\n" + e.Message);
-                    }
-                }
-                else 
-                    EditorUtils.RemoveDefineIfNecessary("SXR_USE_SRANIPAL",NamedBuildTarget.Standalone); 
-                
-                if (loadableSettings.use_steamVR)
-                {
-                    EditorUtils.AddDefineIfNecessary("SXR_USE_STEAMVR", NamedBuildTarget.Standalone);
-                    Debug.LogWarning("SteamControllerVR is deprecated, should only use with projects previously designed with SteamVR controls.");
-                }
-                else 
-                    EditorUtils.RemoveDefineIfNecessary("SXR_USE_STEAMVR",NamedBuildTarget.Standalone); 
-
-                if (loadableSettings.use_URP) 
-                    EditorUtils.AddDefineIfNecessary("SXR_USE_URP", NamedBuildTarget.Standalone);
-                else 
-                    EditorUtils.RemoveDefineIfNecessary("SXR_USE_URP",NamedBuildTarget.Standalone);
-                
-                if (loadableSettings.use_singlePass) 
-                    EditorUtils.AddDefineIfNecessary("SXR_USE_SINGLE_PASS", NamedBuildTarget.Standalone);
-                else 
-                    EditorUtils.RemoveDefineIfNecessary("SXR_USE_SINGLE_PASS",NamedBuildTarget.Standalone);
-
+                AddDefines();
                 SaveToPrefs(); 
             } 
+        }
+
+        private void AddDefines()
+        { 
+            if (loadableSettings.use_autosaver) 
+                    EditorUtils.AddDefineIfNecessary("SXR_USE_AUTOSAVER", NamedBuildTarget.Standalone);
+            else 
+                EditorUtils.RemoveDefineIfNecessary("SXR_USE_AUTOSAVER", NamedBuildTarget.Standalone);  
+            
+            if (loadableSettings.use_autoVR) 
+                EditorUtils.AddDefineIfNecessary("SXR_USE_AUTOVR", NamedBuildTarget.Standalone);
+            else 
+                EditorUtils.RemoveDefineIfNecessary("SXR_USE_AUTOVR", NamedBuildTarget.Standalone);  
+            
+            if(loadableSettings.use_startscreen)
+                EditorUtils.AddDefineIfNecessary("SXR_USE_STARTSCREEN", NamedBuildTarget.Standalone);
+            else 
+                EditorUtils.RemoveDefineIfNecessary("SXR_USE_STARTSCREEN", NamedBuildTarget.Standalone);  
+            
+            if (loadableSettings.use_SRanipal)
+            {
+                EditorUtils.AddDefineIfNecessary("SXR_USE_SRANIPAL", NamedBuildTarget.Standalone);
+                Debug.Log("SXR_USE_SRANIPAL");
+                string viveSR_path = Application.dataPath+"/ViveSR/ViveSR.asmdef";
+                string viveSRAssemblyDefinitionContent = @"{
+""name"": ""ViveSR"",
+""references"": [],
+""optionalUnityReferences"": [],
+""includePlatforms"": [],
+""excludePlatforms"": [],
+""allowUnsafeCode"": false,
+""overrideReferences"": false,
+""precompiledReferences"": [],
+""autoReferenced"": true,
+""defineConstraints"": [],
+""versionDefines"": [],
+""noEngineReferences"": false
+}";
+                try {
+                    // Check if the file exists
+                    if (!System.IO.File.Exists(viveSR_path))
+                    {
+                        // If the file does not exist, write the content to a new file at the path
+                        System.IO.File.WriteAllText(viveSR_path, viveSRAssemblyDefinitionContent);
+                    }
+                } catch (System.Exception e) {
+                    UnityEngine.Debug.LogError("sXR attempted to add ViveSR assembly file but failed, make sure you have the SRanipal SDK installed.  See the wiki for more info: https://github.com/unity-sXR/sXR/wiki/Vive-Pro-Eye-Setup\n" + e.Message);
+                }
+            }
+            else 
+                EditorUtils.RemoveDefineIfNecessary("SXR_USE_SRANIPAL",NamedBuildTarget.Standalone); 
+            
+            if (loadableSettings.use_steamVR)
+            {
+                EditorUtils.AddDefineIfNecessary("SXR_USE_STEAMVR", NamedBuildTarget.Standalone);
+                Debug.LogWarning("SteamControllerVR is deprecated, should only use with projects previously designed with SteamVR controls.");
+            }
+            else 
+                EditorUtils.RemoveDefineIfNecessary("SXR_USE_STEAMVR",NamedBuildTarget.Standalone); 
+
+            if (loadableSettings.use_URP) 
+                EditorUtils.AddDefineIfNecessary("SXR_USE_URP", NamedBuildTarget.Standalone);
+            else 
+                EditorUtils.RemoveDefineIfNecessary("SXR_USE_URP",NamedBuildTarget.Standalone);
+            
+            if (loadableSettings.use_singlePass) 
+                EditorUtils.AddDefineIfNecessary("SXR_USE_SINGLE_PASS", NamedBuildTarget.Standalone);
+            else 
+                EditorUtils.RemoveDefineIfNecessary("SXR_USE_SINGLE_PASS",NamedBuildTarget.Standalone);
+
         }
 
         void OnEnable() { initialLoad = true; }

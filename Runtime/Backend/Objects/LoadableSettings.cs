@@ -10,6 +10,7 @@ namespace sxr_internal {
         public bool use_autosaver = true;
         public bool use_autoVR = true; 
         public bool use_SRanipal = false;
+        public bool use_startscreen = true; 
         public bool use_steamVR = false;
         public bool use_URP = false;
         public bool use_singlePass = false; 
@@ -36,8 +37,9 @@ namespace sxr_internal {
         public void LoadFromPrefs(){
             dataPath = PlayerPrefs.GetString("sXR_DataPath", "");
             backupPath = PlayerPrefs.GetString("sXR_BackupPath", "");
-            use_autosaver = PlayerPrefs.GetInt("sXR_UseAutosaver", 0) ==1;
-            use_autoVR = PlayerPrefs.GetInt("sXR_UseAutoVR", 0) ==1;
+            use_autosaver = PlayerPrefs.GetInt("sXR_UseAutosaver", 1) ==1;
+            use_autoVR = PlayerPrefs.GetInt("sXR_UseAutoVR", 1) ==1;
+            use_startscreen = PlayerPrefs.GetInt("sXR_UseStartScreen", 1) == 1; 
             use_safetyWalls = PlayerPrefs.GetInt("sXR_UseSafetyWalls", 0) ==1;
             safetyWallBoundsNS = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsNS", 5f);
             safetyWallBoundsEW = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsEW", 5f);
@@ -52,8 +54,8 @@ namespace sxr_internal {
             overrideDimensions = PlayerPrefs.GetInt("sXR_OverrideDims") ==1;
             overrideX = PlayerPrefs.GetInt("sXR_OverrideX");
             overrideY = PlayerPrefs.GetInt("sXR_OverrideY");
-        
         }
+        
 
     }
 }

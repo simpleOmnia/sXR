@@ -477,7 +477,7 @@ GameObject:
   - component: {fileID: 544272721733228088}
   - component: {fileID: 544272721733228089}
   m_Layer: 0
-  m_Name: ZAxis
+  m_Name: LaserLeftEnironment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1470,7 +1470,7 @@ GameObject:
   - component: {fileID: 2474832103797995509}
   - component: {fileID: 4487809682109292561}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: LeftControllerCapsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8265,7 +8265,6 @@ Transform:
   m_Children:
   - {fileID: 3911132589423559157}
   - {fileID: 3911132589914677655}
-  - {fileID: 4590809215428489840}
   - {fileID: 3911132589537141110}
   - {fileID: 5672991525288152256}
   m_Father: {fileID: 2418508643689814185}
@@ -8594,6 +8593,7 @@ Transform:
   - {fileID: 5427612671048997609}
   - {fileID: 259708970170194719}
   - {fileID: 3911132588818238850}
+  - {fileID: 4590809215428489840}
   - {fileID: 4314176503001977970}
   m_Father: {fileID: 3911132589514350036}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12208,7 +12208,7 @@ GameObject:
   - component: {fileID: 8757997552815049269}
   - component: {fileID: 7319776354939592145}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: RightControllerCapsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12781,7 +12781,7 @@ GameObject:
   - component: {fileID: 6656130965230627832}
   - component: {fileID: 6656130965230627833}
   m_Layer: 0
-  m_Name: ZAxis
+  m_Name: LaserRightEnvironment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15302,7 +15302,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8889503277044025969}
-  m_Father: {fileID: 3911132589514350036}
+  m_Father: {fileID: 3911132589914677655}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &168145667992762670
 MonoBehaviour:
