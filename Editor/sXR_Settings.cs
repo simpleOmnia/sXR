@@ -16,7 +16,7 @@ namespace sxr_internal{
         private bool initialLoad = true;
 
         [MenuItem("sXR/sXR Settings")]
-        static void Init() {
+        public static void Init() {
             sXR_Settings window = (sXR_Settings)EditorWindow.GetWindow(typeof(sXR_Settings));
             window.Show(); }
 
@@ -251,5 +251,14 @@ namespace sxr_internal{
         void OnEnable() { initialLoad = true; }
         void OnDisable() {new ObjectPreview().Cleanup(); }
 
+    }
+
+    [InitializeOnLoad]
+    public class sxr_settings_initializer
+    {
+        static sxr_settings_initializer()
+        {
+            sXR_Settings.Init(); 
+        }
     }
 }
