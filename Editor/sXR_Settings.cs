@@ -15,10 +15,16 @@ namespace sxr_internal{
 
         private bool initialLoad = true;
 
+        private static sXR_Settings window; 
+
         [MenuItem("sXR/sXR Settings")]
-        public static void Init() {
-            sXR_Settings window = (sXR_Settings)EditorWindow.GetWindow(typeof(sXR_Settings));
-            window.Show(); }
+        public static void Init()
+        {
+            if(window==null)
+                window = (sXR_Settings)EditorWindow.GetWindow(typeof(sXR_Settings));
+            else
+                window.Focus(); 
+        }
 
     void SaveToPrefs() {
         PlayerPrefs.SetString("sXR_DataPath", loadableSettings.dataPath);
@@ -258,7 +264,22 @@ namespace sxr_internal{
     {
         static sxr_settings_initializer()
         {
-            sXR_Settings.Init(); 
+            var state = AssetDatabase.LoadAssetAtPath<sXR_Initialized_State>("Assets/sXR/Resources/InitializedState.asset");
+
+            if (state == null)
+            {
+                state = ScriptableObject.CreateInstance<sXR_Initialized_State>();
+                AssetDatabase.CreateAsset(state, "Assets/sXR/Resources/InitializedState.asset");
+                AssetDatabase.SaveAssets();
+            }
+            if (!state.hasBeenInitialized)
+            {
+                sXR_Settings.Init();
+                state.hasBeenInitialized = true;
+                EditorUtility.SetDirty(state);
+                AssetDatabase.SaveAssets();
+            }
+             
         }
     }
 }
