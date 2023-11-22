@@ -22,8 +22,17 @@
     /// </summary>
     public enum TextPosition{Top, MiddleTop, MiddleBottom, Bottom, TopLeft}
 
+    /// <summary>
+    /// Eight directions of joystick + 'None'
+    /// </summary>
     public enum JoyStickDirection { Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight, None }
 
+    /// <summary>
+    /// sxr supported controller buttons
+    /// LH designates LeftHand
+    /// RH designates RightHand
+    /// No designation will be true if either controller is pressed
+    /// </summary>
     public enum ControllerButton{
         LH_Trigger, LH_SideButton, LH_TrackPadRight, 
         LH_TrackPadLeft, LH_TrackPadUp, LH_TrackPadDown,
@@ -43,4 +52,9 @@
     /// </summary>
     public enum ProvidedSounds{Beep, Buzz, Ding, Stop}
     
+    /// <summary>
+    /// The visual aspects of the VR controllers, used with ControllerVisual()
+    /// </summary>
+    public enum ControlVisualType
+    { LeftControllerCapsule, RightControllerCapsule, LeftUI, RightUI, LeftEnvironment, RightEnvironment }
 }

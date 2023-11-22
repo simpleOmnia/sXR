@@ -867,10 +867,7 @@ public static class sxr
         #endif
         return false; }
 
-    public enum ControlVisualType
-    {
-        LeftControllerCapsule, RightControllerCapsule, LeftUI, RightUI, LeftEnvironment, RightEnvironment
-    }
+    
     public static void ControllerVisual(bool active, ControlVisualType visualization)
     {
         sxr.GetObject(visualization switch
