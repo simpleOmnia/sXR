@@ -37,7 +37,7 @@ namespace sxr_internal {
 
             usesGravity = GetComponent<Rigidbody>().useGravity;
 
-            rightController = sxr.GetObject("RightController");
-            leftController = sxr.GetObject("LeftController"); } 
+            rightController = sxr.GetObject("RightControllerCapsule");
+            leftController = sxr.GetObject("LeftControllerCapsule"); } 
     }
 }

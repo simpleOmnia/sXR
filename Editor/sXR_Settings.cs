@@ -20,32 +20,6 @@ namespace sxr_internal{
             sXR_Settings window = (sXR_Settings)EditorWindow.GetWindow(typeof(sXR_Settings));
             window.Show(); }
 
-        
-    // void LoadFromPrefs(){
-    //     loadableSettings.dataPath = PlayerPrefs.GetString("sXR_DataPath", "");
-    //     loadableSettings.backupPath = PlayerPrefs.GetString("sXR_BackupPath", "");
-    //     loadableSettings.use_autosaver = PlayerPrefs.GetInt("sXR_UseAutosaver", 1) ==1;
-    //     loadableSettings.use_autoVR = PlayerPrefs.GetInt("sXR_UseAutoVR", 1) ==1;
-    //     Debug.Log(loadableSettings.use_startscreen);
-    //     loadableSettings.use_startscreen = PlayerPrefs.GetInt("sxr_UseStartScreen", 1) == 1; 
-    //     Debug.Log(loadableSettings.use_startscreen);
-    //     loadableSettings.use_safetyWalls = PlayerPrefs.GetInt("sXR_UseSafetyWalls", 0) ==1;
-    //     loadableSettings.safetyWallBoundsNS = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsNS", 5f);
-    //     loadableSettings.safetyWallBoundsEW = PlayerPrefs.GetFloat("sXR_SafetyWallBoundsEW", 5f);
-    //     loadableSettings.debugSetting = PlayerPrefs.GetInt("sXR_DebugSetting", 2);
-    //     loadableSettings.recordFrequency = PlayerPrefs.GetFloat("sXR_RecordFrequency", 1f);
-    //     loadableSettings.use_SRanipal =PlayerPrefs.GetInt("sXR_UseSRanipal", 0) ==1;
-    //     loadableSettings.interpolateGaze = PlayerPrefs.GetInt("sXR_InterpolateGaze", 0) ==1;
-    //     loadableSettings.interpolateAmount = PlayerPrefs.GetFloat("sXR_InterpolateAmount", 5f);
-    //     loadableSettings.use_steamVR = PlayerPrefs.GetInt("sXR_UseSteamVR", 0) ==1;
-    //     loadableSettings.use_URP = PlayerPrefs.GetInt("sXR_UseURP", 0) ==1;
-    //     loadableSettings.use_singlePass = PlayerPrefs.GetInt("sXR_UseSinglePass", 0) ==1; 
-    //     loadableSettings.overrideDimensions = PlayerPrefs.GetInt("sXR_OverrideDims") ==1;
-    //     loadableSettings.overrideX = PlayerPrefs.GetInt("sXR_OverrideX");
-    //     loadableSettings.overrideY = PlayerPrefs.GetInt("sXR_OverrideY");
-    //     
-    // }
-
     void SaveToPrefs() {
         PlayerPrefs.SetString("sXR_DataPath", loadableSettings.dataPath);
         PlayerPrefs.SetString("sXR_BackupPath", loadableSettings.backupPath);

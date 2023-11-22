@@ -716,7 +716,7 @@ public static class sxr
             gameObject.AddComponent<GrabbableObject>(); } 
     public static void MakeObjectGrabbable(string objectName)
         {MakeObjectGrabbable(GetObject(objectName)); }
-
+    
     /// <summary>
     /// Adds RigidBody (Physics) to the specified object. Object can be passed by name or
     /// as a Unity GameObject
