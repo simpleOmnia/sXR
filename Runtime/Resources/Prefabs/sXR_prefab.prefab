@@ -8048,8 +8048,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3911132589423559157}
   - component: {fileID: 3911132589423559152}
+  - component: {fileID: 8199721565068649922}
   - component: {fileID: 3911132589423559154}
   - component: {fileID: 6933303334287612436}
+  - component: {fileID: 6888036876034607677}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -8124,6 +8126,102 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!82 &8199721565068649922
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3911132589423559158}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!81 &3911132589423559154
 AudioListener:
   m_ObjectHideFlags: 0
@@ -8234,6 +8332,23 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   m_HasMigratedActions: 1
+--- !u!114 &6888036876034607677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3911132589423559158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6128a63bcfd967c439de086c12aefed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundPlayer: {fileID: 8199721565068649922}
+  beep: {fileID: 8300000, guid: fc415a3e0d245ba4986fa1934811184d, type: 3}
+  ding: {fileID: 8300000, guid: e9343c88d86efe7409bb2fdf2b3d38b6, type: 3}
+  buzz: {fileID: 8300000, guid: 9ba8dc32f15201545a4a1b36467fc756, type: 3}
+  stop: {fileID: 8300000, guid: 3f00e9297d79e8544b65b2813499ae85, type: 3}
 --- !u!1 &3911132589514350037
 GameObject:
   m_ObjectHideFlags: 0
@@ -9564,7 +9679,7 @@ GameObject:
   - component: {fileID: 4396898903633666123}
   - component: {fileID: 8918840092177772463}
   m_Layer: 5
-  m_Name: SliderText
+  m_Name: InputText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10883,7 +10998,7 @@ GameObject:
   - component: {fileID: 4275690779565609550}
   - component: {fileID: 1568023222323140489}
   - component: {fileID: 6565765318089267610}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: LaserRightUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}

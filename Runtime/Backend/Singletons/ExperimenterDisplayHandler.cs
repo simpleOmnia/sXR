@@ -35,7 +35,7 @@ namespace sxr_internal {
             ExperimentHandler.Instance.StartExperiment(
                 Application.dataPath.Split("/")[Application.dataPath.Split("/").Length-2], 
                 eh.subjectID);
-
+            UI_Handler.Instance.HideInputUI();
             sxr.GetObject("StartScreen").SetActive(false); }
 
         /// <summary>

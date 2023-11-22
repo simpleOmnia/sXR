@@ -85,12 +85,18 @@ namespace sxr_internal {
             submitButton.SetActive(false); 
         }
 
-        public void InputSlider(int sliderMin, int sliderMax, string questionText, bool wholeNumbers) {
+        public void InputSlider(int sliderMin, int sliderMax, string questionText, bool wholeNumbers)
+        {
+            if (!submit) submitButton.SetActive(true);
+
+            scrollObject.SetActive(true);
+            scrollText.SetActive(true);
             var slider = inputSlider.GetComponent<Slider>();
             slider.minValue = sliderMin;
             slider.maxValue = sliderMax;
             slider.wholeNumbers = wholeNumbers; 
-            SetText(inputText, questionText);
+            SetText(scrollText, questionText);
+            SetText(inputText, slider.value.ToString()); 
             inputSlider.SetActive(true);
             inputDropdown.SetActive(false); }
         public void InputSlider(int sliderMin, int sliderMax, string questionText)
@@ -98,7 +104,11 @@ namespace sxr_internal {
 
         public void InputDropdown(string[] options, string questionText)
         {
-            SetText(inputText, questionText);
+            if (!submit) submitButton.SetActive(true); 
+            scrollObject.SetActive(true);
+            scrollText.SetActive(true);
+            
+            SetText(scrollText, questionText);
             var dropdown = inputDropdown.GetComponent<TMP_Dropdown>();
             var optionsList = new List<TMP_Dropdown.OptionData>(); 
             foreach (var option in options)
@@ -309,6 +319,7 @@ namespace sxr_internal {
             sxr.SetIfNull(ref scrollText, "ScrollText");
             sxr.SetIfNull(ref buttonText, "ButtonText");
             sxr.SetIfNull(ref inputWindow, "InputWindow");
+            sxr.SetIfNull(ref inputText, "InputText");
 
             inputSlider.SetActive(false);
             inputDropdown.SetActive(false);
@@ -329,11 +340,20 @@ namespace sxr_internal {
             if (!gameObj) return false;
             
             if (gameObj.GetComponent<Text>() != null)
+            {
+                Debug.Log("Set text: "+gameObj.name+" - '"+text+"'");
                 gameObj.GetComponent<Text>().text = text;
+            }
             else if (gameObj.GetComponent<TextMeshProUGUI>() != null)
+            {
+                Debug.Log("Set text (TMP): "+gameObj.name+" - '"+text+"'");
                 gameObj.GetComponent<TextMeshProUGUI>().text = text;
+            }
             else
+            {
+                Debug.Log("Failed to set text: "+gameObj.name);
                 return false;
+            }
             
             return true; 
         }

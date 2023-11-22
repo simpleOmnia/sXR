@@ -48,8 +48,7 @@ namespace SampleExperimentScene
 
                 case 2: // Practice Round
                 case 3: // Testing Round
-                    sxr.DisplayText(GazeHandler.Instance.GetScreenFixationPoint().x + ", " +
-                                    GazeHandler.Instance.GetScreenFixationPoint());
+                    
                     switch (sxr.GetStepInTrial())
                     {
                         case 0: // Hit trigger to start
