@@ -320,6 +320,8 @@ namespace sxr_internal {
                 TagsAndLayers.CreateLayer("InteractiveUI");
             TagsAndLayers.SetLayerRecursively(interactiveUI, LayerMask.NameToLayer("InteractiveUI"));
 
+            ActivateLaserRayInteractor();
+
         }
 
         bool SetText(GameObject gameObj, string text)
