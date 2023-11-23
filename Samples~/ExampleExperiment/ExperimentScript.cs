@@ -18,9 +18,7 @@ namespace SampleExperimentScene
 
                 case 1: // Instruction Phase
                     sxr.ControllerVisual(false, sxr_internal.ControlVisualType.LaserRightEnvironment);
-                    GameObject gameObj = sxr.GetObject("LaserRightEnvironment");
-                    Debug.Log(gameObj);
-                    Debug.Log(gameObj.name); 
+ 
                     switch (sxr.GetStepInTrial())
                     {
                         case 0:
