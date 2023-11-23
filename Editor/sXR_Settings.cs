@@ -264,6 +264,9 @@ namespace sxr_internal{
     {
         static sxr_settings_initializer()
         {
+            if (!Directory.Exists("Assets/sXR/Resources"))
+                Directory.CreateDirectory("Assets/sXR/Resources");
+            
             var state = AssetDatabase.LoadAssetAtPath<sXR_Initialized_State>("Assets/sXR/Resources/InitializedState.asset");
 
             if (state == null)
