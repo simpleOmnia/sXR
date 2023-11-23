@@ -24,8 +24,8 @@ namespace sxr_internal {
             allObjects = UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
             foreach (var obj in allObjects)
                 if (obj.name == name) return obj;
-            Debug.LogWarning("Search for object: \'"+name+"\' unsuccessful, check spelling and whitespace");
-            Debug.LogWarning("Available objects: "+allObjects.ToArray().ToCommaSeparatedString());
+            sxr.DebugLog("Search for object: \'"+name+"\' unsuccessful, check spelling and whitespace");
+            sxr.DebugLog("Available objects: "+allObjects.ToArray().ToCommaSeparatedString());
             return null; }
 
         public bool ObjectExists(string name)

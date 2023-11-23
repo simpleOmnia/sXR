@@ -13,7 +13,7 @@ namespace sxr_internal
 #if SXR_USE_AUTOSAVER
     [InitializeOnEnterPlayMode]
     static void AutosaverInit() {
-        Debug.Log("Autosaver saved scene/assets, may pop error message if GameObject selected at start");
+        Debug.LogWarning("Autosaver saved scene/assets, will trigger Null Reference if GameObject selected at start");
         EditorSceneManager.SaveOpenScenes();
         AssetDatabase.SaveAssets(); }
 #endif

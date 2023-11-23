@@ -56,5 +56,5 @@
     /// The visual aspects of the VR controllers, used with ControllerVisual()
     /// </summary>
     public enum ControlVisualType
-    { LeftControllerCapsule, RightControllerCapsule, LeftUI, RightUI, LeftEnvironment, RightEnvironment }
+    { LeftControllerCapsule, RightControllerCapsule, LaserLeftUI, LaserRightUI, LaserLeftEnvironment, LaserRightEnvironment }
 }

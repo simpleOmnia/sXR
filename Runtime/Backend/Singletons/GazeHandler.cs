@@ -226,7 +226,7 @@ namespace sxr_internal {
                         Debug.LogWarning("Detected eyetracker but no eyesData available... Only primitive gaze information available"); } }
                 else return true; 
 
-                Debug.LogWarning("Failed to find eye tracker with eyesData Struct, should you be using SRanipal (Vive Pro Eye)?");
+                sxr.DebugLog("Failed to find eye tracker with eyesData Struct, should you be using SRanipal (Vive Pro Eye)?");
                 return false; }
 
             return true; }
@@ -313,12 +313,12 @@ namespace sxr_internal {
                     if (eyeTracker.TryGetFeatureValue(feature.As<Quaternion>(), out Quaternion gazeRot))
                         return gazeRot.eulerAngles; 
             
-            sxr.DebugLog("Unable to find gazePosition feature"); 
+            sxr.DebugLog("Unable to find gazePosition feature", 10000); 
             return new Vector3(); }
 
         public Vector3 GetGazeCombinedPositionLocal(){
             if (FindEyeData())
-                sxr.DebugLog("EyeData found, can likely use GazeFixation()");
+                sxr.DebugLog("EyeData found, can likely use GazeFixation()", 10000);
             
             List<InputFeatureUsage> inputFeatureUsages = new List<InputFeatureUsage>();
             eyeTracker.TryGetFeatureUsages(inputFeatureUsages);

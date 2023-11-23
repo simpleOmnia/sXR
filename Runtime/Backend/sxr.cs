@@ -249,7 +249,7 @@ public static class sxr
         #else
         ControllerVR controller = UnityXR_Controller.Instance; 
         #endif
-        Debug.Log("Check"); 
+
         if (controller.buttonPressed[(int) whichButton]) {
             if (Time.time - controller.buttonTimers[(int) whichButton] > frequency) {
                 DebugLog("Controller Button: " + whichButton + " pressed after delay of: " + frequency, 5000);
@@ -872,14 +872,14 @@ public static class sxr
     {
         sxr.GetObject(visualization switch
         {
-            ControlVisualType.LeftUI => "LaserLeftUI",
-            ControlVisualType.LeftEnvironment => "LaserLeftEnvironment",
-            ControlVisualType.RightUI => "LaserRightUI",
-            ControlVisualType.RightEnvironment => "LaserRightEnvironment",
+            ControlVisualType.LaserLeftUI => "LaserLeftUI",
+            ControlVisualType.LaserLeftEnvironment => "LaserLeftEnvironment",
+            ControlVisualType.LaserRightUI => "LaserRightUI",
+            ControlVisualType.LaserRightEnvironment => "LaserRightEnvironment",
             ControlVisualType.LeftControllerCapsule => "LeftControllerCapsule",
             ControlVisualType.RightControllerCapsule => "RightControllerCapsule",
             _ => "N/A"
-        }).SetActive(active); 
+        })?.SetActive(active); 
     }
 
     /// <summary>
@@ -930,7 +930,7 @@ public static class sxr
            (sxrSettings.Instance.debugMode == sxrSettings.DebugMode.Frequent &&
             sxrSettings.Instance.GetCurrentFrame() % frameFrequency == 0))
            Debug.Log("Frame " + sxrSettings.Instance.GetCurrentFrame() + ": " + toWrite); }
-    public static void DebugLog(string toWrite) { DebugLog(toWrite, 50); }
+    public static void DebugLog(string toWrite) { DebugLog(toWrite, 10000); }
     
 }  
 
