@@ -88,7 +88,7 @@ namespace sxr_internal {
         public void InputSlider(int sliderMin, int sliderMax, string questionText, bool wholeNumbers)
         {
             if (!submit) submitButton.SetActive(true);
-            SetText(submitButton, "Submit"); 
+            SetText(buttonText, "Submit"); 
 
             scrollObject.SetActive(true);
             scrollText.SetActive(true);
@@ -106,7 +106,7 @@ namespace sxr_internal {
         public void InputDropdown(string[] options, string questionText)
         {
             if (!submit) submitButton.SetActive(true); 
-            SetText(submitButton, "Submit"); 
+            SetText(buttonText, "Submit"); 
             scrollObject.SetActive(true);
             scrollText.SetActive(true);
             
