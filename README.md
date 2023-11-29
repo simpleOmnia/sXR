@@ -26,7 +26,7 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 [Storing and accessing variables](https://github.com/simpleOmnia/sXR/wiki/Storing-and-Accessing-Variables)
 
-[Sample experiment video walkthrough (for beginners)]([https://youtu.be/NZE6ZiD2sPA](https://youtu.be/cZrVEEOJrkM))
+[Sample experiment video walkthrough (for beginners)](https://youtu.be/cZrVEEOJrkM)
 
 [Vive Pro Eye Setup](https://github.com/unity-sXR/sXR/wiki/Vive-Pro-Eye-Setup)
 
