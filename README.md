@@ -45,6 +45,8 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 
 # Commands List
+[Variable Managment](#variable-management)
+
 [Experiment Control](#experiment-control)
 
 [Data Recording](#data-recording)
@@ -56,6 +58,13 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 [Object Manipulation](#object-manipulation)
 
 [Extras](#extras)
+
+## Variable Management
+**SetPref()** Sets a Unity PlayerPref (See https://docs.unity3d.com/ScriptReference/PlayerPrefs.html). Variable persists upon restarting Unity
+
+**SetInt()/SetBool()/SetFloat()/SetString()** Sets the specified type of variable as a PlayerPref
+
+**GetInt()/GetBool()/GetFloat/GetString()** Returns the variable with the specified name
 
 ## Experiment Control
 **SetExperimentName()** - Used to override automatic naming scheme
@@ -185,6 +194,8 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 **EnableObjectPhysics()** - Attaches a rigidbody to the object, enabling Unity physics to apply to the object. Gravity can be turned off by passing useGravity=false
 
+**ModifyObjectsPhysics()** - Allows you to stet bounciness, friction, and dynamic friction of the GameObject
+
 **CheckCollision()** - Checks if the two specified objects have collided.  Automatically adds a mesh collider if an object doesn't have any other collider
 
 ## Extras
@@ -200,7 +211,13 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 **LaunchEyeCalibration()** - If using SRanipal, will launch the eye calibration tool and return true if calibration is successful
 
+**SendHaptic()** - Sends a vibration to the controller
+
+**ControllerVisual** - Turn on/off the controller/controller laser visualization
+
 **GetFullGazeInfo()** - Returns all available gaze info. Supports screenFixationX, screenFixationY, gazeFixationX, gazeFixationY, gazeFixationZ, leftEyePositionX, leftEyePositionY, leftEyePositionZ, rightEyePositionX, rightEyePositionY, rightEyePositionZ, leftEyeRotationX, leftEyeRotationY,leftEyeRotationZ, rightEyeRotationX, rightEyeRotationY, rightEyeRotationZ, leftEyePupilSize, rightEyePupilSize, leftEyeOpenAmount, and rightEyeOpenAmount (if these options are supported by the headset eyetracker, pupil size and eye open amount are not available through OpenXR).
+
+**SetIfNull()** - Checks if the referenced GameObject is null. If null, sets the GameObject to the first object with the specified string.
 
 **DebugLog()** - Displays a debug every message based on the frequency specified in sXR_settings and passed in as the 'frameFrequency' 
 
