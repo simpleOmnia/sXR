@@ -19,14 +19,14 @@ While every attempt has been made to ensure sXR is compatible with all devices/U
 simpleXR is open-source, meaning the community is free to contribute. If you have a forked repository and have added a feature you'd like to see in the main repository, please make sure your code can be merged with the main repository before submitting a pull request. If it cannot merge, please include detailed comments on what has been changed in the main repository that is causing a conflict. To avoid conflicts, it's best to frequently update your working repository to the most up to date version of the package. 
 
 # For Beginners
-While sXR makes Unity much simpler, it can still be complicated if you're just starting out. The project contains a sample experiment with a step-by-step video walkthrough [(youtube link)](https://youtu.be/cZrVEEOJrkM). If you don't understand the ExperimentScript.cs file of the sample experiment, I recommend watching the entire video as it breaks down the development process. Feel free to reach out if you get stuck!
+While sXR makes Unity much simpler, it can still be complicated if you're just starting out. The project contains a sample experiment with a step-by-step video walkthrough [(youtube link)](https://youtu.be/cZrVEEOJrkM?si=MmjcHS71fh5Lg3Xy). If you don't understand the ExperimentScript.cs file of the sample experiment, I recommend watching the entire video as it breaks down the development process. Feel free to reach out if you get stuck!
 
 # Tutorials
 [The Basics](https://github.com/unity-sXR/sXR/wiki/The-Basics)
 
 [Storing and accessing variables](https://github.com/simpleOmnia/sXR/wiki/Storing-and-Accessing-Variables)
 
-[Sample experiment video walkthrough (for beginners)](https://youtu.be/cZrVEEOJrkM)
+[Sample experiment video walkthrough (for beginners)](https://youtu.be/cZrVEEOJrkM?si=MmjcHS71fh5Lg3Xy)
 
 [Vive Pro Eye Setup](https://github.com/unity-sXR/sXR/wiki/Vive-Pro-Eye-Setup)
 
