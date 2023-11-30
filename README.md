@@ -19,14 +19,14 @@ While every attempt has been made to ensure sXR is compatible with all devices/U
 simpleXR is open-source, meaning the community is free to contribute. If you have a forked repository and have added a feature you'd like to see in the main repository, please make sure your code can be merged with the main repository before submitting a pull request. If it cannot merge, please include detailed comments on what has been changed in the main repository that is causing a conflict. To avoid conflicts, it's best to frequently update your working repository to the most up to date version of the package. 
 
 # For Beginners
-While sXR makes Unity much simpler, it can still be complicated if you're just starting out. The project contains a sample experiment with a step-by-step video walkthrough [(youtube link)](https://youtu.be/NZE6ZiD2sPA). If you don't understand the ExperimentScript.cs file of the sample experiment, I recommend watching the entire video as it breaks down the entire development process. Feel free to reach out if you get stuck!
+While sXR makes Unity much simpler, it can still be complicated if you're just starting out. The project contains a sample experiment with a step-by-step video walkthrough [(youtube link)](https://www.youtube.com/watch?v=cZrVEEOJrkM&t=0s). If you don't understand the ExperimentScript.cs file of the sample experiment, I recommend watching the entire video as it breaks down the development process. Feel free to reach out if you get stuck!
 
 # Tutorials
 [The Basics](https://github.com/unity-sXR/sXR/wiki/The-Basics)
 
 [Storing and accessing variables](https://github.com/simpleOmnia/sXR/wiki/Storing-and-Accessing-Variables)
 
-[Sample experiment video walkthrough (for beginners, installation procedure has changed)](https://youtu.be/NZE6ZiD2sPA)
+[Sample experiment video walkthrough (for beginners)](https://www.youtube.com/watch?v=cZrVEEOJrkM&t=0s)
 
 [Vive Pro Eye Setup](https://github.com/unity-sXR/sXR/wiki/Vive-Pro-Eye-Setup)
 
@@ -45,6 +45,8 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 
 # Commands List
+[Variable Managment](#variable-management)
+
 [Experiment Control](#experiment-control)
 
 [Data Recording](#data-recording)
@@ -56,6 +58,13 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 [Object Manipulation](#object-manipulation)
 
 [Extras](#extras)
+
+## Variable Management
+**SetPref()** Sets a Unity PlayerPref (See https://docs.unity3d.com/ScriptReference/PlayerPrefs.html). Variable persists upon restarting Unity
+
+**SetInt()/SetBool()/SetFloat()/SetString()** Sets the specified type of variable as a PlayerPref
+
+**GetInt()/GetBool()/GetFloat/GetString()** Returns the variable with the specified name
 
 ## Experiment Control
 **SetExperimentName()** - Used to override automatic naming scheme
@@ -185,6 +194,8 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 **EnableObjectPhysics()** - Attaches a rigidbody to the object, enabling Unity physics to apply to the object. Gravity can be turned off by passing useGravity=false
 
+**ModifyObjectsPhysics()** - Allows you to stet bounciness, friction, and dynamic friction of the GameObject
+
 **CheckCollision()** - Checks if the two specified objects have collided.  Automatically adds a mesh collider if an object doesn't have any other collider
 
 ## Extras
@@ -200,15 +211,18 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 
 **LaunchEyeCalibration()** - If using SRanipal, will launch the eye calibration tool and return true if calibration is successful
 
+**SendHaptic()** - Sends a vibration to the controller
+
+**ControllerVisual** - Turn on/off the controller/controller laser visualization
+
 **GetFullGazeInfo()** - Returns all available gaze info. Supports screenFixationX, screenFixationY, gazeFixationX, gazeFixationY, gazeFixationZ, leftEyePositionX, leftEyePositionY, leftEyePositionZ, rightEyePositionX, rightEyePositionY, rightEyePositionZ, leftEyeRotationX, leftEyeRotationY,leftEyeRotationZ, rightEyeRotationX, rightEyeRotationY, rightEyeRotationZ, leftEyePupilSize, rightEyePupilSize, leftEyeOpenAmount, and rightEyeOpenAmount (if these options are supported by the headset eyetracker, pupil size and eye open amount are not available through OpenXR).
+
+**SetIfNull()** - Checks if the referenced GameObject is null. If null, sets the GameObject to the first object with the specified string.
 
 **DebugLog()** - Displays a debug every message based on the frequency specified in sXR_settings and passed in as the 'frameFrequency' 
 
 
-# Coming Very Soon...
-~~Camera passthrough for augmented reality (on supported headsets)~~ Augmented Reality sample scene available, requires SteamVR for now
-
-~~Playback mode - Replay the participants view and highlight their gaze)~~ Playback mode is available, look at the Github wiki for more info
+# Coming Soon...
 
 Eye-tracking/shader tutorial + sxr.commands for assigning shaders to objects
 
