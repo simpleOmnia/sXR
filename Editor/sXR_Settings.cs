@@ -120,8 +120,8 @@ namespace sxr_internal{
             GUILayout.Label(new GUIContent("Debug Mode: ", "Sets the frequency of debug messages from sXR. Recommended: Frequent"));
             loadableSettings.debugSetting = GUILayout.Toolbar(loadableSettings.debugSetting, new string[]{"Off", "Framewise", "Frequent"});
 
-            GUILayout.Label(new GUIContent("Camera/Eye-tracking recording frequency ["+ $"{loadableSettings.recordFrequency:0.00}" +"]: ", 
-                "Sets how often to record the camera position/eye-tracking information"));
+            GUILayout.Label(new GUIContent("Camera/Eye-tracking/Object recording frequency ["+ $"{loadableSettings.recordFrequency:0.00}" +"]: ", 
+                "Sets how often to record the camera position/eye-tracking/object-tracking information. Set to 0 to record every frame"));
             
             loadableSettings.recordFrequency = GUILayout.HorizontalSlider(loadableSettings.recordFrequency, 0, 2); 
             
