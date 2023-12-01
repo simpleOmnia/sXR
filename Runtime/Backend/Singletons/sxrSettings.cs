@@ -54,7 +54,7 @@ namespace sxr_internal {
                 recordFrame = currentFrame + 1;
                 lastRecord = Time.time; } }
 
-        public bool RecordThisFrame() { return currentFrame == recordFrame; }
+        public bool RecordThisFrame() { return recordFrequency<0.01 || currentFrame == recordFrame; }
 
         void LoadFromPreferences() {
             string savedSettingsPath = Application.dataPath + Path.DirectorySeparatorChar +

@@ -868,6 +868,11 @@ public static class sxr
         return false; }
 
     
+    /// <summary>
+    /// Sets the visibility of the controller and its lasers. 
+    /// </summary>
+    /// <param name="active">True if the visual component should be active</param>
+    /// <param name="visualization">Which visual component (controller, UI laser, or environment laser) should be visible</param>
     public static void ControllerVisual(bool active, ControlVisualType visualization)
     {
         sxr.GetObject(visualization switch

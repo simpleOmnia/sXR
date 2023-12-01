@@ -825,11 +825,11 @@ GameObject:
   - component: {fileID: 7212701274430900276}
   - component: {fileID: 697777116765190969}
   - component: {fileID: 8287732890275959451}
-  - component: {fileID: 4251744240555814466}
   - component: {fileID: 1340924197316144628}
   - component: {fileID: 6457949566599413551}
   - component: {fileID: 697777116765190967}
   - component: {fileID: 482405861782937379}
+  - component: {fileID: 4251744240555814466}
   m_Layer: 0
   m_Name: sxrBackend
   m_TagString: Untagged
@@ -953,45 +953,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 812ef56bfcf07214bac8775e85fe6008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4251744240555814466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697777116765190964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e482395be1f46f458120e387de95cd2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTimers:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  buttonPressed: 000000000000000000000000000000000000000000000000
-  useController: 1
 --- !u!114 &1340924197316144628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1068,6 +1029,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f637d52a9730364bbc74498899d4cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4251744240555814466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697777116765190964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e482395be1f46f458120e387de95cd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonTimers:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  buttonPressed: 000000000000000000000000000000000000000000000000
+  useController: 1
 --- !u!1 &759546314235051296
 GameObject:
   m_ObjectHideFlags: 0
