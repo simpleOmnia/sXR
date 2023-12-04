@@ -8052,6 +8052,8 @@ GameObject:
   - component: {fileID: 3911132589423559154}
   - component: {fileID: 6933303334287612436}
   - component: {fileID: 6888036876034607677}
+  - component: {fileID: 9143173312370165071}
+  - component: {fileID: 2908325338715270717}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -8349,6 +8351,33 @@ MonoBehaviour:
   ding: {fileID: 8300000, guid: e9343c88d86efe7409bb2fdf2b3d38b6, type: 3}
   buzz: {fileID: 8300000, guid: 9ba8dc32f15201545a4a1b36467fc756, type: 3}
   stop: {fileID: 8300000, guid: 3f00e9297d79e8544b65b2813499ae85, type: 3}
+--- !u!114 &9143173312370165071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3911132589423559158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3d4164e01bf6b248b1bfedb3f407502, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2908325338715270717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3911132589423559158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e6b4fe2b9828a42b0026bad01aaac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseSensitivity: 100
+  movementSpeed: 2.5
+  fixedVerticalHeadRotation: 0
 --- !u!1 &3911132589514350037
 GameObject:
   m_ObjectHideFlags: 0
