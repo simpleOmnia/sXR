@@ -20,7 +20,8 @@ namespace sxr_internal{
 
         public void StopTracker() {
             if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile(gameObject.name+"_tracker", ExperimentHandler.Instance.timeStepToWriteInfo()+toWrite, includeTimeStepInfo:false);
-            toWrite = ""; }
+            toWrite = ""; 
+            trackerActive=false;}
      
         void Update() {
             if (sxrSettings.Instance.RecordThisFrame() && trackerActive)
