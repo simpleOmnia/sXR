@@ -19,7 +19,7 @@ namespace sxr_internal{
         }
 
         public void StopTracker() {
-            if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile(gameObject.name+"_tracker", ExperimentHandler.Instance.timeStepToWriteInfo()+toWrite, includeTimeStepInfo:false);
+            if(toWrite != "") ExperimentHandler.Instance.WriteToTaggedFile(gameObject.name+"_tracker",toWrite, includeTimeStepInfo:false);
             toWrite = ""; 
             trackerActive=false;}
      
