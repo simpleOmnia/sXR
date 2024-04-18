@@ -481,7 +481,7 @@ public static class sxr
     /// Used with StartTrackingObject. Used to pause recording between trials or during rest periods
     /// </summary>
     public static void PauseTrackingObject(GameObject gameObj)
-    {if (gameObj.TryGetComponent(out ObjectTracker objTracker)) objTracker.trackerActive = false;}
+    {if (gameObj.TryGetComponent(out ObjectTracker objTracker)) objTracker.StopTracker();}
    
 // ****   OBJECT MANIPULATION   ****
     /// <summary>

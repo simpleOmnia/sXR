@@ -222,18 +222,5 @@ While sXR makes Unity much simpler, it can still be complicated if you're just s
 **DebugLog()** - Displays a debug every message based on the frequency specified in sXR_settings and passed in as the 'frameFrequency' 
 
 
-# Coming Soon...
 
-Eye-tracking/shader tutorial + sxr.commands for assigning shaders to objects
-
-Gaze-ray objects - record when the user looks at certain objects
-
-Command Recorder - record when the user presses buttons (for replaying scene)
-
-VR Controller "Touch" option for buttons (i.e. when the controller button is  touched but not pressed)
-
-Hand-tracking without controllers (for supported devices- Vive Pro Eye, Quest 2, etc)
-
-# Requested Features (May implement if enough people request)
-Computer Vision prefab - train ONYXX models and use them with Unity's Barracuda
 
