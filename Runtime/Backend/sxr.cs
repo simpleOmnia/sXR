@@ -794,6 +794,7 @@ public static class sxr
     {
         if (!sxr.ObjectExists(obj1) || !sxr.ObjectExists(obj2))
             return false;
+        Debug.Log( obj1+","+obj2+": "+CheckCollision(GetObject(obj1), GetObject(obj2)));
         return CheckCollision(GetObject(obj1), GetObject(obj2));
     }
 

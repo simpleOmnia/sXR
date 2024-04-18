@@ -405,6 +405,8 @@ namespace sxr_internal {
                 textboxBottom = textBox.name == "TextBox4" ? textBox : textboxBottom;
                 textboxTopLeft = textBox.name == "Label" ? textBox : textboxTopLeft; }
             
+            submitButton.GetComponent<Button>().onClick.AddListener(UI_Submit);
+            
             if ( Instance == null) { Instance = this; DontDestroyOnLoad(gameObject.transform.root); }
             else { Destroy(gameObject); } }
     }

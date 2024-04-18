@@ -34,8 +34,13 @@ namespace sxr_internal {
                 ? obj1.GetComponents<CollisionDetector>()[0]
                 : obj1.GetComponentsInChildren<CollisionDetector>()[0];
             
-             if (obj1_collisions.objectsInContact.Contains(obj2) && obj1.GetComponent<CollisionDetector>().CheckIfStillColliding(obj2))
+           
+            if (obj1_collisions.objectsInContact.Contains(obj2) &&
+                obj1.GetComponent<CollisionDetector>().CheckIfStillColliding(obj2))
+            {
+                Debug.Log(obj1.name+", "+obj2.name);
                 return true;
+            }
 
             return false; }
 
