@@ -115,7 +115,11 @@ namespace sxr_internal {
             var optionsList = new List<TMP_Dropdown.OptionData>(); 
             foreach (var option in options)
                 optionsList.Add(new TMP_Dropdown.OptionData(option));
-            dropdown.options = optionsList; }
+            dropdown.options = optionsList;
+            inputSlider.SetActive(false);
+            inputDropdown.SetActive(true); 
+            
+        }
 
         /// <summary>
         /// Returns false until the UI "Submit" button is pressed. Outputs an int or string if
